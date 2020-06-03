@@ -1,6 +1,4 @@
-# tiny-shop
-
-N.B. Under construction. It currenly only reads the JSON product list. Adding and editing is planned.
+# Tiny Shop
  
 A tiny shop written in PHP and flat file JSON.
 
@@ -13,7 +11,7 @@ A tiny shop written in PHP and flat file JSON.
    "description": "Makeup powder rouge",
    "category": "Powders",
    "image": "images/.png",
-   "catno": "MYS00002",
+   "catno": "M00002",
    "quantity": 2,
    "stock": 1,
    "EAN": "",
@@ -26,3 +24,5 @@ A tiny shop written in PHP and flat file JSON.
    "status": 1
 }
 ```
+# Status
+N.B. Under construction. It currenly only reads the JSON product list. Adding and editing is planned.
