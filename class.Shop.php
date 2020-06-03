@@ -7,7 +7,7 @@ class Shop {
 	CONST MAXWEIGHT = 10000;
 	CONST MAXTITLE = 255; // max length of title.
 	CONST MAXDESCRIPTION = 500; // max length of description.
-	CONST CURRENCY = "&euro"; // &pound;
+	CONST CURRENCY  = "2"; 
 	CONST PWD 	= "Password to encrypt"; // optional.
 	CONST FILE_ENC  = "UTF-8";
 	CONST FILE_OS   = "WINDOWS-1252";
