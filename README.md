@@ -1,6 +1,13 @@
 # Tiny Shop
- 
-A tiny shop written in PHP and flat file JSON.
+
+*under construction*
+
+A tiny shop written in PHP and flat file JSON. Useful for small webshops that do not receive much web traffic, and for those who do not want to install unwieldy and large pieces of software that have too many features. A shop owner wants to sell a product, and that does not have to be complex.
+
+# Payment types:
+- Paypal.
+- Bank.
+- Optional: add your own payment processor.
 
 # JSON values and params example:
 
