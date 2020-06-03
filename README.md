@@ -4,7 +4,8 @@ A tiny shop written in PHP and flat file JSON.
 
 # JSON values and params
 
-```{
+```
+{
    "id": 100002,
    "product": "Powder",
    "title": "Powder One",
