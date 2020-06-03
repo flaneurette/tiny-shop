@@ -16,7 +16,7 @@ A tiny shop written in PHP and flat file JSON.
    "quantity": 2,
    "stock": 1,
    "EAN": "",
-   "format": "CD",
+   "format": "Box",
    "price": 10,
    "date": "2019-04-09",
    "condition": "new",
