@@ -20,6 +20,9 @@ Tiny shop has a reasonably safe encryption method to encrypt the shop data, name
 # Backups
 Tiny Shop makes (real-time) automatic backups of the JSON database each time a product is added, changed or removed.
 
+# SEO
+Tiny Shop creates SEO friendly URL's of all products.
+
 # JSON values and params example:
 
 ```
