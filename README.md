@@ -2,7 +2,7 @@
  
 A tiny shop written in PHP and flat file JSON.
 
-# JSON values and params
+# JSON values and params example:
 
 ```
 {
