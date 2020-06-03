@@ -1,32 +1,32 @@
 <?php
 
+	/**
+	display products in the shop.
+	**/
+	
 	error_reporting(E_ALL);
 	session_start();
 	
 	include("class.Shop.php");
-	$thelibrary  = new Shop();
-	$libraylist = $thelibrary->decode();
-
+	$shop  = new Shop();
+	$shoplist = $shop->decode();
 ?>
 <html>
-
 	<head>
 	<!-- <link rel="stylesheet" type="text/css" href="style.css"> -->
 	</head>
 	<body>
 		<h1>Shop</h1>
-
 		<div id="shop">
 		
 			<?php 
 			
-				$thelibrary  = new Shop();
-				
-				$product_list = $thelibrary->decode();
+				$shop  = new Shop();
+				$product_list = $shop->decode();
 
 				if($product_list !== null) {
 
-					$libraylist = $product_list;
+					$shoplist = $product_list;
 					
 					$iv = array();
 					
@@ -34,7 +34,7 @@
 					
 						foreach($product_list as $c) {	
 							array_push($iv,$c);
-							$thelibrary->cleanInput($c['title']);
+							$shop->cleanInput($c['title']);
 							$i++;
 						}
 					
@@ -52,7 +52,7 @@
 							}
 							echo "<tr><td width=\"90\">";
 							echo "<div class=".$status_color.">".$iv[$i]['status']."</div></td>";
-							echo "<td><a href=\"".$thelibrary->seoUrl($iv[$i]['category']).'/'.$thelibrary->seoUrl($iv[$i]['title']).'/'.$thelibrary->cleanInput($iv[$i]['id'])."/\">".$thelibrary->cleanInput($iv[$i]['title']).' </a> </td><td> '.$iv[$i]['description']."</td><td>".$iv[$i]['category']."</td><td>".$thelibrary->CURRENCIES[3][0][0].' '.$iv[$i]['price']."</td></tr>";
+							echo "<td><a href=\"".$shop->seoUrl($iv[$i]['category']).'/'.$shop->seoUrl($iv[$i]['title']).'/'.$shop->cleanInput($iv[$i]['id'])."/\">".$shop->cleanInput($iv[$i]['title']).' </a> </td><td> '.$iv[$i]['description']."</td><td>".$iv[$i]['category']."</td><td>".$shop->CURRENCIES[3][0][0].' '.$iv[$i]['price']."</td></tr>";
 						$i--;
 						}
 					}
@@ -65,7 +65,5 @@
 			?>
 		
 		<div id="output"></div>
-		
 	</body>
-
 </html>
