@@ -1,6 +1,6 @@
 # Tiny Shop
 
-*under construction*
+*under construction: not for production!*
 
 A tiny shop written in PHP and flat file JSON. Useful for small webshops that do not receive much web traffic, and for those who do not want to install unwieldy and large pieces of software that have too many features. A shop owner wants to sell a product, and that does not have to be complex.
 
@@ -10,6 +10,9 @@ Tiny shop will be ideal for clients who make one-time single purchases, or who b
 - Paypal.
 - Bank.
 - Optional: add your own payment processor or gateway.
+
+# Currencies
+Tiny Shop supports 36 different currencies, including Bitcoin.
 
 # Storage
 Tiny shop uses JSON to store data. The benefit of a flat file database, is that it works on all platforms and operating systems, and there is no need to install database software. JSON can be easely converted back and forth into CSV and excel, making it easy for a shop owner to update the shop, without having to login into a complex portal or a server-side administration screen. 
