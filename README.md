@@ -11,6 +11,9 @@ Tiny shop will be ideal for clients who make one-time single purchases, or who b
 - Bank.
 - Optional: add your own payment processor or gateway.
 
+# Storage
+Tiny shop uses JSON to store data. The benefit of a flat file database, is that it works on all platforms and operating systems, and there is no need to install database software.
+
 # JSON values and params example:
 
 ```
