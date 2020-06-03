@@ -12,7 +12,10 @@ Tiny shop will be ideal for clients who make one-time single purchases, or who b
 - Optional: add your own payment processor or gateway.
 
 # Storage
-Tiny shop uses JSON to store data. The benefit of a flat file database, is that it works on all platforms and operating systems, and there is no need to install database software.
+Tiny shop uses JSON to store data. The benefit of a flat file database, is that it works on all platforms and operating systems, and there is no need to install database software. JSON can be easely converted back and forth into CSV and excel, making it easy for a shopowner to update the shop, without having to login into a portal or a server-side administration screen. 
+
+# Encryption
+Tiny shop has a simple encryption method to encrypt the shop data, namely AES 256, which is reasonably safe. Since it does not store user-details, the encryption is disabled by default. All user details are not stored, but e-mailed to the shop owner. It is possible to store the details and thus encrypt it through Tiny Shop, but that is up to the shop owner.
 
 # JSON values and params example:
 
