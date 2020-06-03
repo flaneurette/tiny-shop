@@ -7,7 +7,7 @@ A tiny shop written in PHP and flat file JSON. Useful for small webshops that do
 # Payment types:
 - Paypal.
 - Bank.
-- Optional: add your own payment processor.
+- Optional: add your own payment processor or gateway.
 
 # JSON values and params example:
 
