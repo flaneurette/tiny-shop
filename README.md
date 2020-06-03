@@ -7,14 +7,14 @@ A tiny shop written in PHP and flat file JSON.
 ```
 {
    "id": 100002,
-   "product": "Powder",
-   "title": "Powder One",
-   "description": "Makeup powder rouge",
+   "product": "Bella Makeup",
+   "title": "Makeup powder",
+   "description": "Makeup powder in 12 colors.",
    "category": "Powders",
    "image": "images/.png",
    "catno": "M00002",
    "quantity": 2,
-   "stock": 1,
+   "stock": 100,
    "EAN": "",
    "format": "Box",
    "price": 10,
