@@ -11,9 +11,9 @@ Tiny shop will be ideal for clients who make one-time single purchases, handmade
 - Bank.
 - Optional: add your own payment processor or gateway.
 
-Paypal: the shop owner can add a Paypal button code for each product.
-Bank: this could be checking or manual payment.
-Optional: a session container with array data can be send to a 3rd party payment processor.
+- PayPal: the shop owner can add a Paypal "button code" for each product.
+- Bank: this could be checking or manual payment.
+- Optional: a session container with array data can be send to a 3rd party payment processor.
 
 # Currencies
 Tiny Shop supports 36 different currencies, including Bitcoin.
