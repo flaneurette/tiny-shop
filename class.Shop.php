@@ -3,15 +3,16 @@
 class Shop {
 
 	CONST SHOP  		= "./Shop.json";
-	CONST CSV 		= "./Shop.csv";
+	CONST CSV  		= "./Shop.csv"; 
+	CONST BACKUPEXT  	= ".bak"; 
+	CONST PWD 		= "Password to encrypt JSON"; // optional.
+	CONST FILE_ENC  	= "UTF-8";
+	CONST FILE_OS  		= "WINDOWS-1252"; 
 	CONST DEPTH		= 1024;
 	CONST MAXWEIGHT 	= 10000;
 	CONST MAXTITLE 		= 255; // Max length of title.
 	CONST MAXDESCRIPTION 	= 500; // Max length of description.
-	CONST CURRENCY 		= 1;   // Choose from currency list below.
-	CONST PWD 		= "Password to encrypt"; // optional.
-	CONST FILE_ENC  	= "UTF-8";
-	CONST FILE_OS  	 	= "WINDOWS-1252";
+	CONST CURRENCY 		= 0;   // Shop currency. (Choose from currency list below.)
 	
 	CONST CURRENCIES = [
 		"0" => array(['&#8352;','EURO-CURRENCY SIGN']),
@@ -280,7 +281,7 @@ class Shop {
 	{
 		// make a backup before doing anything.
 		$file 	= self::SHOP;
-		$copy 	= self::SHOP.'.bak';
+		$copy 	= self::SHOP.self::BACKUPEXT;
 		@copy($file, $copy);
 		// convert encoding
 		$json = mb_convert_encoding($this->encode($shop), self::FILE_ENC, self::FILE_OS);
