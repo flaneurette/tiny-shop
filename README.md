@@ -7,11 +7,8 @@ A tiny shop written in PHP and flat file JSON. Useful for small webshops that do
 Tiny shop will be ideal for clients who make one-time single purchases, handmade or boutique items such as: art prints, antiques, music, jewelry, books and stationary. It is not recommended for mass retail and high volume shops.
 
 # Payment types:
-- Paypal.
-- Bank.
-- Optional: add your own payment processor or gateway.
 
-- PayPal: the shop owner can add a Paypal "button code" for each product.
+- PayPal: the shop owner can add a unqiue Paypal button code for each product.
 - Bank: this could be checking or manual payment.
 - Optional: a session container with array data can be send to a 3rd party payment processor.
 
