@@ -8,7 +8,7 @@ class Shop {
 	CONST MAXWEIGHT 	= 10000;
 	CONST MAXTITLE 		= 255; // Max length of title.
 	CONST MAXDESCRIPTION 	= 500; // Max length of description.
-	CONST CURRENCY 		= 3;   // Choose from currency list below.
+	CONST CURRENCY 		= 1;   // Choose from currency list below.
 	CONST PWD 		= "Password to encrypt"; // optional.
 	CONST FILE_ENC  	= "UTF-8";
 	CONST FILE_OS  	 	= "WINDOWS-1252";
@@ -195,7 +195,7 @@ class Shop {
 	public function checkForm() 
 	{
 	
-      isset($_POST['id']) 		? $this->id = $this->cleanInput($_POST['id']) : $id = false;  
+      isset($_POST['id']) 	? $this->id = $this->cleanInput($_POST['id']) : $id = false;  
       isset($_POST['product']) 	? $this->product = $this->cleanInput($_POST['product']) : $product = false;  
       isset($_POST['title']) 	? $this->title = $this->cleanInput($_POST['title']) : $title = false;  
       isset($_POST['description']) ? $this->description = $this->cleanInput($_POST['description']) : $description = false;  
@@ -208,7 +208,7 @@ class Shop {
       isset($_POST['price']) 	? $this->price = $this->cleanInput($_POST['price']) : $price = false;  
       isset($_POST['listed']) 	? $this->listed = $this->cleanInput($_POST['listed']) : $listed = false;  
       isset($_POST['stock']) 	? $this->stock = $this->cleanInput($_POST['stock']) : $stock = false;  
-      isset($_POST['EAN']) 		? $this->EAN = $this->cleanInput($_POST['EAN']) : $EAN = false;  
+      isset($_POST['EAN']) 	? $this->EAN = $this->cleanInput($_POST['EAN']) : $EAN = false;  
       isset($_POST['weight']) 	? $this->weight = $this->cleanInput($_POST['weight']) : $weight = false;  
       isset($_POST['format']) 	? $this->format = $this->cleanInput($_POST['format']) : $format = false;  
       isset($_POST['datetime']) ? $this->datetime = $this->cleanInput($_POST['datetime']) : $datetime = false;  
@@ -409,7 +409,7 @@ class Shop {
 		if (!function_exists('openssl_encrypt')) {
 			$this->message('Encryption failed: OpenSSL is not supported or enabled on this PHP instance.');
 			return false;
-    	}
+    		}
 		
 		$key = self::PWD; // Password is set above at the Constants
 		$ivlen = openssl_cipher_iv_length($cipher="AES-256-CTR");
@@ -432,7 +432,7 @@ class Shop {
 		if (!function_exists('openssl_decrypt')) {
 			$this->message('Decryption failed: OpenSSL is not supported or enabled on this PHP instance.');
 			return false;
-    	}
+    		}
 		
 		$key = self::PWD; // Password is set above at the Constants
 		$ciphertext = hex2bin($ciphertext);
