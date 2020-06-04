@@ -2,16 +2,16 @@
 
 class Shop {
 
-	CONST SHOP  = "./Shop.json";
-	CONST CSV  = "./Shop.csv";
-	CONST DEPTH	= 1024;
-	CONST MAXWEIGHT = 10000;
-	CONST MAXTITLE = 255; // max length of title.
-	CONST MAXDESCRIPTION = 500; // max length of description.
-	CONST CURRENCY = "&euro"; // &pound;
-	CONST PWD 	= "Password to encrypt"; // optional.
-	CONST FILE_ENC  = "UTF-8";
-	CONST FILE_OS   = "WINDOWS-1252";
+	CONST SHOP  		= "./Shop.json";
+	CONST CSV 		= "./Shop.csv";
+	CONST DEPTH		= 1024;
+	CONST MAXWEIGHT 	= 10000;
+	CONST MAXTITLE 		= 255; // Max length of title.
+	CONST MAXDESCRIPTION 	= 500; // Max length of description.
+	CONST CURRENCY 		= 3;   // Choose from currency list below.
+	CONST PWD 		= "Password to encrypt"; // optional.
+	CONST FILE_ENC  	= "UTF-8";
+	CONST FILE_OS  	 	= "WINDOWS-1252";
 	
 	CONST CURRENCIES = [
 		"0" => array(['&#8352;','EURO-CURRENCY SIGN']),
