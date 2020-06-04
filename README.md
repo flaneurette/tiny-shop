@@ -4,7 +4,7 @@
 
 A tiny shop written in PHP and flat file JSON. Useful for small webshops that do not receive much web traffic, and for those who do not want to install unwieldy and large pieces of software that have too many features. A shop owner wants to sell a product, and that does not have to be complex.
 
-Tiny shop will be ideal for clients who make one-time single purchases, or who buy boutique items. It is not recommended for mass retail.
+Tiny shop will be ideal for clients who make one-time single purchases, handmade or boutique items. It is not recommended for mass retail.
 
 # Payment types:
 - Paypal.
