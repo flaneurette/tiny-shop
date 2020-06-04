@@ -10,13 +10,24 @@
 	include("class.Shop.php");
 	$shop  = new Shop();
 	$shoplist = $shop->decode();
+	
+	if(isset($_POST['upload'])) {
+		
+		if($_FILES['csv_file']['error'] == UPLOAD_ERR_OK  && is_uploaded_file($_FILES['csv_file']['tmp_name'])) { 
+		
+			$file = file_get_contents($_FILES['csv_file']['tmp_name']);  
+			$showfile =  $shop->convert($file,'csv_to_json',$file);
+			$shop->storeshop($showfile); 
+			echo "<h3>Successfully upload CSV and converted to JSON.</h3>";
+		}
+	}
 ?>
 <html>
 	<head>
 	<!-- <link rel="stylesheet" type="text/css" href="style.css"> -->
 	</head>
 	<body>
-		<h1>Shop</h1>
+		<h1>Shop product list</h1>
 		<div id="shop">
 		
 			<?php 
@@ -63,7 +74,18 @@
 					echo "<p class='book'><em>Shop is empty...</em></p>";
 				}
 			?>
+			</div>
 		
 		<div id="output"></div>
+		
+		<hr>
+		<small>This part of the page should be placed behind a password protected area. For now, this is a demo.</small>
+		<h2>Upload CSV and convert to JSON</h2>
+		<form name="" action"" method="post" enctype="multipart/form-data">
+		<input type="hidden" name="upload" value="1">
+			<input type="file" name="csv_file">
+			<input type="submit" value="Upload CSV">
+		</form>
+		
 	</body>
 </html>
