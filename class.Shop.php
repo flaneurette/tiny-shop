@@ -300,11 +300,11 @@ class Shop {
 	{
 		$lijst = $this->decode();
 		if($lijst !== null) {
-			$libraylist = usort($lijst, $this->sortISBN('isbn'));
+			$libraylist = usort($lijst, $this->sortNatural('id'));
 			$shops = array();
 			foreach($lijst as $c) {	
 				echo $shop."<br>";
-				if($c['isbn'] != $shop) {
+				if($c['id'] != $shop) {
 					array_push($shops,$c);
 				}
 			}
