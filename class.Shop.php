@@ -3,11 +3,12 @@
 class Shop {
 
 	CONST SHOP  = "./Shop.json";
+	CONST CSV  = "./Shop.csv";
 	CONST DEPTH	= 1024;
 	CONST MAXWEIGHT = 10000;
 	CONST MAXTITLE = 255; // max length of title.
 	CONST MAXDESCRIPTION = 500; // max length of description.
-	CONST CURRENCY  = "2"; 
+	CONST CURRENCY = "&euro"; // &pound;
 	CONST PWD 	= "Password to encrypt"; // optional.
 	CONST FILE_ENC  = "UTF-8";
 	CONST FILE_OS   = "WINDOWS-1252";
@@ -247,7 +248,6 @@ class Shop {
 				$this->message('Description may not be empty.');
 				return false;
 		}
-
 	}
 
 	public function message($value) 
@@ -288,6 +288,11 @@ class Shop {
 		file_put_contents(self::SHOP,$json, LOCK_EX);
 	}
 	
+	/**
+	* Delete product in shop
+	* @param array $shop
+	* @return boolean, true for success, false for failure.
+	*/	
 	public function deleteshop($shop) 
 	{
 		$lijst = $this->decode();
@@ -303,15 +308,108 @@ class Shop {
 		}
 		$this->storeshop($shops);
 	}
+	
+	/**
+	* Converter for data, types and strings.
+	* @param string $string
+	* @return array
+	*/	
+	public function convert($string,$method,$file){
+		
+		$data = [];
+		
+		switch($method) {
+			
+			case 'csv_to_json':
+			
+				if(!isset($file)) {
+					$this->message('Please choose a CSV file to convert.');
+					break;
+				}
+		
+				$data = array_map("str_getcsv", explode("\n", $file));
+				$columns = $data[0];
+				foreach ($data as $row_index => $row_data) {
+					if($row_index === 0) continue;
+					$data[$row_index] = [];
+					foreach ($row_data as $column_index => $column_value) {
+						$label = $columns[$column_index];
+						$data[$row_index][$label] = $column_value;       
+					}
+				}	
+				
+			break;
+			
+			case 'json_to_csv':
 
-	public function sortISBN($key) {
+				if(!defined(self::SHOP)) {
+					$this->message('Conversion failed: JSON file not found.');
+					break;
+				}
+				
+				if(!defined(self::CSV)) {
+					$this->message('Conversion failed: CSV file not found.');
+					break;
+				}
+				
+				$json_data = $this->convert(self::SHOP,'json_decode');
+				$csv_file = fopen(self::CSV, 'w');
+				$header = false;
+				
+				foreach ($json_data as $line){
+
+					if (empty($header)) {
+						$header = array_keys($line);
+						fputcsv($f, $header);
+						$header = array_flip($header);
+					}
+					
+					$data = array($line['type']);
+					foreach ($line as $value) {
+						array_push($data,$value);
+					}
+					
+					array_push($data,$line['stream_type']);
+					fputcsv($csv_file, $data);
+				}
+			break;
+			
+			case 'json_decode':
+			$data = json_decode(file_get_contents($file), true, self::DEPTH, JSON_BIGINT_AS_STRING);
+			break;
+
+			case 'json_encode':
+			$data = json_encode($shop, JSON_PRETTY_PRINT);
+			break;
+		}
+		
+		return $data;
+	}
+	
+	/**
+	* Sorting a string as a human would.
+	* @param string $string
+	* @return $string
+	*/	
+	public function sortNatural($key) {
 		return function ($a, $b) use ($key) {
 			return strnatcmp($a[$key], $b[$key]);
 		};
 	}
+
+	/**
+	* Encryption function (requires OpenSSL)
+	* @param string $plaintext
+	* @return $ciphertext
+	*/	
 	
 	// We don't use this, but you could call it to encrypt the JSON data.
 	public function encrypt($plaintext) {
+
+		if (!function_exists('openssl_encrypt')) {
+			$this->message('Encryption failed: OpenSSL is not supported or enabled on this PHP instance.');
+			return false;
+    	}
 		
 		$key = self::PWD; // Password is set above at the Constants
 		$ivlen = openssl_cipher_iv_length($cipher="AES-256-CTR");
@@ -319,13 +417,22 @@ class Shop {
 		$ciphertext_raw = openssl_encrypt($plaintext, $cipher, $key, $options=OPENSSL_RAW_DATA, $iv);
 		$hmac = hash_hmac('sha256', $ciphertext_raw, $key, $as_binary=true);
 		$ciphertext = base64_encode($iv.$hmac.$ciphertext_raw );
-	
 		return bin2hex($ciphertext);
-	
 	}
+	
+	/**
+	* Decryption function (requires OpenSSL)
+	* @param string $ciphertext
+	* @return $plaintext or false if there is no support for OpenSSL.
+	*/		
 	
 	// We don't use this, but you could call it to decrypt the JSON data.
 	public function decrypt($ciphertext) {
+		
+		if (!function_exists('openssl_decrypt')) {
+			$this->message('Decryption failed: OpenSSL is not supported or enabled on this PHP instance.');
+			return false;
+    	}
 		
 		$key = self::PWD; // Password is set above at the Constants
 		$ciphertext = hex2bin($ciphertext);
