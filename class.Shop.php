@@ -2,18 +2,20 @@
 
 class Shop {
 
-	CONST SHOP  		= "./Shop.json";
-	CONST CSV  		= "./Shop.csv"; 
-	CONST BACKUPEXT  	= ".bak"; 
-	CONST PWD 		= "Password to encrypt JSON"; // optional.
-	CONST FILE_ENC  	= "UTF-8";
-	CONST FILE_OS  		= "WINDOWS-1252"; 
-	CONST DEPTH		= 1024;
-	CONST MAXWEIGHT 	= 10000;
-	CONST MAXTITLE 		= 255; // Max length of title.
-	CONST MAXDESCRIPTION 	= 500; // Max length of description.
-	CONST CURRENCY 		= 0;   // Shop currency. (Choose from currency list below.)
-	
+	CONST SHOP  			= "./Shop.json";
+	CONST CSV  			= "./Shop.csv"; 
+	CONST BACKUPEXT  		= ".bak"; 
+	CONST PWD 			= "Password to encrypt JSON"; // optional.
+	CONST FILE_ENC  		= "UTF-8";
+	CONST FILE_OS  			= "WINDOWS-1252"; 
+	CONST MAIN_PAYMENT_METHOD 	= 'PayPal'; // Tiny Store uses PayPal as default payment gateway.
+	CONST PAYMENTGATEWAY 		= ''; 	// Only required for 3rd party payment processing.
+	CONST DEPTH			= 1024;
+	CONST MAXWEIGHT 		= 10000;
+	CONST MAXTITLE 			= 255; // Max length of title.
+	CONST MAXDESCRIPTION 		= 500; // Max length of description.
+	CONST CURRENCY 			= 0;   // Shop currency. (Choose from currency list below.)
+
 	CONST CURRENCIES = [
 		"0" => array(['&#8352;','EURO-CURRENCY SIGN']),
 		"1" => array(['&#8383;','BITCOIN SIGN']),
