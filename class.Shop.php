@@ -115,6 +115,7 @@ class Shop {
 			  "quantity" => "{$this->quantity}",
 			  "status" => "{$this->status}",
 			  "price" => "{$this->price}",
+			  "paypal_hosted_button_id" => "{$this->paypal_hosted_button_id}",
 			  "listed" => "{$this->listed}",
 			  "stock" => "{$this->stock}",
 			  "EAN" => "{$this->EAN}",
@@ -150,6 +151,7 @@ class Shop {
 			  "quantity" => "{$this->quantity}",
 			  "status" => "{$this->status}",
 			  "price" => "{$this->price}",
+			  "paypal_hosted_button_id" => "{$this->paypal_hosted_button_id}",
 			  "listed" => "{$this->listed}",
 			  "stock" => "{$this->stock}",
 			  "EAN" => "{$this->EAN}",
@@ -177,6 +179,7 @@ class Shop {
 				  $list[$key]['quantity'] = "{$this->quantity}";
 				  $list[$key]['status'] = "{$this->status}";
 				  $list[$key]['price'] = "{$this->price}";
+				  $list[$key]['paypal_hosted_button_id'] = "{$this->paypal_hosted_button_id}";
 				  $list[$key]['listed'] = "{$this->listed}";
 				  $list[$key]['stock'] = "{$this->stock}";
 				  $list[$key]['EAN'] = "{$this->EAN}";
@@ -198,27 +201,28 @@ class Shop {
 	public function checkForm() 
 	{
 	
-	      isset($_POST['id']) 	? $this->id = $this->cleanInput($_POST['id']) : $id = false;  
-	      isset($_POST['product']) 	? $this->product = $this->cleanInput($_POST['product']) : $product = false;  
-	      isset($_POST['title']) 	? $this->title = $this->cleanInput($_POST['title']) : $title = false;  
-	      isset($_POST['description']) ? $this->description = $this->cleanInput($_POST['description']) : $description = false;  
-	      isset($_POST['catno']) 	? $this->catno = $this->cleanInput($_POST['catno']) : $catno = false;  
-	      isset($_POST['category']) ? $this->category = $this->cleanInput($_POST['category']) : $category = false;  
-	      isset($_POST['image']) 	? $this->image = $this->cleanInput($_POST['image']) : $image = false;  
-	      isset($_POST['format']) 	? $this->format = $this->cleanInput($_POST['format']) : $format = false;  
-	      isset($_POST['quantity']) ? $this->quantity = $this->cleanInput($_POST['quantity']) : $quantity = false;  
-	      isset($_POST['status']) 	? $this->status = $this->cleanInput($_POST['status']) : $status = false;  
-	      isset($_POST['price']) 	? $this->price = $this->cleanInput($_POST['price']) : $price = false;  
-	      isset($_POST['listed']) 	? $this->listed = $this->cleanInput($_POST['listed']) : $listed = false;  
-	      isset($_POST['stock']) 	? $this->stock = $this->cleanInput($_POST['stock']) : $stock = false;  
-	      isset($_POST['EAN']) 	? $this->EAN = $this->cleanInput($_POST['EAN']) : $EAN = false;  
-	      isset($_POST['weight']) 	? $this->weight = $this->cleanInput($_POST['weight']) : $weight = false;  
-	      isset($_POST['format']) 	? $this->format = $this->cleanInput($_POST['format']) : $format = false;  
-	      isset($_POST['datetime']) ? $this->datetime = $this->cleanInput($_POST['datetime']) : $datetime = false;  
-	      isset($_POST['condition'])? $this->condition = $this->cleanInput($_POST['condition']) : $condition = false;  
-	      isset($_POST['weight']) 	? $this->weight = $this->cleanInput($_POST['weight']) : $weight = false;  
-	      isset($_POST['shipping']) ? $this->shipping = $this->cleanInput($_POST['shipping']) : $shipping = false;  
-	      isset($_POST['status']) 	? $this->status = $this->cleanInput($_POST['status']) : $status = false; 
+      isset($_POST['id']) 	? $this->id = $this->cleanInput($_POST['id']) : $id = false;  
+      isset($_POST['product']) 	? $this->product = $this->cleanInput($_POST['product']) : $product = false;  
+      isset($_POST['title']) 	? $this->title = $this->cleanInput($_POST['title']) : $title = false;  
+      isset($_POST['description']) ? $this->description = $this->cleanInput($_POST['description']) : $description = false;  
+      isset($_POST['catno']) 	? $this->catno = $this->cleanInput($_POST['catno']) : $catno = false;  
+      isset($_POST['category']) ? $this->category = $this->cleanInput($_POST['category']) : $category = false;  
+      isset($_POST['image']) 	? $this->image = $this->cleanInput($_POST['image']) : $image = false;  
+      isset($_POST['format']) 	? $this->format = $this->cleanInput($_POST['format']) : $format = false;  
+      isset($_POST['quantity']) ? $this->quantity = $this->cleanInput($_POST['quantity']) : $quantity = false;  
+      isset($_POST['status']) 	? $this->status = $this->cleanInput($_POST['status']) : $status = false;  
+      isset($_POST['price']) 	? $this->price = $this->cleanInput($_POST['price']) : $price = false;  
+      isset($_POST['paypal_hosted_button_id']) 	? $this->paypal_hosted_button_id = $this->cleanInput($_POST['paypal_hosted_button_id']) : $price = false;  	  
+      isset($_POST['listed']) 	? $this->listed = $this->cleanInput($_POST['listed']) : $listed = false;  
+      isset($_POST['stock']) 	? $this->stock = $this->cleanInput($_POST['stock']) : $stock = false;  
+      isset($_POST['EAN']) 	? $this->EAN = $this->cleanInput($_POST['EAN']) : $EAN = false;  
+      isset($_POST['weight']) 	? $this->weight = $this->cleanInput($_POST['weight']) : $weight = false;  
+      isset($_POST['format']) 	? $this->format = $this->cleanInput($_POST['format']) : $format = false;  
+      isset($_POST['datetime']) ? $this->datetime = $this->cleanInput($_POST['datetime']) : $datetime = false;  
+      isset($_POST['condition'])? $this->condition = $this->cleanInput($_POST['condition']) : $condition = false;  
+      isset($_POST['weight']) 	? $this->weight = $this->cleanInput($_POST['weight']) : $weight = false;  
+      isset($_POST['shipping']) ? $this->shipping = $this->cleanInput($_POST['shipping']) : $shipping = false;  
+      isset($_POST['status']) 	? $this->status = $this->cleanInput($_POST['status']) : $status = false; 
 
 		$_SESSION['messages'] = array();
 
