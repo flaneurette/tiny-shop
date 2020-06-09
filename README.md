@@ -161,6 +161,8 @@ cart.id
 cart.customer.id
 cart.creation.date
 cart.data
+cart.sum
+cart.tax
 cart.product.list
 cart.checkout.status
 cart.checkout.discount
