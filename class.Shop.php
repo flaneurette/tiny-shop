@@ -2,8 +2,8 @@
 
 class Shop {
 
-	CONST SHOP  			= "./Shop.json";
-	CONST CSV  			= "./Shop.csv"; 
+	CONST SHOP  			= "./inventory/shop.json";
+	CONST CSV  			= "./inventory/shop.csv"; 
 	CONST BACKUPEXT  		= ".bak"; 
 	CONST PWD 			= "Password to encrypt JSON"; // optional.
 	CONST FILE_ENC  		= "UTF-8";
@@ -14,46 +14,7 @@ class Shop {
 	CONST MAXWEIGHT 		= 10000;
 	CONST MAXTITLE 			= 255; // Max length of title.
 	CONST MAXDESCRIPTION 		= 500; // Max length of description.
-	CONST CURRENCY 			= 0;   // Shop currency. (Choose from currency list below.)
-
-	CONST CURRENCIES = [
-		"0" => array(['&#8352;','EURO-CURRENCY SIGN']),
-		"1" => array(['&#8383;','BITCOIN SIGN']),
-		"2" => array(['&#163;','POUND SIGN']),
-		"3" => array(['&#36;','DOLLAR SIGN']),
-		"4" => array(['&#165;','YEN SIGN']),
-		"5" => array(['&#162;','CENT SIGN']),
-		"6" => array(['&#8355;','FRENCH FRANC SIGN']),
-		"7" => array(['&#8359;','PESETA SIGN']),
-		"8" => array(['&#8360;','RUPEE SIGN']),
-		"9" => array(['&#8361;','WON SIGN']),
-		"10" => array(['&#8362;','NEW SHEQEL SIGN']),
-		"11" => array(['&#8363;','DONG SIGN']),
-		"12" => array(['&#8364;','EURO SIGN']),
-		"13" => array(['&#8365;','KIP SIGN']),
-		"14" => array(['&#8366;','TUGRIK SIGN']),
-		"15" => array(['&#8367;','DRACHMA SIGN']),
-		"16" => array(['&#8368;','GERMAN PENNY SYMBOL']),
-		"17" => array(['&#8369;','PESO SIGN']),
-		"18" => array(['&#8370;','GUARANI SIGN']),
-		"19" => array(['&#8371;','AUSTRAL SIGN']),
-		"20" => array(['&#8372;','HRYVNIA SIGN']),
-		"21" => array(['&#8373;','CEDI SIGN']),
-		"22" => array(['&#8374;','LIVRE TOURNOIS SIGN']),
-		"23" => array(['&#8375;','SPESMILO SIGN']),
-		"24" => array(['&#8376;','TENGE SIGN']),
-		"25" => array(['&#8377;','INDIAN RUPEE SIGN']),
-		"26" => array(['&#8378;','TURKISH LIRA SIGN']),
-		"27" => array(['&#8379;','NORDIC MARK SIGN']),
-		"28" => array(['&#8380;','MANAT SIGN']),
-		"29" => array(['&#8381;','RUBLE SIGN']),
-		"30" => array(['&#8382;','LARI SIGN']),
-		"31" => array(['&#8353;','COLON SIGN']),
-		"32" => array(['&#8354;','CRUZEIRO SIGN']),
-		"33" => array(['&#8358;','NAIRA SIGN']),
-		"34" => array(['&#8356;','LIRA SIGN']),
-		"35" => array(['&#8357;','MILL SIGN'])
-	];
+	CONST CURRENCY 			= 0;   // this should, ideally, be set in the JSON file: site.json.
 	
 	// CURRENCY = CURRENCIES[2][0][0];
 
