@@ -16,8 +16,6 @@ class Shop {
 	CONST MAXDESCRIPTION 		= 500; // Max length of description.
 	CONST CURRENCY 			= 0;   // this should, ideally, be set in the JSON file: site.json.
 	
-	// CURRENCY = CURRENCIES[2][0][0];
-
 	public function __construct() {
 		$incomplete = false;
 	}
@@ -61,34 +59,75 @@ class Shop {
 		return json_decode(file_get_contents(self::SHOP), true, self::DEPTH, JSON_BIGINT_AS_STRING);
 	}
 	
+	public function products() 
+	{ 
+		$products = array(
+			"product_id" => "{$this->product_id}",
+			"product_status" => "{$this->product_status}",
+			"product_title" => "{$this->product_title}",
+			"product_description" => "{$this->product_description}",
+			"product_category" => "{$this->product_category}",
+			"product_catno" => "{$this->product_catno}",
+			"product_stock" => "{$this->product_stock}",
+			"product_quantity" => "{$this->product_quantity}",
+			"product_format" => "{$this->product_format}",
+			"product_type" => "{$this->product_type}",
+			"product_weight" => "{$this->product_weight}",
+			"product_condition" => "{$this->product_condition}",
+			"product_ean" => "{$this->product_ean}",
+			"product_sku" => "{$this->product_sku}",
+			"product_vendor" => "{$this->product_vendor}",
+			"product_price" => "{$this->product_price}",
+			"product_margin" => "{$this->product_margin}",
+			"product_price_min" => "{$this->product_price_min}",
+			"product_price_max" => "{$this->product_price_max}",
+			"product_price_varies" => "{$this->product_price_varies}",
+			"product_date" => "{$this->product_date}",
+			"product_url" => "{$this->product_url}",
+			"product_image" => "{$this->product_image}",
+			"product_tags" => "{$this->product_tags}",
+			"product_images" => "{$this->product_images}",
+			"product_featured" => "{$this->product_featured}",
+			"product_featured_location" => "{$this->product_featured_location}",
+			"product_featured_carousel" => "{$this->product_featured_carousel}",
+			"product_featured_image" => "{$this->product_featured_image}",
+			"product_content" => "{$this->product_content}",
+			"product_variants" => "{$this->product_variants}",
+			"product_available" => "{$this->product_available}",
+			"product_selected_variant" => "{$this->product_selected_variant}",
+			"product_collections" => "{$this->product_collections}",
+			"product_options" => "{$this->product_options}",
+			"socialmedia_option1" => "{$this->socialmedia_option1}",
+			"socialmedia_option2" => "{$this->socialmedia_option2}",
+			"socialmedia_option3" => "{$this->socialmedia_option3}",
+			"variant_title1" => "{$this->variant_title1}",
+			"variant_title2" => "{$this->variant_title2}",
+			"variant_title3" => "{$this->variant_title3}",
+			"variant_image1" => "{$this->variant_image1}",
+			"variant_image2" => "{$this->variant_image2}",
+			"variant_image3" => "{$this->variant_image3}",
+			"variant_option1" => "{$this->variant_option1}",
+			"variant_option2" => "{$this->variant_option2}",
+			"variant_option3" => "{$this->variant_option3}",
+			"variant_price1" => "{$this->variant_price1}",
+			"variant_price2" => "{$this->variant_price2}",
+			"variant_price3" => "{$this->variant_price3}",
+			"shipping" => "{$this->shipping}",
+			"shipping_fixed_price" => "{$this->shipping_fixed_price}",
+			"shipping_flatfee" => "{$this->shipping_flatfee}",
+			"shipping_locations" => "{$this->shipping_locations}",
+			"payment_paypal_button_id" => "{$this->payment_paypal_button_id}",
+			"payment_payment_button1" => "{$this->payment_payment_button1}",
+			"payment_payment_button2" => "{$this->payment_payment_button2}",
+			"payment_payment_button3" => "{$this->payment_payment_button3}",
+			"payment_payment_array" => "{$this->shipping_fixed_price}"
+		);
+		return $products;
+	}
+		
 	public function addshop() 
 	{
-		$newshop = 
-			array(
-			  "id" => "{$this->listing_id}",
-			  "product" => "{$this->product}",
-			  "title" => "{$this->title}",
-			  "description" => "{$this->description}",
-			  "catno" => "{$this->catno}",
-			  "category" => "{$this->category}",
-			  "image" => "{$this->image}",
-			  "format" => "{$this->format}",
-			  "quantity" => "{$this->quantity}",
-			  "status" => "{$this->status}",
-			  "price" => "{$this->price}",
-			  "paypal_hosted_button_id" => "{$this->paypal_hosted_button_id}",
-			  "listed" => "{$this->listed}",
-			  "stock" => "{$this->stock}",
-			  "EAN" => "{$this->EAN}",
-			  "weight" => "{$this->weight}",
-			  "format" => "{$this->format}",
-			  "datetime" => "{$this->datetime}",
-			  "condition" => "{$this->condition}",
-			  "weight" => "{$this->weight}",
-			  "shipping" => "{$this->shipping}",
-			  "status" => "{$this->status}"
-		);
-		
+		$newshop = $this->products();
 		$lijst = $this->decode();
 		$i = count($lijst);
 		$lijst = array($newshop);
@@ -96,61 +135,75 @@ class Shop {
 		$this->storeshop($lijst);
 	}
 
-
 	public function editshop($id) 
 	{
-		$product = 
-			array(
-			  "id" => "{$this->id}",
-			  "product" => "{$this->product}",
-			  "title" => "{$this->title}",
-			  "description" => "{$this->description}",
-			  "catno" => "{$this->catno}",
-			  "category" => "{$this->category}",
-			  "image" => "{$this->image}",
-			  "format" => "{$this->format}",
-			  "quantity" => "{$this->quantity}",
-			  "status" => "{$this->status}",
-			  "price" => "{$this->price}",
-			  "paypal_hosted_button_id" => "{$this->paypal_hosted_button_id}",
-			  "listed" => "{$this->listed}",
-			  "stock" => "{$this->stock}",
-			  "EAN" => "{$this->EAN}",
-			  "weight" => "{$this->weight}",
-			  "format" => "{$this->format}",
-			  "datetime" => "{$this->datetime}",
-			  "condition" => "{$this->condition}",
-			  "weight" => "{$this->weight}",
-			  "shipping" => "{$this->shipping}",
-			  "status" => "{$this->status}"
-		);
-		
+		$product =$this->products();
 		$list = $this->decode();
 		
 		foreach ($list as $key => $value) {
+			
 			if ($value['id'] == $id) {
-				  $list[$key]['id'] = "{$this->id}";
-				  $list[$key]['product'] = "{$this->product}";
-				  $list[$key]['title'] = "{$this->title}";
-				  $list[$key]['description'] = "{$this->description}";
-				  $list[$key]['catno'] = "{$this->catno}";
-				  $list[$key]['category'] = "{$this->category}";
-				  $list[$key]['image'] = "{$this->image}";
-				  $list[$key]['format'] = "{$this->format}";
-				  $list[$key]['quantity'] = "{$this->quantity}";
-				  $list[$key]['status'] = "{$this->status}";
-				  $list[$key]['price'] = "{$this->price}";
-				  $list[$key]['paypal_hosted_button_id'] = "{$this->paypal_hosted_button_id}";
-				  $list[$key]['listed'] = "{$this->listed}";
-				  $list[$key]['stock'] = "{$this->stock}";
-				  $list[$key]['EAN'] = "{$this->EAN}";
-				  $list[$key]['weight'] = "{$this->weight}";
-				  $list[$key]['format'] = "{$this->format}";
-				  $list[$key]['datetime'] = "{$this->datetime}";
-				  $list[$key]['condition'] = "{$this->condition}";
-				  $list[$key]['weight'] = "{$this->weight}";
-				  $list[$key]['shipping'] = "{$this->shipping}";
-				  $list[$key]['status'] = "{$this->status}";
+				
+			$list[$key]['product_id'] = "{$this->product_id}";
+			$list[$key]['product_status'] = "{$this->product_status}";
+			$list[$key]['product_title'] = "{$this->product_title}";
+			$list[$key]['product_description'] = "{$this->product_description}";
+			$list[$key]['product_category'] = "{$this->product_category}";
+			$list[$key]['product_catno'] = "{$this->product_catno}";
+			$list[$key]['product_stock'] = "{$this->product_stock}";
+			$list[$key]['product_quantity'] = "{$this->product_quantity}";
+			$list[$key]['product_format'] = "{$this->product_format}";
+			$list[$key]['product_type'] = "{$this->product_type}";
+			$list[$key]['product_weight'] = "{$this->product_weight}";
+			$list[$key]['product_condition'] = "{$this->product_condition}";
+			$list[$key]['product_ean'] = "{$this->product_ean}";
+			$list[$key]['product_sku'] = "{$this->product_sku}";
+			$list[$key]['product_vendor'] = "{$this->product_vendor}";
+			$list[$key]['product_price'] = "{$this->product_price}";
+			$list[$key]['product_margin'] = "{$this->product_margin}";
+			$list[$key]['product_price_min'] = "{$this->product_price_min}";
+			$list[$key]['product_price_max'] = "{$this->product_price_max}";
+			$list[$key]['product_price_varies'] = "{$this->product_price_varies}";
+			$list[$key]['product_date'] = "{$this->product_date}";
+			$list[$key]['product_url'] = "{$this->product_url}";
+			$list[$key]['product_image'] = "{$this->product_image}";
+			$list[$key]['product_tags'] = "{$this->product_tags}";
+			$list[$key]['product_images'] = "{$this->product_images}";
+			$list[$key]['product_featured'] = "{$this->product_featured}";
+			$list[$key]['product_featured_location'] = "{$this->product_featured_location}";
+			$list[$key]['product_featured_carousel'] = "{$this->product_featured_carousel}";
+			$list[$key]['product_featured_image'] = "{$this->product_featured_image}";
+			$list[$key]['product_content'] = "{$this->product_content}";
+			$list[$key]['product_variants'] = "{$this->product_variants}";
+			$list[$key]['product_available'] = "{$this->product_available}";
+			$list[$key]['product_selected_variant'] = "{$this->product_selected_variant}";
+			$list[$key]['product_collections'] = "{$this->product_collections}";
+			$list[$key]['product_options'] = "{$this->product_options}";
+			$list[$key]['socialmedia_option1'] = "{$this->socialmedia_option1}";
+			$list[$key]['socialmedia_option2'] =  "{$this->socialmedia_option2}";
+			$list[$key]['socialmedia_option3'] =  "{$this->socialmedia_option3}";
+			$list[$key]['variant_title1'] =  "{$this->variant_title1}";
+			$list[$key]['variant_title2'] =  "{$this->variant_title2}";
+			$list[$key]['variant_title3'] =  "{$this->variant_title3}";
+			$list[$key]['variant_image1'] =  "{$this->variant_image1}";
+			$list[$key]['variant_image2'] =  "{$this->variant_image2}";
+			$list[$key]['variant_image3'] =  "{$this->variant_image3}";
+			$list[$key]['variant_option1'] =  "{$this->variant_option1}";
+			$list[$key]['variant_option2'] =  "{$this->variant_option2}";
+			$list[$key]['variant_option3'] =  "{$this->variant_option3}";
+			$list[$key]['variant_price1'] =  "{$this->variant_price1}";
+			$list[$key]['variant_price2'] =  "{$this->variant_price2}";
+			$list[$key]['variant_price3'] =  "{$this->variant_price3}";
+			$list[$key]['shipping'] =  "{$this->shipping}";
+			$list[$key]['shipping_fixed_price'] =  "{$this->shipping_fixed_price}";
+			$list[$key]['shipping_flatfee'] =  "{$this->shipping_flatfee}";
+			$list[$key]['shipping_locations'] =  "{$this->shipping_locations}";
+			$list[$key]['payment_paypal_button_id'] =  "{$this->payment_paypal_button_id}";
+			$list[$key]['payment_payment_button1'] =  "{$this->payment_payment_button1}";
+			$list[$key]['payment_payment_button2'] =  "{$this->payment_payment_button2}";
+			$list[$key]['payment_payment_button3'] =  "{$this->payment_payment_button3}";
+			$list[$key]['payment_payment_array'] =  "{$this->shipping_fixed_price}";
+			
 			}
 		}
 		
@@ -161,29 +214,65 @@ class Shop {
 
 	public function checkForm() 
 	{
-	
-      isset($_POST['id']) 	? $this->id = $this->cleanInput($_POST['id']) : $id = false;  
-      isset($_POST['product']) 	? $this->product = $this->cleanInput($_POST['product']) : $product = false;  
-      isset($_POST['title']) 	? $this->title = $this->cleanInput($_POST['title']) : $title = false;  
-      isset($_POST['description']) ? $this->description = $this->cleanInput($_POST['description']) : $description = false;  
-      isset($_POST['catno']) 	? $this->catno = $this->cleanInput($_POST['catno']) : $catno = false;  
-      isset($_POST['category']) ? $this->category = $this->cleanInput($_POST['category']) : $category = false;  
-      isset($_POST['image']) 	? $this->image = $this->cleanInput($_POST['image']) : $image = false;  
-      isset($_POST['format']) 	? $this->format = $this->cleanInput($_POST['format']) : $format = false;  
-      isset($_POST['quantity']) ? $this->quantity = $this->cleanInput($_POST['quantity']) : $quantity = false;  
-      isset($_POST['status']) 	? $this->status = $this->cleanInput($_POST['status']) : $status = false;  
-      isset($_POST['price']) 	? $this->price = $this->cleanInput($_POST['price']) : $price = false;  
-      isset($_POST['paypal_hosted_button_id']) 	? $this->paypal_hosted_button_id = $this->cleanInput($_POST['paypal_hosted_button_id']) : $price = false;  	  
-      isset($_POST['listed']) 	? $this->listed = $this->cleanInput($_POST['listed']) : $listed = false;  
-      isset($_POST['stock']) 	? $this->stock = $this->cleanInput($_POST['stock']) : $stock = false;  
-      isset($_POST['EAN']) 	? $this->EAN = $this->cleanInput($_POST['EAN']) : $EAN = false;  
-      isset($_POST['weight']) 	? $this->weight = $this->cleanInput($_POST['weight']) : $weight = false;  
-      isset($_POST['format']) 	? $this->format = $this->cleanInput($_POST['format']) : $format = false;  
-      isset($_POST['datetime']) ? $this->datetime = $this->cleanInput($_POST['datetime']) : $datetime = false;  
-      isset($_POST['condition'])? $this->condition = $this->cleanInput($_POST['condition']) : $condition = false;  
-      isset($_POST['weight']) 	? $this->weight = $this->cleanInput($_POST['weight']) : $weight = false;  
-      isset($_POST['shipping']) ? $this->shipping = $this->cleanInput($_POST['shipping']) : $shipping = false;  
-      isset($_POST['status']) 	? $this->status = $this->cleanInput($_POST['status']) : $status = false; 
+		isset($_POST['product_id'])  ? $this->product_id =  $this->cleanInput($_POST['product_id']) : $product_id = false; 
+		isset($_POST['product_status'])  ? $this->product_status =  $this->cleanInput($_POST['product_status']) : $product_status = false; 
+		isset($_POST['product_title'])  ? $this->product_title =  $this->cleanInput($_POST['product_title']) : $product_title = false; 
+		isset($_POST['product_description'])  ? $this->product_description =  $this->cleanInput($_POST['product_description']) : $product_description = false; 
+		isset($_POST['product_category'])  ? $this->product_category =  $this->cleanInput($_POST['product_category']) : $product_category = false; 
+		isset($_POST['product_catno'])  ? $this->product_catno =  $this->cleanInput($_POST['product_catno']) : $product_catno = false; 
+		isset($_POST['product_stock'])  ? $this->product_stock =  $this->cleanInput($_POST['product_stock']) : $product_stock = false; 
+		isset($_POST['product_quantity'])  ? $this->product_quantity =  $this->cleanInput($_POST['product_quantity']) : $product_quantity = false; 
+		isset($_POST['product_format'])  ? $this->product_format =  $this->cleanInput($_POST['product_format']) : $product_format = false; 
+		isset($_POST['product_type'])  ? $this->product_type =  $this->cleanInput($_POST['product_type']) : $product_type = false; 
+		isset($_POST['product_weight'])  ? $this->product_weight =  $this->cleanInput($_POST['product_weight']) : $product_weight = false; 
+		isset($_POST['product_condition'])  ? $this->product_condition =  $this->cleanInput($_POST['product_condition']) : $product_condition = false; 
+		isset($_POST['product_ean'])  ? $this->product_ean =  $this->cleanInput($_POST['product_ean']) : $product_ean = false; 
+		isset($_POST['product_sku'])  ? $this->product_sku =  $this->cleanInput($_POST['product_sku']) : $product_sku = false; 
+		isset($_POST['product_vendor'])  ? $this->product_vendor =  $this->cleanInput($_POST['product_vendor']) : $product_vendor = false; 
+		isset($_POST['product_price'])  ? $this->product_price =  $this->cleanInput($_POST['product_price']) : $product_price = false; 
+		isset($_POST['product_margin'])  ? $this->product_margin =  $this->cleanInput($_POST['product_margin']) : $product_margin = false; 
+		isset($_POST['product_price_min'])  ? $this->product_price_min =  $this->cleanInput($_POST['product_price_min']) : $product_price_min = false; 
+		isset($_POST['product_price_max'])  ? $this->product_price_max =  $this->cleanInput($_POST['product_price_max']) : $product_price_max = false; 
+		isset($_POST['product_price_varies'])  ? $this->product_price_varies =  $this->cleanInput($_POST['product_price_varies']) : $product_price_varies = false; 
+		isset($_POST['product_date'])  ? $this->product_date =  $this->cleanInput($_POST['product_date']) : $product_date = false; 
+		isset($_POST['product_url'])  ? $this->product_url =  $this->cleanInput($_POST['product_url']) : $product_url = false; 
+		isset($_POST['product_image'])  ? $this->product_image =  $this->cleanInput($_POST['product_image']) : $product_image = false; 
+		isset($_POST['product_tags'])  ? $this->product_tags =  $this->cleanInput($_POST['product_tags']) : $product_tags = false; 
+		isset($_POST['product_images'])  ? $this->product_images =  $this->cleanInput($_POST['product_images']) : $product_images = false; 
+		isset($_POST['product_featured'])  ? $this->product_featured =  $this->cleanInput($_POST['product_featured']) : $product_featured = false; 
+		isset($_POST['product_featured_location'])  ? $this->product_featured_location =  $this->cleanInput($_POST['product_featured_location']) : $product_featured_location = false; 
+		isset($_POST['product_featured_carousel'])  ? $this->product_featured_carousel =  $this->cleanInput($_POST['product_featured_carousel']) : $product_featured_carousel = false; 
+		isset($_POST['product_featured_image'])  ? $this->product_featured_image =  $this->cleanInput($_POST['product_featured_image']) : $product_featured_image = false; 
+		isset($_POST['product_content'])  ? $this->product_content =  $this->cleanInput($_POST['product_content']) : $product_content = false; 
+		isset($_POST['product_variants'])  ? $this->product_variants =  $this->cleanInput($_POST['product_variants']) : $product_variants = false; 
+		isset($_POST['product_available'])  ? $this->product_available =  $this->cleanInput($_POST['product_available']) : $product_available = false; 
+		isset($_POST['product_selected_variant'])  ? $this->product_selected_variant =  $this->cleanInput($_POST['product_selected_variant']) : $product_selected_variant = false; 
+		isset($_POST['product_collections'])  ? $this->product_collections =  $this->cleanInput($_POST['product_collections']) : $product_collections = false; 
+		isset($_POST['product_options'])  ? $this->product_options =  $this->cleanInput($_POST['product_options']) : $product_options = false; 
+		isset($_POST['socialmedia_option1'])  ? $this->socialmedia_option1 =  $this->cleanInput($_POST['socialmedia_option1']) : $socialmedia_option1 = false; 
+		isset($_POST['socialmedia_option2'])  ? $this->socialmedia_option2 =  $this->cleanInput($_POST['socialmedia_option2']) : $socialmedia_option2 = false; 
+		isset($_POST['socialmedia_option3'])  ? $this->socialmedia_option3 =  $this->cleanInput($_POST['socialmedia_option3']) : $socialmedia_option3 = false; 
+		isset($_POST['variant_title1'])  ? $this->variant_title1 =  $this->cleanInput($_POST['variant_title1']) : $variant_title1 = false; 
+		isset($_POST['variant_title2'])  ? $this->variant_title2 =  $this->cleanInput($_POST['variant_title2']) : $variant_title2 = false; 
+		isset($_POST['variant_title3'])  ? $this->variant_title3 =  $this->cleanInput($_POST['variant_title3']) : $variant_title3 = false; 
+		isset($_POST['variant_image1'])  ? $this->variant_image1 =  $this->cleanInput($_POST['variant_image1']) : $variant_image1 = false; 
+		isset($_POST['variant_image2'])  ? $this->variant_image2 =  $this->cleanInput($_POST['variant_image2']) : $variant_image2 = false; 
+		isset($_POST['variant_image3'])  ? $this->variant_image3 =  $this->cleanInput($_POST['variant_image3']) : $variant_image3 = false; 
+		isset($_POST['variant_option1'])  ? $this->variant_option1 =  $this->cleanInput($_POST['variant_option1']) : $variant_option1 = false; 
+		isset($_POST['variant_option2'])  ? $this->variant_option2 =  $this->cleanInput($_POST['variant_option2']) : $variant_option2 = false; 
+		isset($_POST['variant_option3'])  ? $this->variant_option3 =  $this->cleanInput($_POST['variant_option3']) : $variant_option3 = false; 
+		isset($_POST['variant_price1'])  ? $this->variant_price1 =  $this->cleanInput($_POST['variant_price1']) : $variant_price1 = false; 
+		isset($_POST['variant_price2'])  ? $this->variant_price2 =  $this->cleanInput($_POST['variant_price2']) : $variant_price2 = false; 
+		isset($_POST['variant_price3'])  ? $this->variant_price3 =  $this->cleanInput($_POST['variant_price3']) : $variant_price3 = false; 
+		isset($_POST['shipping'])  ? $this->shipping =  $this->cleanInput($_POST['shipping']) : $shipping = false; 
+		isset($_POST['shipping_fixed_price'])  ? $this->shipping_fixed_price =  $this->cleanInput($_POST['shipping_fixed_price']) : $shipping_fixed_price = false; 
+		isset($_POST['shipping_flatfee'])  ? $this->shipping_flatfee =  $this->cleanInput($_POST['shipping_flatfee']) : $shipping_flatfee = false; 
+		isset($_POST['shipping_locations'])  ? $this->shipping_locations =  $this->cleanInput($_POST['shipping_locations']) : $shipping_locations = false; 
+		isset($_POST['payment_paypal_button_id'])  ? $this->payment_paypal_button_id =  $this->cleanInput($_POST['payment_paypal_button_id']) : $payment_paypal_button_id = false; 
+		isset($_POST['payment_payment_button1'])  ? $this->payment_payment_button1 =  $this->cleanInput($_POST['payment_payment_button1']) : $payment_payment_button1 = false; 
+		isset($_POST['payment_payment_button2'])  ? $this->payment_payment_button2 =  $this->cleanInput($_POST['payment_payment_button2']) : $payment_payment_button2 = false; 
+		isset($_POST['payment_payment_button3'])  ? $this->payment_payment_button3 =  $this->cleanInput($_POST['payment_payment_button3']) : $payment_payment_button3 = false; 
+		isset($_POST['payment_payment_array']) ? $this->payment_payment_array =  $this->cleanInput($_POST['payment_payment_array']) : $payment_payment_array = false; 
 
 		$_SESSION['messages'] = array();
 
@@ -254,6 +343,23 @@ class Shop {
 		$json = mb_convert_encoding($this->encode($shop), self::FILE_ENC, self::FILE_OS);
 		// write file.
 		file_put_contents(self::SHOP,$json, LOCK_EX);
+	}
+
+	/**
+	* Store shop into SHOP
+	* @param array $shop
+	* @return boolean, true for success, false for failure.
+	*/
+	public function storefile($shop) 
+	{
+		// make a backup before doing anything.
+		$file 	= 'test.json';
+		$copy 	= 'test.json.bak';
+		@copy($file, $copy);
+		// convert encoding
+		$json = mb_convert_encoding($this->encode($shop), self::FILE_ENC, self::FILE_OS);
+		// write file.
+		file_put_contents($file,$json, LOCK_EX);
 	}
 	
 	/**
@@ -377,7 +483,7 @@ class Shop {
 		if (!function_exists('openssl_encrypt')) {
 			$this->message('Encryption failed: OpenSSL is not supported or enabled on this PHP instance.');
 			return false;
-    		}
+    	}
 		
 		$key = self::PWD; // Password is set above at the Constants
 		$ivlen = openssl_cipher_iv_length($cipher="AES-256-CTR");
@@ -400,7 +506,7 @@ class Shop {
 		if (!function_exists('openssl_decrypt')) {
 			$this->message('Decryption failed: OpenSSL is not supported or enabled on this PHP instance.');
 			return false;
-    		}
+    	}
 		
 		$key = self::PWD; // Password is set above at the Constants
 		$ciphertext = hex2bin($ciphertext);
@@ -416,6 +522,7 @@ class Shop {
 			return $original_plaintext;
 		}
 	}
+	
 }
 
 ?>
