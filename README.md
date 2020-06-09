@@ -90,6 +90,28 @@ payment.payment.button2
 payment.payment.button3 
 payment.payment.array  
 ```
+# Pages:
+```
+page.id
+page.title
+page.description
+page.short.text
+page.long.text
+page.url
+page.tags
+page.image.header
+page.image.main
+page.image.left
+page.image.right
+page.status
+page.archived
+page.created
+page.published
+page.updated
+page.meta.title
+page.meta.description
+page.meta.tags
+```
 # Blog:
 ```
 blog.id
