@@ -29,6 +29,8 @@ Tiny Shop creates SEO friendly URL's of all products.
 
 # JSON values and parameters:
 
+An upload page is used to convert each CSV to JSON. In this way, only the CSV files have to be edited and the shop will be updated automatically. Obviously, it is also possible to upload each JSON and CSV file through either SCP, FTP or command line, rendering the upload page expendable. 
+
 ```
 site.url 
 site.domain 
