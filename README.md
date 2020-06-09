@@ -155,6 +155,27 @@ page.meta.title
 page.meta.description
 page.meta.tags
 ```
+# Customer:
+```
+customer.id
+customer.attn
+customer.first.name
+customer.last.name
+customer.address
+customer.address.number
+customer.postalcode
+customer.region
+customer.city
+customer.country
+customer.password
+customer.hash
+customer.email
+customer.newsletter
+customer.signup.date
+customer.signup.ip
+customer.signup.ua
+customer.diff
+```
 # Blog:
 ```
 blog.id
