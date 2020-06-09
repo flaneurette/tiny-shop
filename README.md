@@ -155,6 +155,19 @@ page.meta.title
 page.meta.description
 page.meta.tags
 ```
+# Cart:
+```
+cart.id
+cart.customer.id
+cart.creation.date
+cart.data
+cart.product.list
+cart.checkout.status
+cart.checkout.discount
+cart.session.id
+cart.session.attempts
+cart.diff
+```
 # Customer:
 ```
 customer.id
