@@ -170,7 +170,7 @@ cart.session.id
 cart.session.attempts
 cart.diff
 ```
-# Customer:
+# Orders:
 ```
 orders.id 
 orders.customer.id 
