@@ -30,26 +30,65 @@ Tiny Shop creates SEO friendly URL's of all products.
 # JSON values and params example:
 
 ```
-{
-   "id": 100002,
-   "product": "Bella Makeup",
-   "title": "Makeup powder",
-   "description": "Makeup powder in 12 colors.",
-   "category": "Powders",
-   "image": "images/.png",
-   "catno": "M00002",
-   "quantity": 2,
-   "stock": 100,
-   "EAN": "",
-   "format": "Box",
-   "price": 10,
-   "paypal_hosted_button_id": DHSO0FUE9J2,
-   "datetime": "2019-04-09",
-   "condition": "new",
-   "weight": 55,
-   "shipping": 0,
-   "status": 1
-}
+		product.id 1000001
+		product.status 1
+		product.title 
+		product.description 
+		product.category 
+		product.catno 
+		product.stock 
+		product.quantity 
+		product.format 
+		product.type 
+		product.weight 
+		product.condition 
+		product.ean 
+		product.sku 
+		product.vendor 
+		product.price 
+		product.margin 
+		product.price_min 
+		product.price_max 
+		product.price_varies 
+		product.date 
+		product.url 
+		product.image 
+		product.tags 
+		product.images 
+		product.featured 
+		product.featured_location 
+		product.featured_carousel 
+		product.featured_image 
+		product.content 
+		product.variants 
+		product.available 
+		product.selected_variant 
+		product.collections 
+		product.options 
+		socialmedia.option1 
+		socialmedia.option2 
+		socialmedia.option3 
+		variant.title1 
+		variant.title2 
+		variant.title3 
+		variant.image1 
+		variant.image2 
+		variant.image3 
+		variant.option1 
+		variant.option2 
+		variant.option3 
+		variant.price1 
+		variant.price2 
+		variant.price3 
+		shipping 1
+		shipping.fixed.price 
+		shipping.flatfee 
+		shipping.locations 
+		payment.paypal_button_id 
+		payment.payment_button1 
+		payment.payment_button2 
+		payment.payment_button3 
+		payment.payment_array 
 ```
 # Status
 N.B. Under construction. It currenly only reads the JSON product list. Adding and editing is planned.
