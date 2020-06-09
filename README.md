@@ -27,8 +27,51 @@ Tiny Shop makes (real-time) automatic backups of the JSON database each time a p
 # SEO
 Tiny Shop creates SEO friendly URL's of all products.
 
-# JSON values and params example:
+# JSON values and parameters:
 
+```
+site.url 
+site.domain 
+site.canonical 
+site.cdn 
+site.charset utf-8
+site.title 
+site.description 
+site.logo
+site.icon 
+site.status 
+site.updated 
+site.meta.title 
+site.meta.description 
+site.meta.tags 
+site.meta.name.1 
+site.meta.name.2 
+site.meta.name.3 
+site.meta.name.4 
+site.meta.value.1 
+site.meta.value.2 
+site.meta.value.3 
+site.meta.value.4 
+site.tags 
+site.socialmedia.option1 
+site.socialmedia.option2 
+site.socialmedia.option3 
+site.socialmedia.option4 
+site.socialmedia.option5 
+site.javascript 
+site.ext.javascript 
+site.stylesheet 
+site.ext.stylesheet 
+site.google.tags 
+site.cookie.name.1 
+site.cookie.name.2 
+site.cookie.name.3 
+site.cookie.value.1 
+site.cookie.value.2 
+site.cookie.value.3 
+site.analytics 
+```
+# Products 
 ```
 product.id
 product.status 
