@@ -3,7 +3,7 @@
 class Shop {
 
 	CONST SHOP  			= "./inventory/shop.json";
-	CONST CSV  			= "./inventory/shop.csv"; 
+	CONST CSV  			= "./inventory/csv/shop.csv"; 
 	CONST BACKUPEXT  		= ".bak"; 
 	CONST PWD 			= "Password to encrypt JSON"; // optional.
 	CONST FILE_ENC  		= "UTF-8";
