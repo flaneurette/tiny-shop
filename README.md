@@ -30,65 +30,65 @@ Tiny Shop creates SEO friendly URL's of all products.
 # JSON values and params example:
 
 ```
-		product.id 1000001
-		product.status 1
-		product.title 
-		product.description 
-		product.category 
-		product.catno 
-		product.stock 
-		product.quantity 
-		product.format 
-		product.type 
-		product.weight 
-		product.condition 
-		product.ean 
-		product.sku 
-		product.vendor 
-		product.price 
-		product.margin 
-		product.price_min 
-		product.price_max 
-		product.price_varies 
-		product.date 
-		product.url 
-		product.image 
-		product.tags 
-		product.images 
-		product.featured 
-		product.featured_location 
-		product.featured_carousel 
-		product.featured_image 
-		product.content 
-		product.variants 
-		product.available 
-		product.selected_variant 
-		product.collections 
-		product.options 
-		socialmedia.option1 
-		socialmedia.option2 
-		socialmedia.option3 
-		variant.title1 
-		variant.title2 
-		variant.title3 
-		variant.image1 
-		variant.image2 
-		variant.image3 
-		variant.option1 
-		variant.option2 
-		variant.option3 
-		variant.price1 
-		variant.price2 
-		variant.price3 
-		shipping 1
-		shipping.fixed.price 
-		shipping.flatfee 
-		shipping.locations 
-		payment.paypal_button_id 
-		payment.payment_button1 
-		payment.payment_button2 
-		payment.payment_button3 
-		payment.payment_array 
+product.id
+product.status 
+product.title 
+product.description 
+product.category 
+product.catno 
+product.stock 
+product.quantity 
+product.format 
+product.type 
+product.weight 
+product.condition 
+product.ean 
+product.sku 
+product.vendor 
+product.price 
+product.margin 
+product.price.min 
+product.price.max 
+product.price.varies 
+product.date 
+product.url 
+product.image 
+product.tags 
+product.images 
+product.featured 
+product.featured.location 
+product.featured.carousel 
+product.featured.image 
+product.content 
+product.variants 
+product.available 
+product.selected.variant 
+product.collections 
+product.options 
+socialmedia.option1 
+socialmedia.option2 
+socialmedia.option3 
+variant.title1 
+variant.title2 
+variant.title3 
+variant.image1 
+variant.image2 
+variant.image3 
+variant.option1 
+variant.option2 
+variant.option3 
+variant.price1 
+variant.price2 
+variant.price3 
+shipping
+shipping.fixed.price 
+shipping.flatfee 
+shipping.locations 
+payment.paypal.button.id 
+payment.payment.button1 
+payment.payment.button2 
+payment.payment.button3 
+payment.payment.array  
 ```
 # Status
 N.B. Under construction. It currenly only reads the JSON product list. Adding and editing is planned.
