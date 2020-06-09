@@ -90,5 +90,42 @@ payment.payment.button2
 payment.payment.button3 
 payment.payment.array  
 ```
+# Blog:
+```
+blog.id
+blog.title
+blog.description
+blog.short.text
+blog.long.text
+blog.url
+blog.tags
+blog.author
+blog.handle
+blog.created
+blog.published
+blog.image.header
+blog.image.main
+blog.status
+blog.archived
+```   
+# Articles:
+``` 
+article.id
+article.title
+article.description
+article.short.text
+article.long.text
+article.url
+article.tags
+article.author
+article.handle
+article.created
+article.published
+article.image.header
+article.image.main
+article.status
+article.archived
+```
+
 # Status
 N.B. Under construction. It currenly only reads the JSON product list. Adding and editing is planned.
