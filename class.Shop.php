@@ -16,6 +16,7 @@ class Shop {
 	CONST MAXDESCRIPTION 		= 500; // Max length of description.
 	CONST CURRENCY 			= 0;   // this should, ideally, be set in the JSON file: site.json.
 	
+
 	public function __construct() {
 		$incomplete = false;
 	}
@@ -125,6 +126,193 @@ class Shop {
 		return $products;
 	}
 		
+	public function arrays($array) 
+	{
+
+		switch($array) {
+			
+		case 'articles':
+		$arraylist = array(
+				"article_id" => "{$this->article_id}",
+				"article_title" => "{$this->article_title }",
+				"article_description" => "{$this->article_description}",
+				"article_short_text" => "{$this->article_short_text }",
+				"article_long_text" => "{$this->article_long_text }",
+				"article_url" => "{$this->article_url }",
+				"article_tags" => "{$this->article_tags }",
+				"article_author" => "{$this->article_author }",
+				"article_handle" => "{$this->article_handle }",
+				"article_created" => "{$this->article_created }",
+				"article_published" => "{$this->article_published }",
+				"article_image_header" => "{$this->article_image_header }",
+				"article_image_main" => "{$this->article_image_main }",
+				"article_status" => "{$this->article_status }",
+				"article_archived" => "{$this->article_archived }"
+		);
+		break;
+
+		case 'blog':
+		$arraylist = array(
+				"blog_id" => "{$this->blog_id }",
+				"blog_title" => "{$this->blog_title }",
+				"blog_description" => "{$this->blog_description }",
+				"blog_short_text" => "{$this->blog_short_text }",
+				"blog_long_text" => "{$this->blog_long_text }",
+				"blog_url" => "{$this->blog_url }",
+				"blog_tags" => "{$this->blog_tags }",
+				"blog_author" => "{$this->blog_author }",
+				"blog_handle" => "{$this->blog_handle }",
+				"blog_created" => "{$this->blog_created }",
+				"blog_published" => "{$this->blog_published }",
+				"blog_image_header" => "{$this->blog_image_header }",
+				"blog_image_main" => "{$this->blog_image_main }",
+				"blog_status" => "{$this->blog_status }",
+				"blog_archived" => "{$this->blog_archived }"
+		);
+		break;
+
+		case 'cart':
+		$arraylist = array(
+				"cart_id" => "{$this->cart_id }",
+				"cart_customer_id" => "{$this->cart_customer_id }",
+				"cart_creation_date" => "{$this->cart_creation_date }",
+				"cart_data" => "{$this->cart_data }",
+				"cart_sum" => "{$this->cart_sum }",
+				"cart_tax" => "{$this->cart_tax }",		
+				"cart_product_list" => "{$this->cart_product_list }",
+				"cart_checkout_status" => "{$this->cart_checkout_status }",
+				"cart_checkout_discount" => "{$this->cart_checkout_discount }",
+				"cart_session_id" => "{$this->cart_session_id }",
+				"cart_session_attempts" => "{$this->cart_session_attempts }",
+				"cart_diff" => "{$this->cart_diff }"
+		);
+		break;
+
+		case 'customer':
+		$arraylist = array(
+				"customer_id" => "{$this->customer_id }",
+				"customer_attn" => "{$this->customer_attn }",
+				"customer_first_name" => "{$this->customer_first_name }",
+				"customer_last_name" => "{$this->customer_last_name }",
+				"customer_address" => "{$this->customer_address }",
+				"customer_address_number" => "{$this->customer_address_number }",
+				"customer_postalcode" => "{$this->customer_postalcode }",
+				"customer_region" => "{$this->customer_region }",
+				"customer_city" => "{$this->customer_city }",
+				"customer_country" => "{$this->customer_country }",
+				"customer_password" => "{$this->customer_password }",
+				"customer_hash" => "{$this->customer_hash }",
+				"customer_email" => "{$this->customer_email }",
+				"customer_newsletter" => "{$this->customer_newsletter }",
+				"customer_signup_date" => "{$this->customer_signup_date }",
+				"customer_signup_ip" => "{$this->customer_signup_ip }",
+				"customer_signup_ua" => "{$this->customer_signup_ua }",
+				"customer_diff" => "{$this->customer_diff }"
+		);
+		break;
+
+		case 'orders':
+		$arraylist = array(
+				"orders_id" => "{$this->orders_id }",
+				"orders_customer_id" => "{$this->orders_customer_id }",
+				"orders_product_list" => "{$this->orders_product_list }",
+				"orders_creation_date" => "{$this->orders_creation_date }",
+				"orders_data" => "{$this->orders_data }",
+				"orders_sum" => "{$this->orders_sum }",
+				"orders_tax" => "{$this->orders_tax }",	
+				"orders_customer_email" => "{$this->orders_customer_email }",		
+				"orders_delivered" => "{$this->orders_delivered }",
+				"orders_refunded" => "{$this->orders_refunded }",
+				"orders_discount" => "{$this->orders_discount }",
+				"orders_voucher" => "{$this->orders_voucher }",
+				"orders_checkout_method" => "{$this->orders_checkout_method }",
+				"orders_checkout_payment" => "{$this->orders_checkout_payment }",
+				"orders_checkout_status" => "{$this->orders_checkout_status }",
+				"orders_checkout_discount" => "{$this->orders_checkout_discount }",
+				"orders_checkout_success" => "{$this->orders_checkout_success }",
+				"orders_session_id" => "{$this->orders_session_id }",
+				"orders_session_ip" => "{$this->orders_session_ip }",
+				"orders_session_ua" => "{$this->orders_session_ua }",
+				"orders_session_attempts" => "{$this->orders_session_attempts }",
+				"orders_diff" => "{$this->orders_diff }"
+		);
+		break;
+		
+		case 'page':
+		$arraylist = array(
+				"page_id" => "{$this->page_id }",
+				"page_title" => "{$this->page_title }",
+				"page_description" => "{$this->page_description }",
+				"page_short_text" => "{$this->page_short_text }",
+				"page_long_text" => "{$this->page_long_text }",
+				"page_url" => "{$this->page_url }",
+				"page_tags" => "{$this->page_tags }",
+				"page_image_header" => "{$this->page_image_header }",
+				"page_image_main" => "{$this->page_image_main }",
+				"page_image_left" => "{$this->page_image_left }",
+				"page_image_right" => "{$this->page_image_right }",
+				"page_status" => "{$this->page_status }",
+				"page_archived" => "{$this->page_archived }",
+				"page_created" => "{$this->page_created }",
+				"page_published" => "{$this->page_published }",
+				"page_updated" => "{$this->page_updated }",
+				"page_meta_title" => "{$this->page_meta_title }",
+				"page_meta_description" => "{$this->page_meta_description }",
+				"page_meta_tags" => "{$this->page_meta_tags }"
+		);
+		break;
+		
+		case 'site':
+		$arraylist = array(
+				"site_url" => "{$this->site_url }",
+				"site_domain" => "{$this->site_domain }",
+				"site_canonical" => "{$this->site_canonical }",
+				"site_cdn" => "{$this->site_cdn }",
+				"site_charset" => "{$this->charset }",
+				"site_title" => "{$this->site_title }",
+				"site_description" => "{$this->site_description }",
+				"site_logo" => "{$this->site_logo }",
+				"site_icon" => "{$this->site_icon }",
+				"site_status" => "{$this->site_status }",
+				"site_updated" => "{$this->site_updated }",		
+				"site_currency" => "{$this->site_currency }",		
+				"site_meta_title" => "{$this->site_meta_title }",
+				"site_meta_description" => "{$this->site_meta_description }",
+				"site_meta_tags" => "{$this->site_meta_tags }",
+				"site_meta_name_1" => "{$this->site_meta_name_1 }",
+				"site_meta_name_2" => "{$this->site_meta_name_2 }",
+				"site_meta_name_3" => "{$this->site_meta_name_3 }",
+				"site_meta_name_4" => "{$this->site_meta_name_4 }",
+				"site_meta_value_1" => "{$this->site_meta_value_1 }",
+				"site_meta_value_2" => "{$this->site_meta_value_2 }",
+				"site_meta_value_3" => "{$this->site_meta_value_3 }",
+				"site_meta_value_4" => "{$this->site_meta_value_4 }",
+				"site_tags" => "{$this->site_tags }",
+				"site_socialmedia_option1" => "{$this->site_socialmedia_option1 }",
+				"site_socialmedia_option2" => "{$this->site_socialmedia_option2 }",
+				"site_socialmedia_option3" => "{$this->site_socialmedia_option3 }",
+				"site_socialmedia_option4" => "{$this->site_socialmedia_option4 }",
+				"site_socialmedia_option5" => "{$this->site_socialmedia_option5 }",
+				"site_javascript" => "{$this->site_javascript }",
+				"site_ext_javascript" => "{$this->site_ext_javascript }",
+				"site_stylesheet" => "{$this->site_stylesheet }",
+				"site_ext_stylesheet" => "{$this->site_ext_stylesheet }",
+				"site_google_tags" => "{$this->site_google_tags }",
+				"site_cookie_name_1" => "{$this->site_cookie_name_1 }",
+				"site_cookie_name_2" => "{$this->site_cookie_name_2 }",
+				"site_cookie_name_3" => "{$this->site_cookie_name_3 }",
+				"site_cookie_value_1" => "{$this->site_cookie_value_1 }",
+				"site_cookie_value_2" => "{$this->site_cookie_value_2 }",
+				"site_cookie_value_3" => "{$this->site_cookie_value_3 }",		
+				"site_analytics" => "{$this->site_analytics }"
+			);
+			break;
+
+		}
+
+		return $arraylist;
+	}
+
 	public function addshop() 
 	{
 		$newshop = $this->products();
@@ -134,6 +322,7 @@ class Shop {
 
 		$this->storeshop($lijst);
 	}
+
 
 	public function editshop($id) 
 	{
@@ -205,6 +394,7 @@ class Shop {
 			$list[$key]['payment_payment_array'] =  "{$this->shipping_fixed_price}";
 			
 			}
+			
 		}
 		
 		$list[$i] = $product;
@@ -214,6 +404,7 @@ class Shop {
 
 	public function checkForm() 
 	{
+	
 		isset($_POST['product_id'])  ? $this->product_id =  $this->cleanInput($_POST['product_id']) : $product_id = false; 
 		isset($_POST['product_status'])  ? $this->product_status =  $this->cleanInput($_POST['product_status']) : $product_status = false; 
 		isset($_POST['product_title'])  ? $this->product_title =  $this->cleanInput($_POST['product_title']) : $product_title = false; 
