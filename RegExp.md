@@ -19,7 +19,13 @@ $list[$key]['product_\1'] = "{$this->product_\1}";
 ```
 # Turn JSON PHP vars into $_POST evaluation RegExp.
 ```
-(.*)"(.*)" => "\{\$this->(.*)\}"\,
+(.*)"(.*)"\s+=>\s+"\{\$this->(.*)\}"\,
 
-\1 isset($_POST['\2']) ? $this->\2 = $this->cleanInput($_POST['\2']) : $\2 = false; 
+\1 isset\($_POST['\2']\) ? $this->\2 = $this->cleanInput\($_POST['\2']\) : $\2 = false;  
 ```
+Example:
+```
+"test" => "{$this->test}",
+
+isset($_POST['test'] ? $this->test = $this->cleanInput$_POST['test'] : $test = false; 
+``
