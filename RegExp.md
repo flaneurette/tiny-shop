@@ -26,7 +26,7 @@ $list[$key]['product_\1'] = "{$this->product_\1}";
 Example:
 ```
 "test" => "{$this->test}",
-``
+```
 Result:
 ```
 isset($_POST['test'] ? $this->test = $this->cleanInput$_POST['test'] : $test = false; 
