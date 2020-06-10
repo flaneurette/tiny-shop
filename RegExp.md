@@ -4,9 +4,9 @@ Used to transform variables from JSON and CSV, to speed up programming.
 
 # Convert JSON vars into PHP vars.
 ```
-"(.*)"\: \"\"\,
+"(.*)\.(.*)"\: \"\"\,
 
-"\1" => "{\$this->\1 }",
+"\1_\2" => "{\$this->\1 }", 
 ```
 Example:
 ```
@@ -14,9 +14,8 @@ Example:
 ```
 Result:
 ```
-"test.id" => "{$this->test}",
+"test_id" => "{$this->test}",
 ```
-Then replace the dot by finding: . replace with: _
 
 # Turn PHP vars into Foreach list keys RegExp.
 ```
