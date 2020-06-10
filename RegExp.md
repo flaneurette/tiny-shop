@@ -4,7 +4,7 @@ Used to transform variables from JSON and CSV, to speed up programming.
 
 # Convert JSON vars into PHP vars.
 ```
-"(.*)\.(.*)"\: \"\"\,
+"(.*)\.(.*)"\:\s+\"\"\,
 
 "\1_\2" => "{\$this->\1_\2}", 
 ```
@@ -14,7 +14,7 @@ Example:
 ```
 Result:
 ```
-"test_id" => "{$this->test}",
+"test_id" => "{$this->test_id}",
 ```
 
 # Turn PHP vars into Foreach list keys RegExp.
