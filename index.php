@@ -17,8 +17,6 @@
 	header("Strict-Transport-Security: max-age=30");
 	header("Referrer-Policy: same-origin");
 
-
-	error_reporting(E_ALL);
 	session_start();
 	
 	include("class.Shop.php");
