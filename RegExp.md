@@ -6,7 +6,7 @@ Used to transform variables from JSON and CSV, to speed up programming.
 ```
 "(.*)\.(.*)"\: \"\"\,
 
-"\1_\2" => "{\$this->\1 }", 
+"\1_\2" => "{\$this->\1_\2}", 
 ```
 Example:
 ```
