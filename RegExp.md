@@ -8,6 +8,15 @@ Used to transform variables from JSON and CSV, to speed up programming.
 
 "\1" => "{\$this->\1 }",
 ```
+Example:
+```
+"test.id": 1,
+
+Result:
+```
+"test.id" => "{$this->test}",
+```
+Then replace the dot, find: . replace with: _
 
 # Turn PHP vars into Foreach list keys RegExp.
 ```
