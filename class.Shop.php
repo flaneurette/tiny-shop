@@ -714,6 +714,184 @@ class Shop {
 		}
 	}
 	
+
+	public function init_post_arrays($array) 
+	{
+
+		switch($array) {
+			
+		case 'articles':
+		
+				 isset($_POST['article_id']) ? $this->article_id = $this->cleanInput($_POST['article_id']) : $article_id = false;  
+				 isset($_POST['article_title']) ? $this->article_title = $this->cleanInput($_POST['article_title']) : $article_title = false;  
+				 isset($_POST['article_description']) ? $this->article_description = $this->cleanInput($_POST['article_description']) : $article_description = false;  
+				 isset($_POST['article_short_text']) ? $this->article_short_text = $this->cleanInput($_POST['article_short_text']) : $article_short_text = false;  
+				 isset($_POST['article_long_text']) ? $this->article_long_text = $this->cleanInput($_POST['article_long_text']) : $article_long_text = false;  
+				 isset($_POST['article_url']) ? $this->article_url = $this->cleanInput($_POST['article_url']) : $article_url = false;  
+				 isset($_POST['article_tags']) ? $this->article_tags = $this->cleanInput($_POST['article_tags']) : $article_tags = false;  
+				 isset($_POST['article_author']) ? $this->article_author = $this->cleanInput($_POST['article_author']) : $article_author = false;  
+				 isset($_POST['article_handle']) ? $this->article_handle = $this->cleanInput($_POST['article_handle']) : $article_handle = false;  
+				 isset($_POST['article_created']) ? $this->article_created = $this->cleanInput($_POST['article_created']) : $article_created = false;  
+				 isset($_POST['article_published']) ? $this->article_published = $this->cleanInput($_POST['article_published']) : $article_published = false;  
+				 isset($_POST['article_image_header']) ? $this->article_image_header = $this->cleanInput($_POST['article_image_header']) : $article_image_header = false;  
+				 isset($_POST['article_image_main']) ? $this->article_image_main = $this->cleanInput($_POST['article_image_main']) : $article_image_main = false;  
+				 isset($_POST['article_status']) ? $this->article_status = $this->cleanInput($_POST['article_status']) : $article_status = false;  
+				 isset($_POST['article_archived']) ? $this->article_archived = $this->cleanInput($_POST['article_archived']) : $article_archived = false;  
+		break;
+
+		case 'blog':
+		
+				 isset($_POST['blog_id']) ? $this->blog_id = $this->cleanInput($_POST['blog_id']) : $blog_id = false;  
+				 isset($_POST['blog_title']) ? $this->blog_title = $this->cleanInput($_POST['blog_title']) : $blog_title = false;  
+				 isset($_POST['blog_description']) ? $this->blog_description = $this->cleanInput($_POST['blog_description']) : $blog_description = false;  
+				 isset($_POST['blog_short_text']) ? $this->blog_short_text = $this->cleanInput($_POST['blog_short_text']) : $blog_short_text = false;  
+				 isset($_POST['blog_long_text']) ? $this->blog_long_text = $this->cleanInput($_POST['blog_long_text']) : $blog_long_text = false;  
+				 isset($_POST['blog_url']) ? $this->blog_url = $this->cleanInput($_POST['blog_url']) : $blog_url = false;  
+				 isset($_POST['blog_tags']) ? $this->blog_tags = $this->cleanInput($_POST['blog_tags']) : $blog_tags = false;  
+				 isset($_POST['blog_author']) ? $this->blog_author = $this->cleanInput($_POST['blog_author']) : $blog_author = false;  
+				 isset($_POST['blog_handle']) ? $this->blog_handle = $this->cleanInput($_POST['blog_handle']) : $blog_handle = false;  
+				 isset($_POST['blog_created']) ? $this->blog_created = $this->cleanInput($_POST['blog_created']) : $blog_created = false;  
+				 isset($_POST['blog_published']) ? $this->blog_published = $this->cleanInput($_POST['blog_published']) : $blog_published = false;  
+				 isset($_POST['blog_image_header']) ? $this->blog_image_header = $this->cleanInput($_POST['blog_image_header']) : $blog_image_header = false;  
+				 isset($_POST['blog_image_main']) ? $this->blog_image_main = $this->cleanInput($_POST['blog_image_main']) : $blog_image_main = false;  
+				 isset($_POST['blog_status']) ? $this->blog_status = $this->cleanInput($_POST['blog_status']) : $blog_status = false;  
+				 isset($_POST['blog_archived']) ? $this->blog_archived = $this->cleanInput($_POST['blog_archived']) : $blog_archived = false;  
+		
+		break;
+
+		case 'cart':
+		
+				 isset($_POST['cart_id']) ? $this->cart_id = $this->cleanInput($_POST['cart_id']) : $cart_id = false;  
+				 isset($_POST['cart_customer_id']) ? $this->cart_customer_id = $this->cleanInput($_POST['cart_customer_id']) : $cart_customer_id = false;  
+				 isset($_POST['cart_creation_date']) ? $this->cart_creation_date = $this->cleanInput($_POST['cart_creation_date']) : $cart_creation_date = false;  
+				 isset($_POST['cart_data']) ? $this->cart_data = $this->cleanInput($_POST['cart_data']) : $cart_data = false;  
+				 isset($_POST['cart_sum']) ? $this->cart_sum = $this->cleanInput($_POST['cart_sum']) : $cart_sum = false;  
+				 isset($_POST['cart_tax']) ? $this->cart_tax = $this->cleanInput($_POST['cart_tax']) : $cart_tax = false;  		
+				 isset($_POST['cart_product_list']) ? $this->cart_product_list = $this->cleanInput($_POST['cart_product_list']) : $cart_product_list = false;  
+				 isset($_POST['cart_checkout_status']) ? $this->cart_checkout_status = $this->cleanInput($_POST['cart_checkout_status']) : $cart_checkout_status = false;  
+				 isset($_POST['cart_checkout_discount']) ? $this->cart_checkout_discount = $this->cleanInput($_POST['cart_checkout_discount']) : $cart_checkout_discount = false;  
+				 isset($_POST['cart_session_id']) ? $this->cart_session_id = $this->cleanInput($_POST['cart_session_id']) : $cart_session_id = false;  
+				 isset($_POST['cart_session_attempts']) ? $this->cart_session_attempts = $this->cleanInput($_POST['cart_session_attempts']) : $cart_session_attempts = false;  
+				 isset($_POST['cart_diff']) ? $this->cart_diff = $this->cleanInput($_POST['cart_diff']) : $cart_diff = false;  
+		break;
+
+		case 'customer':
+				 isset($_POST['customer_id']) ? $this->customer_id = $this->cleanInput($_POST['customer_id']) : $customer_id = false;  
+				 isset($_POST['customer_attn']) ? $this->customer_attn = $this->cleanInput($_POST['customer_attn']) : $customer_attn = false;  
+				 isset($_POST['customer_first_name']) ? $this->customer_first_name = $this->cleanInput($_POST['customer_first_name']) : $customer_first_name = false;  
+				 isset($_POST['customer_last_name']) ? $this->customer_last_name = $this->cleanInput($_POST['customer_last_name']) : $customer_last_name = false;  
+				 isset($_POST['customer_address']) ? $this->customer_address = $this->cleanInput($_POST['customer_address']) : $customer_address = false;  
+				 isset($_POST['customer_address_number']) ? $this->customer_address_number = $this->cleanInput($_POST['customer_address_number']) : $customer_address_number = false;  
+				 isset($_POST['customer_postalcode']) ? $this->customer_postalcode = $this->cleanInput($_POST['customer_postalcode']) : $customer_postalcode = false;  
+				 isset($_POST['customer_region']) ? $this->customer_region = $this->cleanInput($_POST['customer_region']) : $customer_region = false;  
+				 isset($_POST['customer_city']) ? $this->customer_city = $this->cleanInput($_POST['customer_city']) : $customer_city = false;  
+				 isset($_POST['customer_country']) ? $this->customer_country = $this->cleanInput($_POST['customer_country']) : $customer_country = false;  
+				 isset($_POST['customer_password']) ? $this->customer_password = $this->cleanInput($_POST['customer_password']) : $customer_password = false;  
+				 isset($_POST['customer_hash']) ? $this->customer_hash = $this->cleanInput($_POST['customer_hash']) : $customer_hash = false;  
+				 isset($_POST['customer_email']) ? $this->customer_email = $this->cleanInput($_POST['customer_email']) : $customer_email = false;  
+				 isset($_POST['customer_newsletter']) ? $this->customer_newsletter = $this->cleanInput($_POST['customer_newsletter']) : $customer_newsletter = false;  
+				 isset($_POST['customer_signup_date']) ? $this->customer_signup_date = $this->cleanInput($_POST['customer_signup_date']) : $customer_signup_date = false;  
+				 isset($_POST['customer_signup_ip']) ? $this->customer_signup_ip = $this->cleanInput($_POST['customer_signup_ip']) : $customer_signup_ip = false;  
+				 isset($_POST['customer_signup_ua']) ? $this->customer_signup_ua = $this->cleanInput($_POST['customer_signup_ua']) : $customer_signup_ua = false;  
+				 isset($_POST['customer_diff']) ? $this->customer_diff = $this->cleanInput($_POST['customer_diff']) : $customer_diff = false;  
+		break;
+
+		case 'orders':
+				 isset($_POST['orders_id']) ? $this->orders_id = $this->cleanInput($_POST['orders_id']) : $orders_id = false;  
+				 isset($_POST['orders_customer_id']) ? $this->orders_customer_id = $this->cleanInput($_POST['orders_customer_id']) : $orders_customer_id = false;  
+				 isset($_POST['orders_product_list']) ? $this->orders_product_list = $this->cleanInput($_POST['orders_product_list']) : $orders_product_list = false;  
+				 isset($_POST['orders_creation_date']) ? $this->orders_creation_date = $this->cleanInput($_POST['orders_creation_date']) : $orders_creation_date = false;  
+				 isset($_POST['orders_data']) ? $this->orders_data = $this->cleanInput($_POST['orders_data']) : $orders_data = false;  
+				 isset($_POST['orders_sum']) ? $this->orders_sum = $this->cleanInput($_POST['orders_sum']) : $orders_sum = false;  
+				 isset($_POST['orders_tax']) ? $this->orders_tax = $this->cleanInput($_POST['orders_tax']) : $orders_tax = false;  	
+				 isset($_POST['orders_customer_email']) ? $this->orders_customer_email = $this->cleanInput($_POST['orders_customer_email']) : $orders_customer_email = false;  		
+				 isset($_POST['orders_delivered']) ? $this->orders_delivered = $this->cleanInput($_POST['orders_delivered']) : $orders_delivered = false;  
+				 isset($_POST['orders_refunded']) ? $this->orders_refunded = $this->cleanInput($_POST['orders_refunded']) : $orders_refunded = false;  
+				 isset($_POST['orders_discount']) ? $this->orders_discount = $this->cleanInput($_POST['orders_discount']) : $orders_discount = false;  
+				 isset($_POST['orders_voucher']) ? $this->orders_voucher = $this->cleanInput($_POST['orders_voucher']) : $orders_voucher = false;  
+				 isset($_POST['orders_checkout_method']) ? $this->orders_checkout_method = $this->cleanInput($_POST['orders_checkout_method']) : $orders_checkout_method = false;  
+				 isset($_POST['orders_checkout_payment']) ? $this->orders_checkout_payment = $this->cleanInput($_POST['orders_checkout_payment']) : $orders_checkout_payment = false;  
+				 isset($_POST['orders_checkout_status']) ? $this->orders_checkout_status = $this->cleanInput($_POST['orders_checkout_status']) : $orders_checkout_status = false;  
+				 isset($_POST['orders_checkout_discount']) ? $this->orders_checkout_discount = $this->cleanInput($_POST['orders_checkout_discount']) : $orders_checkout_discount = false;  
+				 isset($_POST['orders_checkout_success']) ? $this->orders_checkout_success = $this->cleanInput($_POST['orders_checkout_success']) : $orders_checkout_success = false;  
+				 isset($_POST['orders_session_id']) ? $this->orders_session_id = $this->cleanInput($_POST['orders_session_id']) : $orders_session_id = false;  
+				 isset($_POST['orders_session_ip']) ? $this->orders_session_ip = $this->cleanInput($_POST['orders_session_ip']) : $orders_session_ip = false;  
+				 isset($_POST['orders_session_ua']) ? $this->orders_session_ua = $this->cleanInput($_POST['orders_session_ua']) : $orders_session_ua = false;  
+				 isset($_POST['orders_session_attempts']) ? $this->orders_session_attempts = $this->cleanInput($_POST['orders_session_attempts']) : $orders_session_attempts = false;  
+				 isset($_POST['orders_diff']) ? $this->orders_diff = $this->cleanInput($_POST['orders_diff']) : $orders_diff = false;  
+		break;
+		
+		case 'page':
+				 isset($_POST['page_id']) ? $this->page_id = $this->cleanInput($_POST['page_id']) : $page_id = false;  
+				 isset($_POST['page_title']) ? $this->page_title = $this->cleanInput($_POST['page_title']) : $page_title = false;  
+				 isset($_POST['page_description']) ? $this->page_description = $this->cleanInput($_POST['page_description']) : $page_description = false;  
+				 isset($_POST['page_short_text']) ? $this->page_short_text = $this->cleanInput($_POST['page_short_text']) : $page_short_text = false;  
+				 isset($_POST['page_long_text']) ? $this->page_long_text = $this->cleanInput($_POST['page_long_text']) : $page_long_text = false;  
+				 isset($_POST['page_url']) ? $this->page_url = $this->cleanInput($_POST['page_url']) : $page_url = false;  
+				 isset($_POST['page_tags']) ? $this->page_tags = $this->cleanInput($_POST['page_tags']) : $page_tags = false;  
+				 isset($_POST['page_image_header']) ? $this->page_image_header = $this->cleanInput($_POST['page_image_header']) : $page_image_header = false;  
+				 isset($_POST['page_image_main']) ? $this->page_image_main = $this->cleanInput($_POST['page_image_main']) : $page_image_main = false;  
+				 isset($_POST['page_image_left']) ? $this->page_image_left = $this->cleanInput($_POST['page_image_left']) : $page_image_left = false;  
+				 isset($_POST['page_image_right']) ? $this->page_image_right = $this->cleanInput($_POST['page_image_right']) : $page_image_right = false;  
+				 isset($_POST['page_status']) ? $this->page_status = $this->cleanInput($_POST['page_status']) : $page_status = false;  
+				 isset($_POST['page_archived']) ? $this->page_archived = $this->cleanInput($_POST['page_archived']) : $page_archived = false;  
+				 isset($_POST['page_created']) ? $this->page_created = $this->cleanInput($_POST['page_created']) : $page_created = false;  
+				 isset($_POST['page_published']) ? $this->page_published = $this->cleanInput($_POST['page_published']) : $page_published = false;  
+				 isset($_POST['page_updated']) ? $this->page_updated = $this->cleanInput($_POST['page_updated']) : $page_updated = false;  
+				 isset($_POST['page_meta_title']) ? $this->page_meta_title = $this->cleanInput($_POST['page_meta_title']) : $page_meta_title = false;  
+				 isset($_POST['page_meta_description']) ? $this->page_meta_description = $this->cleanInput($_POST['page_meta_description']) : $page_meta_description = false;  
+				 isset($_POST['page_meta_tags']) ? $this->page_meta_tags = $this->cleanInput($_POST['page_meta_tags']) : $page_meta_tags = false;  
+		break;
+		
+		case 'site':
+				 isset($_POST['site_url']) ? $this->site_url = $this->cleanInput($_POST['site_url']) : $site_url = false;  
+				 isset($_POST['site_domain']) ? $this->site_domain = $this->cleanInput($_POST['site_domain']) : $site_domain = false;  
+				 isset($_POST['site_canonical']) ? $this->site_canonical = $this->cleanInput($_POST['site_canonical']) : $site_canonical = false;  
+				 isset($_POST['site_cdn']) ? $this->site_cdn = $this->cleanInput($_POST['site_cdn']) : $site_cdn = false;  
+				 isset($_POST['site_charset']) ? $this->site_charset = $this->cleanInput($_POST['site_charset']) : $site_charset = false;  
+				 isset($_POST['site_title']) ? $this->site_title = $this->cleanInput($_POST['site_title']) : $site_title = false;  
+				 isset($_POST['site_description']) ? $this->site_description = $this->cleanInput($_POST['site_description']) : $site_description = false;  
+				 isset($_POST['site_logo']) ? $this->site_logo = $this->cleanInput($_POST['site_logo']) : $site_logo = false;  
+				 isset($_POST['site_icon']) ? $this->site_icon = $this->cleanInput($_POST['site_icon']) : $site_icon = false;  
+				 isset($_POST['site_status']) ? $this->site_status = $this->cleanInput($_POST['site_status']) : $site_status = false;  
+				 isset($_POST['site_updated']) ? $this->site_updated = $this->cleanInput($_POST['site_updated']) : $site_updated = false;  		
+				 isset($_POST['site_currency']) ? $this->site_currency = $this->cleanInput($_POST['site_currency']) : $site_currency = false;  		
+				 isset($_POST['site_meta_title']) ? $this->site_meta_title = $this->cleanInput($_POST['site_meta_title']) : $site_meta_title = false;  
+				 isset($_POST['site_meta_description']) ? $this->site_meta_description = $this->cleanInput($_POST['site_meta_description']) : $site_meta_description = false;  
+				 isset($_POST['site_meta_tags']) ? $this->site_meta_tags = $this->cleanInput($_POST['site_meta_tags']) : $site_meta_tags = false;  
+				 isset($_POST['site_meta_name_1']) ? $this->site_meta_name_1 = $this->cleanInput($_POST['site_meta_name_1']) : $site_meta_name_1 = false;  
+				 isset($_POST['site_meta_name_2']) ? $this->site_meta_name_2 = $this->cleanInput($_POST['site_meta_name_2']) : $site_meta_name_2 = false;  
+				 isset($_POST['site_meta_name_3']) ? $this->site_meta_name_3 = $this->cleanInput($_POST['site_meta_name_3']) : $site_meta_name_3 = false;  
+				 isset($_POST['site_meta_name_4']) ? $this->site_meta_name_4 = $this->cleanInput($_POST['site_meta_name_4']) : $site_meta_name_4 = false;  
+				 isset($_POST['site_meta_value_1']) ? $this->site_meta_value_1 = $this->cleanInput($_POST['site_meta_value_1']) : $site_meta_value_1 = false;  
+				 isset($_POST['site_meta_value_2']) ? $this->site_meta_value_2 = $this->cleanInput($_POST['site_meta_value_2']) : $site_meta_value_2 = false;  
+				 isset($_POST['site_meta_value_3']) ? $this->site_meta_value_3 = $this->cleanInput($_POST['site_meta_value_3']) : $site_meta_value_3 = false;  
+				 isset($_POST['site_meta_value_4']) ? $this->site_meta_value_4 = $this->cleanInput($_POST['site_meta_value_4']) : $site_meta_value_4 = false;  
+				 isset($_POST['site_tags']) ? $this->site_tags = $this->cleanInput($_POST['site_tags']) : $site_tags = false;  
+				 isset($_POST['site_socialmedia_option1']) ? $this->site_socialmedia_option1 = $this->cleanInput($_POST['site_socialmedia_option1']) : $site_socialmedia_option1 = false;  
+				 isset($_POST['site_socialmedia_option2']) ? $this->site_socialmedia_option2 = $this->cleanInput($_POST['site_socialmedia_option2']) : $site_socialmedia_option2 = false;  
+				 isset($_POST['site_socialmedia_option3']) ? $this->site_socialmedia_option3 = $this->cleanInput($_POST['site_socialmedia_option3']) : $site_socialmedia_option3 = false;  
+				 isset($_POST['site_socialmedia_option4']) ? $this->site_socialmedia_option4 = $this->cleanInput($_POST['site_socialmedia_option4']) : $site_socialmedia_option4 = false;  
+				 isset($_POST['site_socialmedia_option5']) ? $this->site_socialmedia_option5 = $this->cleanInput($_POST['site_socialmedia_option5']) : $site_socialmedia_option5 = false;  
+				 isset($_POST['site_javascript']) ? $this->site_javascript = $this->cleanInput($_POST['site_javascript']) : $site_javascript = false;  
+				 isset($_POST['site_ext_javascript']) ? $this->site_ext_javascript = $this->cleanInput($_POST['site_ext_javascript']) : $site_ext_javascript = false;  
+				 isset($_POST['site_stylesheet']) ? $this->site_stylesheet = $this->cleanInput($_POST['site_stylesheet']) : $site_stylesheet = false;  
+				 isset($_POST['site_ext_stylesheet']) ? $this->site_ext_stylesheet = $this->cleanInput($_POST['site_ext_stylesheet']) : $site_ext_stylesheet = false;  
+				 isset($_POST['site_google_tags']) ? $this->site_google_tags = $this->cleanInput($_POST['site_google_tags']) : $site_google_tags = false;  
+				 isset($_POST['site_cookie_name_1']) ? $this->site_cookie_name_1 = $this->cleanInput($_POST['site_cookie_name_1']) : $site_cookie_name_1 = false;  
+				 isset($_POST['site_cookie_name_2']) ? $this->site_cookie_name_2 = $this->cleanInput($_POST['site_cookie_name_2']) : $site_cookie_name_2 = false;  
+				 isset($_POST['site_cookie_name_3']) ? $this->site_cookie_name_3 = $this->cleanInput($_POST['site_cookie_name_3']) : $site_cookie_name_3 = false;  
+				 isset($_POST['site_cookie_value_1']) ? $this->site_cookie_value_1 = $this->cleanInput($_POST['site_cookie_value_1']) : $site_cookie_value_1 = false;  
+				 isset($_POST['site_cookie_value_2']) ? $this->site_cookie_value_2 = $this->cleanInput($_POST['site_cookie_value_2']) : $site_cookie_value_2 = false;  
+				 isset($_POST['site_cookie_value_3']) ? $this->site_cookie_value_3 = $this->cleanInput($_POST['site_cookie_value_3']) : $site_cookie_value_3 = false;  		
+				 isset($_POST['site_analytics']) ? $this->site_analytics = $this->cleanInput($_POST['site_analytics']) : $site_analytics = false;  
+			break;
+
+		}
+
+		return;
+	}
+	
 }
 
 ?>
