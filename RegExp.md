@@ -7,8 +7,9 @@ Used to transform variables from JSON and CSV, to speed up programming.
 "(.*)"\: \"\"\,
 
 "\1" => "{\$this->\1 }",
-
 ```
+
+
 # Turn PHP vars into Foreach list keys RegExp.
 ```
 \"product\_(.*)\"\s+\=>\s+\"\{\$this->product_(.*)\}\"\,
@@ -29,5 +30,5 @@ Example:
 ```
 Result:
 ```
-isset($_POST['test'] ? $this->test = $this->cleanInput$_POST['test'] : $test = false; 
+isset($_POST['test']) ? $this->test = $this->cleanInput($_POST['test']) : $test = false; 
 ```
