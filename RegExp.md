@@ -15,4 +15,11 @@ Used to transform variables from JSON and CSV, to speed up programming.
 
 
 $list[$key]['product_\1'] = "{$this->product_\1}";
+
+```
+# Turn JSON PHP vars into $_POST evaluation RegExp.
+```
+(.*)"(.*)" => "\{\$this->(.*)\}"\,
+
+\1 isset($_POST['\2']) ? $this->\2 = $this->cleanInput($_POST['\2']) : $\2 = false; 
 ```
