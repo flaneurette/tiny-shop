@@ -9,15 +9,21 @@ Used to transform variables from JSON and CSV, to speed up programming.
 "\1" => "{\$this->\1 }",
 ```
 
-
 # Turn PHP vars into Foreach list keys RegExp.
 ```
-\"product\_(.*)\"\s+\=>\s+\"\{\$this->product_(.*)\}\"\,
+(.*)"(.*)"\s+=>\s+"\{\$this->(.*)\}"\,
 
-
-$list[$key]['product_\1'] = "{$this->product_\1}";
-
+\1 $list[$key]['\2'] = "{$this->\2}";
 ```
+Example:
+```
+"test" => "{$this->test}",
+```
+Result:
+```
+$list[$key]['test'] =  "{$this->test}";
+```
+
 # Turn JSON PHP vars into $_POST evaluation RegExp.
 ```
 (.*)"(.*)"\s+=>\s+"\{\$this->(.*)\}"\,
