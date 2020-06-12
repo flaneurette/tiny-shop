@@ -4,7 +4,7 @@
 	include("class.Shop.php");
 	
 	$shop  = new Shop();
-	$products = $shop->getproducts('list');
+	$products = $shop->getproducts('list',$category='index');
 ?>
 <html>
 	<head>
