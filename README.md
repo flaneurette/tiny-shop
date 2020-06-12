@@ -27,6 +27,10 @@ Tiny Shop makes (real-time) automatic backups of the JSON database each time a p
 # SEO
 Tiny Shop creates SEO friendly URL's of all products.
 
+# Product list demo:
+
+![Image of Product list](https://raw.githubusercontent.com/flaneurette/tiny-shop/master/resources/images/product-screen.png)
+
 # JSON values and parameters:
 
 An upload page is used to convert each CSV to JSON. In this way, only the CSV files have to be edited and the shop will be updated automatically. Obviously, it is also possible to upload each JSON and CSV file through either SCP, FTP or command line, rendering the upload page expendable. 
