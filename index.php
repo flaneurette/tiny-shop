@@ -4,7 +4,7 @@
 	include("class.Shop.php");
 	
 	$shop  = new Shop();
-	$shoplist = $shop->decode();
+	$products = $shop->getproducts('list');
 ?>
 <html>
 	<head>
@@ -16,10 +16,7 @@
 			<div id="shop">
 			
 				<?php 
-				
-					$shop  = new Shop();
-					$products = $shop->getproducts('list');
-					echo $products;
+				echo $products;
 				?>
 			</div>
 	</body>
