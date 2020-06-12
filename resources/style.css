@@ -1,4 +1,8 @@
- body {
+/*
+ * Tiny Shop default styling.
+*/
+
+body {
      padding:15px;
      font-size:1em;
 }
@@ -83,4 +87,40 @@
      font-size:28px;
      text-align:center;
      font-weight:bold;
+}
+
+/*
+ * Product styling.
+*/
+
+#ts-product-list {
+	
+}
+
+#ts-product {
+	
+}
+
+.ts-product-status-green {
+	
+}
+
+.ts-product-status-red {
+	
+}
+
+.ts-product-image-icon {
+	display:block;
+	height:100px;
+	width:100px;
+	font-size:10em;
+	margin:10px;
+}
+
+.ts-product-image-div {
+	
+}
+
+.ts-product-image {
+	
 }
