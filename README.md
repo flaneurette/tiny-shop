@@ -73,6 +73,17 @@ site.cookie.value.2
 site.cookie.value.3 
 site.analytics 
 ```
+# Shop.conf 
+```
+products.orientation: thumb|list
+products.alt.tags
+products.scene.type
+products.row.count
+products.per.page
+products.per.cat
+products.quick.cart
+products.carousel
+```
 # Products 
 ```
 product.id
