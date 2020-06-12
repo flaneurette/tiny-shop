@@ -29,18 +29,18 @@ Tiny Shop creates SEO friendly URL's of all products.
 
 # Product list minimal demo:
 
-Function: getproducts() takes only two params: method & category. 
-Method: either list or group. 
-Category: the shop category. If empty, it shows all categories.
+- Function: getproducts() takes only two params: method & category. 
+- Method: either list or group. 
+- Category: the shop category. If empty, it shows all categories.
 
 ```
 include("resources/php/header.inc.php");
 include("class.Shop.php");
 	
-$shop  = new Shop();
+$shop     = new Shop();
 $products = $shop->getproducts('list',$category='index');
   
- echo $products;
+echo $products;
 ```
 # Product list demo:
 
