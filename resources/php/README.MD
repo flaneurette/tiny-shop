@@ -1,62 +1,77 @@
 
-# SimpleXLSX php class v0.6.8
+# SimpleXLSX php class v0.8.15
 
-MS Excel 2007 workbooks reader, Created by Sergey Schuchkin 
-http://www.sibvision.ru 
-
-Example 1: 
+MS Excel 2007 workbooks reader
+ 
+Copyright (c) 2012 - 2020 SimpleXLSX
 ```
-$xlsx = new SimpleXLSX('book.xlsx');
+@category SimpleXLSX
+@packageSimpleXLSX
+@copyrightCopyright (c) 2012 - 2020 SimpleXLSX (https://github.com/shuchkin/simplexlsx/)
+@licenseMIT
+@version0.8.15
+```
+
+# Examples
+ 
+Example 1:
+```
+if ( $xlsx = SimpleXLSX::parse('book.xlsx') ) {
 print_r( $xlsx->rows() );
+} else {
+echo SimpleXLSX::parseError();
+}
 ```
 Example 2: 
 ```
-$xlsx = new SimpleXLSX('book.xlsx');
+html table
+if ( $xlsx = SimpleXLSX::parse('book.xlsx') ) {
+echo $xlsx->toHTML();
+} else {
+echo SimpleXLSX::parseError();
+}
+```
+Example 3: rowsEx
+```
+$xlsx = SimpleXLSX::parse('book.xlsx');
 print_r( $xlsx->rowsEx() );
 ```
-Example 3: 
+Example 4: select worksheet
+```
+$xlsx = SimpleXLSX::parse('book.xlsx');
+print_r( $xlsx->rows(1) ); // second worksheet
+ ```
+Example 5: IDs and worksheet names
+```
+$xlsx = SimpleXLSX::parse('book.xlsx');
+print_r( $xlsx->sheetNames() ); // array( 0 => 'Sheet 1', 1 => 'Catalog' );
+```
+Example 6: get sheet name by index
+```
+$xlsx = SimpleXLSX::parse('book.xlsx');
+echo 'Sheet Name 2 = '.$xlsx->sheetName(1);
+```
+Example 7: getCell (very slow)
+```
+echo $xlsx->getCell(1,'D12'); // reads D12 cell from second sheet
+```
+Example 8: read data
+```
+if ( $xlsx = SimpleXLSX::parseData( file_get_contents('http://www.example.com/example.xlsx') ) ) {
+$dim = $xlsx->dimension(1);
+$num_cols = $dim[0];
+$num_rows = $dim[1];
+echo $xlsx->sheetName(1).':'.$num_cols.'x'.$num_rows;
+} else {
+echo SimpleXLSX::parseError();
+}
+```
+Example 9: old style
 ```
 $xlsx = new SimpleXLSX('book.xlsx');
-print_r( $xlsx->rows(2) ); // second worksheet
-```
-Example 4.1:
-```
-$xlsx = new SimpleXLSX('book.xlsx');
-print_r( $xlsx->sheetNames() ); // array( 1 => 'Sheet 1', 3 => 'Catalog' );
-```
-Example 4.2:
-```
-$xlsx = new SimpleXLSX('book.xlsx');
-echo 'Sheet Name 2 = '.$xlsx->sheetName(2);
-```
-Example 5:
-```
-$xlsx = new SimpleXLSX('book.xlsx');
-if ($xslx->success())
+if ( $xlsx->success() ) {
 print_r( $xlsx->rows() );
-else
-echo 'xlsx error: '.$xslx->error();
-```
-Example 6:
-```
-$xslx = new SimpleXLSX( file_get_contents('http://www.example.com/example.xlsx'), true);
-list($num_cols, $num_rows) = $xlsx->dimension(2);
-echo $xlsx->sheetName(2).':'.$num_cols.'x'.$num_rows;
-```
-# Changelog
-```
-v0.6.8 (2013-10-13) fixed dimension() where 1 row only, fixed rowsEx() empty cells indexes (Daniel Stastka)
-v0.6.7 (2013-08-10) fixed unzip (mac), added $debug param to _constructor to display errors
-v0.6.6 (2013-06-03) +entryExists(),
-v0.6.5 (2013-03-18) fixed sheetName()
-v0.6.4 (2013-03-13) rowsEx(), _parse(): fixed date column type & format detection
-v0.6.3 (2013-03-13) rowsEx(): fixed formulas, added date type 'd', added format 'format'
-dimension(): fixed empty sheet dimension + sheetNames() - returns array( sheet_id => sheet_name, sheet_id2 => sheet_name2 ...)
-v0.6.2 (2012-10-04) fixed empty cells, rowsEx() returns type and formulas now
-v0.6.1 (2012-09-14) removed "raise exception" and fixed _unzip
-v0.6 (2012-09-13) success(), error(), __constructor( $filename, $is_data = false )
-v0.5.1 (2012-09-13) sheetName() fixed
-v0.5 (2012-09-12) sheetName()
-v0.4 sheets(), sheetsCount(), unixstamp( $excelDateTime )
-v0.3 - fixed empty cells (Gonzo patch)
+} else {
+echo 'xlsx error: '.$xlsx->error();
+}
 ```
