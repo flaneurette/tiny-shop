@@ -1,20 +1,22 @@
 <?php
 
+// if possible, store this class below the www or html folder.
+
 class Shop {
 
-	CONST SHOP  			= "./inventory/shop.json";
-	CONST CSV  			= "./inventory/csv/shop.csv"; 
-	CONST BACKUPEXT  		= ".bak"; 
-	CONST PWD 			= "Password to encrypt JSON"; // optional.
-	CONST FILE_ENC  		= "UTF-8";
-	CONST FILE_OS  			= "WINDOWS-1252"; 
-	CONST MAIN_PAYMENT_METHOD 	= 'PayPal'; // Tiny Store uses PayPal as default payment gateway.
-	CONST PAYMENTGATEWAY 		= ''; 	// Only required for 3rd party payment processing.
-	CONST DEPTH			= 1024;
-	CONST MAXWEIGHT 		= 10000;
-	CONST MAXTITLE 			= 255; // Max length of title.
-	CONST MAXDESCRIPTION 		= 500; // Max length of description.
-	CONST CURRENCY 			= 0;   // this should, ideally, be set in the JSON file: site.json.
+	CONST SHOP					= "./inventory/shop.json";
+	CONST CSV					= "./inventory/csv/shop.csv"; 
+	CONST BACKUPEXT				= ".bak"; 
+	CONST PWD					= "Password to encrypt JSON"; // optional.
+	CONST FILE_ENC				= "UTF-8";
+	CONST FILE_OS				= "WINDOWS-1252"; 
+	CONST MAIN_PAYMENT_METHOD	= 'PayPal'; // Tiny Store uses PayPal as default payment gateway.
+	CONST PAYMENTGATEWAY		= ''; 	// Only required for 3rd party payment processing.
+	CONST DEPTH					= 1024;
+	CONST MAXWEIGHT				= 10000;
+	CONST MAXTITLE				= 255; // Max length of title.
+	CONST MAXDESCRIPTION		= 500; // Max length of description.
+	CONST CURRENCY				= "&#163;";   // for a list, see currencies.json.
 	
 
 	public function __construct() {
@@ -573,6 +575,80 @@ class Shop {
 		}
 		$this->storeshop($shops);
 	}
+	
+	/**
+	* Returns a product list, by reading shop.json.
+	* @param string $string, addition html.
+	* @return $string, html or array (if method is requested.)
+	*/		
+	public function getproducts($string,$method) 
+	{
+
+		$string = $string;
+		$productlist = $this->decode();
+
+		$string .= "<div id=\"ts.product\">";
+
+		if($productlist !== null) {
+
+			$shoplist = $product_list;
+			$ts 	  = array(); 
+			$i 		  = count($ts)-1;
+					
+			foreach($productlist as $c) {	
+				array_push($ts,$c);
+				$this->cleanInput($c['product.title']);
+				$i++;
+			}
+			
+			if($method == 'array') {
+				return $ts;
+				exit;
+			}
+
+			if($i >= 0) { 
+				while($i >= 0) {
+					if($ts[$i]['stock'] < 1) {
+						$status = 'ts.product.status.red'; // low stock
+						} else {
+						$status = 'ts.product.status.green';
+					}
+					
+					switch($method) {
+						
+						case 'list':		
+						$string .= "<div id=\"ts.product\">";
+						$string .= "<div class=\"".$status."\">".$ts[$i]['product.status']."</div>";
+						$string .= "<div>".$this->CURRENCIES.' '.$ts[$i]['product.price']."</div>";
+						$string .= "<div><a href=\"".$this->seoUrl($ts[$i]['product.category']).'/'.$this->seoUrl($ts[$i]['product.title']).'/'.$this->cleanInput($ts[$i]['product.id'])."/\">".$this->cleanInput($ts[$i]['product.title'])."</a> </div>";
+						$string .= "<div>".$ts[$i]['product.description']."</div>";
+						$string .= "<div>".$ts[$i]['product.category']."</div>";
+						$string .= "<div><input type='button' name='add_cart' value='Add to cart' /></div>";
+						$string .= "</div>";
+						break;
+						
+						case 'group':		
+						$string .= "<div id=\"ts.product\">";
+						$string .= "<div class=\"".$status."\">".$ts[$i]['product.status']."</div>";
+						$string .= "<div>".$this->CURRENCIES.' '.$ts[$i]['product.price']."</div>";
+						$string .= "<div><a href=\"".$this->seoUrl($ts[$i]['product.category']).'/'.$this->seoUrl($ts[$i]['product.title']).'/'.$this->cleanInput($ts[$i]['product.id'])."/\">".$this->cleanInput($ts[$i]['product.title'])."</a> </div>";
+						$string .= "<div>".$ts[$i]['product.description']."</div>";
+						$string .= "<div>".$ts[$i]['product.category']."</div>";
+						$string .= "<div><input type='button' name='add_cart' value='Add to cart' /></div>";
+						$string .= "</div>";
+						break;
+					}
+				$i--;
+				}
+			}
+					
+		}
+
+		$string .= "</div>";		
+		
+		return $string;
+	}
+	
 	
 	/**
 	* Converter for data, types and strings.
