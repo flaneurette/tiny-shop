@@ -27,25 +27,24 @@ Tiny Shop makes (real-time) automatic backups of the JSON database each time a p
 # SEO
 Tiny Shop creates SEO friendly URL's of all products.
 
-# Product list demo:
-
-![Image of Product list](https://raw.githubusercontent.com/flaneurette/tiny-shop/master/resources/images/product-screen.png)
-
 # Product list minimal demo:
 
-Function: getproducts() takes two params, method and category. 
+Function: getproducts() takes only two params: method & category. 
 Method: either list or group. 
 Category: the shop category. If empty, it shows all categories.
 
 ```
-	include("resources/php/header.inc.php");
-	include("class.Shop.php");
+include("resources/php/header.inc.php");
+include("class.Shop.php");
 	
-	$shop  = new Shop();
-	$products = $shop->getproducts('list',$category='index');
+$shop  = new Shop();
+$products = $shop->getproducts('list',$category='index');
   
-  echo $products;
+ echo $products;
 ```
+# Product list demo:
+
+![Image of Product list](https://raw.githubusercontent.com/flaneurette/tiny-shop/master/resources/images/product-screen.png)
 
 # JSON values and parameters:
 
