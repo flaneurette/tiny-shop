@@ -1,0 +1,13 @@
+[
+	{
+		"products.orientation": "thumb",
+		"#products.orientation": "list",
+		"products.alt.tags": "no",
+		"products.scene.type": "box",
+		"products.row.count": 10,
+		"products.per.page": 25,		
+		"products.per.cat": 25,
+		"products.quick.cart": "yes",
+		"products.carousel": 0
+	}
+]
