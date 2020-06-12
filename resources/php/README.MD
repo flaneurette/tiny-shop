@@ -1,10 +1,11 @@
 
 # SimpleXLSX php class v0.6.8
 
-MS Excel 2007 workbooks reader
+MS Excel 2007 workbooks reader, Created by Sergey Schuchkin 
+http://www.sibvision.ru 
 
-```
 Example 1: 
+```
 $xlsx = new SimpleXLSX('book.xlsx');
 print_r( $xlsx->rows() );
 ```
