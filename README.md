@@ -42,6 +42,23 @@ $products = $shop->getproducts('list',$category='index');
   
 echo $products;
 ```
+# Loading a JSON file, and get all values:
+```
+$shopconf = $this->load_json("inventory/shop.conf.json");
+
+$configuration = []; // our array.
+		
+if($shopconf !== null) {
+foreach($shopconf as $conf) {	
+	array_push($configuration,$conf);
+	}
+}
+
+// Print the description of the 1st array:
+
+echo $configuration[0]['products.description'];
+```
+	
 # Product list demo:
 
 ![Image of Product list](https://raw.githubusercontent.com/flaneurette/tiny-shop/master/resources/images/product-screen.png)
