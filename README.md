@@ -44,7 +44,12 @@ echo $products;
 ```
 # Loading a JSON file, and get all values:
 ```
-$shopconf = $this->load_json("inventory/shop.conf.json");
+include("resources/php/header.inc.php");
+include("class.Shop.php");
+
+$shop     = new Shop();
+
+$shopconf = $shop->load_json("inventory/shop.conf.json");
 
 $configuration = []; // our array.
 		
@@ -54,9 +59,11 @@ foreach($shopconf as $conf) {
 	}
 }
 
-// Print the description of the 1st array:
+// Print the description of the 1st, 2nd array:
 
 echo $configuration[0]['products.description'];
+echo $configuration[1]['products.description'];
+
 ```
 	
 # Product list demo:
