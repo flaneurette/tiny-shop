@@ -62,6 +62,12 @@ class Shop {
 		return json_decode(file_get_contents(self::SHOP), true, self::DEPTH, JSON_BIGINT_AS_STRING);
 	}
 	
+	public function load_json($url) 
+	{
+		return json_decode(file_get_contents($this->cleanInput($url)), true, self::DEPTH, JSON_BIGINT_AS_STRING);
+	}
+		
+	
 	public function products() 
 	{ 
 		$products = array(
@@ -589,6 +595,29 @@ class Shop {
 		isset($string) ? $this->$string = $string : $string = false;
 		isset($category) ? $this->$category = $category : $category = false;
 		
+		// Loading the shop configuration.
+		$shopconf = $this->load_json("inventory/shop.conf.json");
+		$configuration = [];
+		
+		if($shopconf !== null) {
+			foreach($shopconf as $conf) {	
+				array_push($configuration,$conf);
+			}
+		}
+		
+		// carousel selection.
+		if($configuration[0]['products.carousel'] == 1 && $category == 'index') {
+			$carousel = true;
+		}
+		/* 
+			$configuration['products.orientation'] : "thumb"
+			$configuration['products.alt.tags']    : "no"
+			$configuration['products.scene.type']  : "box"
+			$configuration['products.row.count']   : 10
+			$configuration['products.per.page']    : 25		
+			$configuration['products.per.cat']     : 25
+		*/
+		
 		$productlist = $this->decode();
 
 		$string .= "<div id=\"ts.product\">";
@@ -601,16 +630,25 @@ class Shop {
 		
 			foreach($productlist as $c) {	
 			
-				if($category != false) {
-					if($c['product.category'] == $category) {
+				if($i >= $configuration[0]['products.per.page']) {
+					$this->message('Too many products in category, try to generate pagination.');
+					// todo: pagination
+					$prc = $configuration[0]['products.row.count'];	
+					$ppp = $configuration[0]['products.per.page'];		
+					$ppc = $configuration[0]['products.per.cat'];
+		
+				} else {
+					if($category != false) {
+						if($c['product.category'] == $category) {
+							array_push($ts,$c);
+						}
+					} else {
 						array_push($ts,$c);
 					}
-				} else {
-					array_push($ts,$c);
+				
+					$this->cleanInput($c['product.title']);
+					$i++;
 				}
-			
-				$this->cleanInput($c['product.title']);
-				$i++;
 			}
 			
 			if($method == 'array') {
@@ -629,7 +667,7 @@ class Shop {
 					}
 					
 					if($ts[$i]['product.image'] != "") {
-						$productimage = '<div class="ts-product-image-div"><img src="'.$ts[$i]['product.image'].'" class="ts-product-image"/></div>';
+						$productimage = '<div class="ts-product-image-div"><img src="'.$this->cleanInput($ts[$i]['product.image']).'" class="ts-product-image"/></div>';
 						} else {
 						$productimage = '<div class="ts-product-image-icon">&#128722;</div>';
 					}				
@@ -637,26 +675,38 @@ class Shop {
 					switch($method) {
 						
 						case 'list':		
-						$string .= "<div class=\"ts-product\">";
-						$string .= $productimage;
-						$string .= "<div class=\"".$status."\">".$ts[$i]['product.status']."</div>";
-						$string .= "<div>".self::CURRENCY.' '.$ts[$i]['product.price']."</div>";
-						$string .= "<div><a href=\"".$this->seoUrl($ts[$i]['product.category']).'/'.$this->seoUrl($ts[$i]['product.title']).'/'.$this->cleanInput($ts[$i]['product.id'])."/\">".$this->cleanInput($ts[$i]['product.title'])."</a> </div>";
-						$string .= "<div>".$ts[$i]['product.description']."</div>";
-						$string .= "<div>".$ts[$i]['product.category']."</div>";
-						$string .= "<div><input type='button' name='add_cart' value='Add to cart' /></div>";
+						$string .= "<div class=\"ts-product-list\">";
+						// $string .= $productimage;
+						$string .= "<div class=\"ts-list-product-status\"><div class=\"".$status."\">".$this->cleanInput($ts[$i]['product.status'])."</div>";
+						$string .= "<div class=\"ts-list-product-price\">".self::CURRENCY.' '.$this->cleanInput($ts[$i]['product.price'])."</div>";
+						$string .= "<div class=\"ts-list-product-link\"><a href=\"".$this->seoUrl($this->cleanInput($ts[$i]['product.category'])).'/'.$this->seoUrl($this->cleanInput($ts[$i]['product.title'])).'/'.$this->cleanInput($ts[$i]['product.id'])."/\">".$this->cleanInput($ts[$i]['product.title'])."</a> </div>";
+						$string .= "<div class=\"ts-list-product-desc\">".$this->cleanInput($ts[$i]['product.description'])."</div>";
+						$string .= "<div class=\"ts-list-product-cat\">".$this->cleanInput($ts[$i]['product.category'])."</div>";
+						
+						if($configuration[0]['products.quick.cart'] == 'yes') {
+							$string .= "<div><input type='button' class='ts-list-cart-button' name='add_cart' value='".$this->cleanInput($configuration[0]['products.cart.button'])."' /></div>";
+							} else {
+							$string .= "<div class='ts-list-view-link'><a href=\"product/".$this->cleanInput($ts[$i]['product.id'])."/\">view</a></div>";
+						}
+						
 						$string .= "</div>";
 						break;
 						
 						case 'group':		
-						$string .= "<div class=\"ts-product\">";
+						$string .= "<div class=\"ts-product-group\">";
 						$string .= $productimage;
-						$string .= "<div class=\"".$status."\">".$ts[$i]['product.status']."</div>";
-						$string .= "<div>".self::CURRENCY.' '.$ts[$i]['product.price']."</div>";
-						$string .= "<div><a href=\"".$this->seoUrl($ts[$i]['product.category']).'/'.$this->seoUrl($ts[$i]['product.title']).'/'.$this->cleanInput($ts[$i]['product.id'])."/\">".$this->cleanInput($ts[$i]['product.title'])."</a> </div>";
-						$string .= "<div>".$ts[$i]['product.description']."</div>";
-						$string .= "<div>".$ts[$i]['product.category']."</div>";
-						$string .= "<div><input type='button' name='add_cart' value='Add to cart' /></div>";
+						$string .= "<div class=\"ts-group-product-status\"><div class=\"".$status."\">".$this->cleanInput($ts[$i]['product.status'])."</div>";
+						$string .= "<div class=\"ts-group-product-price\">".self::CURRENCY.' '.$this->cleanInput($ts[$i]['product.price'])."</div>";
+						$string .= "<div class=\"ts-group-product-link\"><a href=\"".$this->seoUrl($this->cleanInput($ts[$i]['product.category'])).'/'.$this->seoUrl($this->cleanInput($ts[$i]['product.title'])).'/'.$this->cleanInput($ts[$i]['product.id'])."/\">".$this->cleanInput($ts[$i]['product.title'])."</a> </div>";
+						$string .= "<div class=\"ts-group-product-desc\">".$this->cleanInput($ts[$i]['product.description'])."</div>";
+						$string .= "<div class=\"ts-group-product-cat\">".$this->cleanInput($ts[$i]['product.category'])."</div>";
+						
+						if($configuration[0]['products.quick.cart'] == 'yes') {
+							$string .= "<div><input type='button' class='ts-group-cart-button' name='add_cart' value='".$this->cleanInput($configuration[0]['products.cart.button'])."' /></div>";
+							} else {
+							$string .= "<div class='ts-group-view-link'><a href=\"product/".$this->cleanInput($ts[$i]['product.id'])."/\">view</a></div>";
+						}
+						
 						$string .= "</div>";
 						break;
 					}
