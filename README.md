@@ -38,7 +38,7 @@ include("resources/php/header.inc.php");
 include("class.Shop.php");
 	
 $shop     = new Shop();
-$products = $shop->getproducts('list',$category='index');
+$products = $shop->getproducts('list','index');
   
 echo $products;
 ```
