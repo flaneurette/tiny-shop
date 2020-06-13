@@ -3,7 +3,7 @@
 
 class Session {
 
-	CONST PWD 		= "Password to encrypt session data";
+	CONST PWD 	= "Password to encrypt session data";
 	CONST FILE_ENC  = "UTF-8";
 
 	public function __construct() {
