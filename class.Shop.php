@@ -1,6 +1,6 @@
 <?php
 
-// if possible, store this class below the www or html folder for more security.
+// if possible, for more security, store this class *below* the /www/ or /html/ folder.
 
 class Shop {
 
@@ -18,7 +18,6 @@ class Shop {
 	CONST MAXDESCRIPTION			= 500; // Max length of description.
 	CONST CURRENCY				= "&#163;";   // for a list, see currencies.json.
 	
-
 	public function __construct() {
 		$incomplete = false;
 	}
