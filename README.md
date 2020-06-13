@@ -54,8 +54,8 @@ $shopconf = $shop->load_json("inventory/shop.conf.json");
 $configuration = []; // our array.
 		
 if($shopconf !== null) {
-foreach($shopconf as $conf) {	
-	array_push($configuration,$conf);
+	foreach($shopconf as $conf) {	
+		array_push($configuration,$shop->cleanInput($conf));
 	}
 }
 
@@ -63,7 +63,6 @@ foreach($shopconf as $conf) {
 
 echo $configuration[0]['products.per.page']; // prints: 25
 echo $configuration[1]['products.per.page']; 
-
 ```
 	
 # Product list demo:
