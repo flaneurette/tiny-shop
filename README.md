@@ -61,8 +61,8 @@ foreach($shopconf as $conf) {
 
 // Print the description of the 1st, 2nd array:
 
-echo $configuration[0]['products.description'];
-echo $configuration[1]['products.description'];
+echo $configuration[0]['products.per.page']; // prints: 25
+echo $configuration[1]['products.per.page']; 
 
 ```
 	
