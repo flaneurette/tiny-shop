@@ -1,21 +1,21 @@
 <?php
 
-// if possible, store this class below the www or html folder.
+// if possible, store this class below the www or html folder for more security.
 
 class Shop {
 
-	CONST SHOP					= "./inventory/shop.json";
-	CONST CSV					= "./inventory/csv/shop.csv"; 
+	CONST SHOP				= "./inventory/shop.json";
+	CONST CSV				= "./inventory/csv/shop.csv"; 
 	CONST BACKUPEXT				= ".bak"; 
-	CONST PWD					= "Password to encrypt JSON"; // optional.
+	CONST PWD				= "Password to encrypt JSON"; // optional.
 	CONST FILE_ENC				= "UTF-8";
 	CONST FILE_OS				= "WINDOWS-1252"; 
-	CONST MAIN_PAYMENT_METHOD	= 'PayPal'; // Tiny Store uses PayPal as default payment gateway.
-	CONST PAYMENTGATEWAY		= ''; 	// Only required for 3rd party payment processing.
-	CONST DEPTH					= 1024;
+	CONST MAIN_PAYMENT_METHOD		= 'PayPal'; // Tiny Store uses PayPal as default payment gateway.
+	CONST PAYMENTGATEWAY			= ''; 	// Only required for 3rd party payment processing.
+	CONST DEPTH				= 1024;
 	CONST MAXWEIGHT				= 10000;
 	CONST MAXTITLE				= 255; // Max length of title.
-	CONST MAXDESCRIPTION		= 500; // Max length of description.
+	CONST MAXDESCRIPTION			= 500; // Max length of description.
 	CONST CURRENCY				= "&#163;";   // for a list, see currencies.json.
 	
 
