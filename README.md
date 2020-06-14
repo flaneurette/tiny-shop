@@ -43,7 +43,7 @@ $products = $shop->getproducts('list','index');
   
 echo $products;
 ```
-# Loading a JSON file, and get all values:
+# Loading a JSON file, and get all keys and values:
 ```
 include("resources/php/header.inc.php");
 include("class.Shop.php");
@@ -52,18 +52,14 @@ $shop     = new Shop();
 
 $shopconf = $shop->load_json("inventory/shop.conf.json");
 
-$configuration = []; // our array.
-		
-if($shopconf !== null) {
-	foreach($shopconf as $conf) {	
-		array_push($configuration,$shop->cleanInput($conf));
+foreach($shopconf as $row)
+{
+	foreach($row as $key => $value)
+	{
+	echo "<b>".$key."</b>".':'.$value.'<br>';
 	}
 }
-
-// Print the description of the 1st, 2nd array:
-
-echo $configuration[0]['products.per.page']; // prints: 25
-echo $configuration[1]['products.per.page']; 
+	
 ```
 	
 # Product list demo:
