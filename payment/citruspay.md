@@ -11,8 +11,6 @@
 
 <script>
 
-// citrusICP.launchIcp(dataObj, configObj);
-
 var dataObj = {
 	orderAmount: "1.00",
 	currency: "POUND",
@@ -48,6 +46,9 @@ configObj = {
 		}
 	}
 };
+
+// citrusICP.launchIcp(dataObj, configObj);
+
 </script>
 
 <form align="center" method="post">
