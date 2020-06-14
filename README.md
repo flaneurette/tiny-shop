@@ -8,9 +8,10 @@ Tiny shop will be ideal for clients who make one-time single purchases, handmade
 
 # Payment types:
 
-- PayPal: the shop owner can add a unqiue Paypal button code for each product.
-- Bank: this could be checking or manual payment.
-- Optional: a session container with array data can be send to a 3rd party payment processor.
+Long term planned integration:
+
+Bancontact, KNET, CitrusPay, Mada, QPAY, EPS, Giropay, iDEAL, Poli, Przelewy24, Sofort, Boleto Bancário, Fawry, Multibanco, OXXO, Pago Fácil, Rapipago, Via Baloto, ACH, SEPA Direct Debit, Klarna, Bancontact, KNET, Mada, QPAY, Stripe, Alipay, Apple Pay, BenefitPay, Google Pay and PayPal.
+
 
 # Currencies
 Tiny Shop supports 36 different currencies, including Bitcoin.
