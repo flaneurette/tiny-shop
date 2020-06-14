@@ -48,9 +48,22 @@ configObj = {
 		}
 	}
 };
+</script>
 
-exception:
--------------------------------
+<form align="center" method="post">
+<input type="hidden" id="merchantTxnId" name="merchantTxnId" value="<%=merchantTxnId%>" />
+<input type="hidden" id="amount" name="orderAmount" value="<%=orderAmount%>" />
+<input type="hidden" id="currency" name="currency" value="INR" />
+<input type="text" name="email" value="testmerchant@mailnator.com" />
+<input type="text" name="mobile" value="8527395492" />
+<input type="hidden" id="securitySignature" name="secSignature" value="<%=securitySignature%>" />
+</form>
+<input type="Submit" value="Pay Now" id="launchICP"/>
+
+```
+Return data if case of exception:
+```
+
 try {
 citrusICP.launchIcp({
     orderAmount: 'asdf',
@@ -66,17 +79,4 @@ citrusICP.launchIcp({
 catch(error) {
    console.log(error);
 }
--------------------------------
-</script>
-
-<form align="center" method="post">
-<input type="hidden" id="merchantTxnId" name="merchantTxnId" value="<%=merchantTxnId%>" />
-<input type="hidden" id="amount" name="orderAmount" value="<%=orderAmount%>" />
-<input type="hidden" id="currency" name="currency" value="INR" />
-<input type="text" name="email" value="testmerchant@mailnator.com" />
-<input type="text" name="mobile" value="8527395492" />
-<input type="hidden" id="securitySignature" name="secSignature" value="<%=securitySignature%>" />
-</form>
-<input type="Submit" value="Pay Now" id="launchICP"/>
-
 ```
