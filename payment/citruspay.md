@@ -1,3 +1,7 @@
+# Development guide for: Citrus Payment Gateway.
+
+```
+
 <script src="https://checkout-static.citruspay.com/lib/js/jquery.min.js"></script>
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"/>
@@ -5,10 +9,9 @@
 <script id="context" type="text/javascript" src="https://sboxcheckout-static.citruspay.com/kiwi/app-js/icp.js"></script>
 <script id="context" type="text/javascript" src="https://checkout-static.citruspay.com/kiwi/app-js/icp.min.js"></script>
 
+<script>
 
-/*
-
-citrusICP.launchIcp(dataObj, configObj);
+// citrusICP.launchIcp(dataObj, configObj);
 
 var dataObj = {
 	orderAmount: "1.00",
@@ -64,8 +67,7 @@ catch(error) {
    console.log(error);
 }
 -------------------------------
-*/
-
+</script>
 
 <form align="center" method="post">
 <input type="hidden" id="merchantTxnId" name="merchantTxnId" value="<%=merchantTxnId%>" />
@@ -77,3 +79,4 @@ catch(error) {
 </form>
 <input type="Submit" value="Pay Now" id="launchICP"/>
 
+```
