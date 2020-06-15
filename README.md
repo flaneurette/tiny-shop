@@ -111,6 +111,7 @@ site.cookie.value.1
 site.cookie.value.2 
 site.cookie.value.3 
 site.analytics 
+site.payment.gateways
 ```
 # Shop.conf 
 ```
