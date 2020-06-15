@@ -1,14 +1,14 @@
 <?php
 	include("resources/php/header.inc.php");
 	include("class.Shop.php");
-	
 	$shop = new Shop();
 ?>
 <!DOCTYPE html>
 <html>
 	<head>
-	<link rel="stylesheet" type="text/css" href="resources/reset.css">
-	<link rel="stylesheet" type="text/css" href="resources/style.css">
+	<?php
+	echo $shop->getmeta();				
+	?>
 	</head>
 	<body>
 		<h1>Shopping Cart</h1>

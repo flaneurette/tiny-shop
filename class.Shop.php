@@ -189,15 +189,14 @@ class Shop {
 				exit;			
 			}
 			
-			$html .= '<title>'.$row['site.title'].'</title>';
-			$html .= '<meta charset="'.$row['site.charset'].'">';
-			$html .= '<meta name="viewport" content="'.$row['site.viewport'].'">';
-			$html .= '<meta name="description" content="'.$row['site.description'].'">';
-			$html .= '<link rel="stylesheet" type="text/css" href="'.$row['site.stylesheet.reset'].'">';
-			$html .= '<link rel="stylesheet" type="text/css" href="'.$row['site.stylesheet'].'">';
-			$html .= '<link rel="icon" type="image/ico" href="'.$row['site.icon'].'">';
-			
-			// $row['site.logo'] "resources/images/logo.png",
+			$html .= '<title>'.$this->cleanInput($row['site.title']).'</title>';
+			$html .= '<meta charset="'.$this->cleanInput($row['site.charset']).'">';
+			$html .= '<meta name="viewport" content="'.$this->cleanInput($row['site.viewport']).'">';
+			$html .= '<meta name="description" content="'.$this->cleanInput($row['site.description']).'">';
+			$html .= '<link rel="stylesheet" type="text/css" href="'.$this->cleanInput($row['site.stylesheet.reset']).'">';
+			$html .= '<link rel="stylesheet" type="text/css" href="'.$this->cleanInput($row['site.stylesheet']).'">';
+			$html .= '<link rel="icon" type="image/ico" href="'.$this->cleanInput($row['site.icon']).'">';
+			$html .= '<img src="'.$this->cleanInput($row['site.logo']).'" id="ts.shop.logo">';
 		}
 		
 		return $html;
