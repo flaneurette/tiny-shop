@@ -40,6 +40,7 @@
 		"site.cookie.value.1": "",
 		"site.cookie.value.2": "",
 		"site.cookie.value.3": "",		
-		"site.analytics": ""
+		"site.analytics": "",
+		"site.payment.gateways": ["ACH","Alipay","Apple Pay","Bancontact","BenefitPay","Boleto Bancário","Citrus Pay","EPS","Fawry","Giropay","Google Pay","PayPal","KNET","Klarna","Mada","Multibanco","OXXO","Pago Fácil","Poli","Przelewy24","QPAY","Rapipago","SEPA Direct Debit","Sofort","Stripe","Via Baloto","iDEAL"]
 	}
 ]
