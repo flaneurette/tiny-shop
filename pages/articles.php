@@ -14,13 +14,13 @@
 	?>
 	</head>
 	<body>
-		<h1>Blog</h1>
+		<h1>Articles</h1>
 		
-			<div id="ts-shop-blog">
+			<div id="ts-shop-articles">
 			
 			<?php
-				$json = "../inventory/blog.json";
-				echo $shop->getpagelist($json,'blog');
+				$json = "../inventory/articles.json";
+				echo $shop->getpagelist($json,'articles');
 			?>
 				
 			</div>
