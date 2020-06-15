@@ -8,6 +8,8 @@
 		"products.per.page": 25,		
 		"products.per.cat": 25,
 		"products.quick.cart": "yes",
+		"products.cart.language": "",
+		"products.cart.button": "Add to cart",
 		"products.carousel": 0
 	}
 ]

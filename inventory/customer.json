@@ -1,9 +1,9 @@
 [
    {
-		"customer.id": "",
-		"customer.attn": "",
-		"customer.first.name": "",
-		"customer.last.name": "",
+		"customer.id": "1",
+		"customer.attn": "Ms",
+		"customer.first.name": "Jane",
+		"customer.last.name": "Doe",
 		"customer.address": "",
 		"customer.address.number": "",
 		"customer.postalcode": "",
