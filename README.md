@@ -75,12 +75,12 @@ site.url
 site.domain 
 site.canonical 
 site.cdn 
-site.charset utf-8
+site.charset utf-8|utf-16
 site.title 
 site.description 
 site.logo
 site.icon 
-site.status 
+site.status vacation|offline|closed
 site.updated 
 site.meta.title 
 site.meta.description 
