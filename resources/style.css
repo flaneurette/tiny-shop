@@ -256,6 +256,7 @@ label {
 }
 #ts-shop-cart-form input[type="text"] {
 	display: block;
+	width: 90%;
 	padding: .375rem .75rem;
 	font-size: 1rem;
 	font-weight: 400;
