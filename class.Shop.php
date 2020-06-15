@@ -172,13 +172,9 @@ class Shop {
 	* Meta generation
 	* @return $string, html.
 	*/	
-	public function getmeta($json) {
+	public function getmeta($json="inventory/site.json") {
 		
 		$html = '';
-		
-		if(!isset($json)) {
-			$json = "inventory/site.json";
-		}
 		
 		$site = $this->load_json($json);
 
