@@ -172,10 +172,15 @@ class Shop {
 	* Meta generation
 	* @return $string, html.
 	*/	
-	public function getmeta() {
+	public function getmeta($json) {
 		
 		$html = '';
-		$site = $this->load_json("inventory/site.json");
+		
+		if(!isset($json)) {
+			$json = "inventory/site.json";
+		}
+		
+		$site = $this->load_json($json);
 
 		foreach($site as $row)
 		{
