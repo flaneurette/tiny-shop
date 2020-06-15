@@ -3,5 +3,7 @@ RewriteEngine On
 
 RewriteRule ^catalog/(.*)/(.*)/(.*)/(.*)/$ /shop/product-list.php?cat=$1&product=$2&productid=$3&page=$4  [NC,L]
 RewriteRule ^category/(.*)$ /shop/pages.php?id=$1&page=$2 [NC,L]
-RewriteRule ^offline/(.*)$ /shop/pages/shop-error.php?reason=1 [NC,L]
-RewriteRule ^closed/(.*)$ /shop/pages/shop-error.php?reason=2 [NC,L]
+
+RewriteRule ^vacation/(.*)$ /shop/pages/shop-error.php?reason=1 [NC,L]
+RewriteRule ^offline/(.*)$ /shop/pages/shop-error.php?reason=2 [NC,L]
+RewriteRule ^closed/(.*)$ /shop/pages/shop-error.php?reason=3 [NC,L]
