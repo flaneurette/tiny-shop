@@ -4,8 +4,8 @@
 
 class Shop {
 
-	CONST DOMAIN			= 'https://example.com'; 
-	CONST SHOPURI			= 'shop'; // path to the shop, without domain and trailing slash .i.e. : www.example.com/shop/ will be: shop
+	CONST DOMAIN				= 'https://example.com'; 
+	CONST SHOPURI				= 'shop'; // path to the shop, without domain and trailing slash .i.e. : www.example.com/shop/ will be: shop
 	CONST SHOP				= "./inventory/shop.json";
 	CONST CSV				= "./inventory/csv/shop.csv"; 
 	CONST BACKUPEXT				= ".bak"; 
