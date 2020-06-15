@@ -11,9 +11,12 @@
 
 		switch($reason) {
 			case 1:
-			$message = "Webshop is offline.";
+			$message = "Webshop is with vacation.";
 			break;
 			case 2:
+			$message = "Webshop is offline.";
+			break;
+			case 3:
 			$message = "Webshop is closed.";
 			break;
 			default:
@@ -33,7 +36,7 @@
 	</head>
 	<body>
 		<h1>Shop Message</h1>
-			<div id="shop">
+			<div id="ts.shop.error">
 			
 				<?php
 					echo $shop->cleanInput($message);
