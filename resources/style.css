@@ -16,6 +16,8 @@ body {
 }
 h1 {
 	color: #000;
+	margin: 0;
+	padding: 0;
 }
 fieldset {
 	width: 50%;
@@ -178,8 +180,21 @@ hr {
 	border-top: 1px solid rgba(0, 0, 0, .1);
 }
 /*
+ * Store styling.
+*/
+
+#ts.shop.logo {
+	
+}
+
+#ts.shop.error {
+	
+}
+
+/*
  * Product styling.
 */
+
 
 #ts-product-list {} #ts-product {} .ts-product-status-green {} .ts-product-status-red {} .ts-product-image-icon {
 	display: block;
@@ -219,6 +234,7 @@ hr {
 	font-family: monospace;
 	font-size: 10px;
 }
+
 /* 
  * tinyshop cart form
  * some parts come from bootstrap, serving as an example.
@@ -278,4 +294,92 @@ label {
 	background-color: #fff;
 	border: 1px solid #ced4da;
 	border-radius: .15rem;
+}
+
+/* 
+ * tinyshop shop blog
+*/
+
+
+#ts-shop-blog {
+	display: block;
+	width: 100%;
+	margin: 5px;
+	text-align: left;
+	display: -ms-flexbox;
+	display: flex;
+	-ms-flex-wrap: wrap;
+	flex-wrap: wrap;
+	margin-right: -15px;
+	margin-left: -15px;
+	border:1px solid #ced4da;
+}
+
+.ts-shop-blog-item {
+	display: block;
+	float: left;
+	border:1px solid #ced4da;
+	width: 30%;
+	margin: 1em;
+	padding: 1.5em;
+	text-align: left;
+	position: relative;
+}
+
+/*
+* tinyshop articles
+*/
+
+#ts-shop-articles {
+	display: block;
+	width: 100%;
+	margin: 5px;
+	text-align: left;
+	display: -ms-flexbox;
+	display: flex;
+	-ms-flex-wrap: wrap;
+	flex-wrap: wrap;
+	margin-right: -15px;
+	margin-left: -15px;
+	border:1px solid #ced4da;
+}
+
+.ts-shop-articles-item {
+	display: block;
+	float: left;
+	border:1px solid #ced4da;
+	width: 30%;
+	margin: 1em;
+	padding: 1.5em;
+	text-align: left;
+	position: relative;
+}
+
+/*
+* tinyshop pages
+*/
+
+#ts-shop-pages {
+	display: block;
+	width: 100%;
+	margin: 5px;
+	text-align: left;
+	display: -ms-flexbox;
+	display: flex;
+	-ms-flex-wrap: wrap;
+	flex-wrap: wrap;
+	margin-right: -15px;
+	margin-left: -15px;
+	border:1px solid #ced4da;
+}
+
+.ts-shop-pages-item {
+	display: block;
+	float: left;
+	border:1px solid #ced4da;
+	width: 30%;
+	margin: 1em;
+	padding: 1.5em;
+	text-align: left;
+	position: relative;
 }
