@@ -1,9 +1,11 @@
 <?php
 
-// if possible, for more security, store this class below the /www/ or /html/ folder.
+// if possible, store this class below the www or html folder for more security.
 
 class Shop {
 
+	CONST DOMAIN			= 'https://example.com'; 
+	CONST SHOPURI			= 'shop'; // path to the shop, without domain and trailing slash .i.e. : www.example.com/shop/ will be: shop
 	CONST SHOP				= "./inventory/shop.json";
 	CONST CSV				= "./inventory/csv/shop.csv"; 
 	CONST BACKUPEXT				= ".bak"; 
@@ -22,6 +24,7 @@ class Shop {
 	public function __construct() {
 		$incomplete = false;
 	}
+	
 	/**
 	* Sanitizes user-input
 	* @param string
@@ -29,7 +32,11 @@ class Shop {
 	*/
 	public function cleanInput($string) 
 	{
-		return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
+		if(is_array($string)) {
+			return @array_map("htmlspecialchars", $string, array(ENT_QUOTES, 'UTF-8'));
+			} else {
+			return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
+		}
 	}
 	/**
 	* SEO-ing URL.
@@ -64,7 +71,7 @@ class Shop {
 	
 	public function load_json($url) 
 	{
-		return json_decode(file_get_contents($this->cleanInput($url)), true, self::DEPTH, JSON_BIGINT_AS_STRING);
+		return json_decode(file_get_contents($url), true, self::DEPTH, JSON_BIGINT_AS_STRING);
 	}
 
 	public function addshop() 
@@ -84,6 +91,14 @@ class Shop {
 			} else { 
 			$_SESSION['messages'] = array(); 
 		} 	
+	}
+
+	public function debug($rawdata) 
+	{
+		$string = "<pre>";
+		$string .= print_r($rawdata);
+		$string .= "</pre>";
+		return $string;
 	}
 
 	public function showmessage() 
@@ -152,7 +167,46 @@ class Shop {
 		}
 		$this->storeshop($shops);
 	}
-	
+
+
+	/**
+	* Paginate function
+	* @param int $page
+	* @return $string, html, false for failure.
+	*/	
+
+	public function paginate($page) 
+	{
+
+		if(!is_numeric($page)) {
+			$this->message('Pagination error: page value is not numeric, could not paginate.');
+			return false;
+		}
+		
+		// Cast to integer, for security.
+		$p = (int)$page;
+
+		$total = 100;
+		$limit = 20;
+		$ps = ceil($total / $limit);
+
+		if($p <= 0) {
+			$p = 1;
+		}
+		
+		$offset = ($p - 1)  * $limit;
+		$start  = $offset + 1;
+		$end    = min(($offset + $limit), $total);
+		
+		$uri = self::DOMAIN.self::SHOPURI;
+		
+		$prevlink = ($p > 1) ? '<a href="'.$uri.'/1/" title="First page">&laquo;</a> <a href="'.$uri.'/' . ($p - 1) . '/" title="Previous page" class="ts.pagination.link">&lsaquo;</a>' : '<span class="ts.disabled.span">&laquo;</span> <span class="ts.disabled.span">&lsaquo;</span>';
+		$nextlink = ($p < $ps) ? '<a href="'.$uri.'/' . ($p + 1) . '/" title="Next page" class="ts.pagination.link">&rsaquo;</a> <a href="'.$uri.'/' . $ps . '/" title="Last page" class="ts.pagination.link">&raquo;</a>' : '<span class="ts.disabled.span">&rsaquo;</span> <span class="ts.disabled.span">&raquo;</span>';
+
+		return '<div id="ts.pagination">'. $prevlink. ' Page '.$p. ' of ' .$ps. ' pages, showing '.$start. '-'.$end. ' of '.$total.' results '. $nextlink. ' </div>';
+	}
+
+
 	/**
 	* Returns a product list, by reading shop.json.
 	* @param method: list|group.	
@@ -292,7 +346,8 @@ class Shop {
 		
 		return $string;
 	}
-		
+	
+	
 	/**
 	* Converter for data, types and strings.
 	* @param string $string
