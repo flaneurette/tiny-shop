@@ -2,9 +2,7 @@
 	include("resources/php/header.inc.php");
 	include("class.Shop.php");
 	
-	$shop     = new Shop();
-	$shopconf = $shop->load_json("inventory/customer.json");
-	$siteconf = $shop->load_json("inventory/site.json");
+	$shop = new Shop();
 ?>
 
 <html>
@@ -24,13 +22,10 @@
 			<?php
 			
 			// dynamically generate payment gateways from site.json
+			$siteconf = $shop->load_json("inventory/site.json");
+			$keys = 'site.payment.gateways';
+			echo $shop->gatewaylist($siteconf,$keys);
 			
-			if($siteconf !== null) {
-				foreach($siteconf[0]['site.payment.gateways'] as $key => $value)
-				{
-					echo "<option value=\"".$value."\">".$value."</option>";			
-				}		
-			}
 			?>
 			</select>
 			
@@ -38,41 +33,11 @@
 		<?php
 		
 			// dynamically generate form fields from customer.json.
-			
 			$ignore = ['customer.id','customer.diff','customer.ua','customer.signup.ua','customer.hash','customer.signup.date','customer.signup.ip'];
-			
-			if($shopconf !== null) {
-
-				$i = 0;
-				$split = 6;
+			$split = 6;
+			$shopconf = $shop->load_json("inventory/customer.json");
+			echo $shop->generatecart($shopconf,$split,$ignore);
 				
-				foreach($shopconf as $row)
-				{
-					foreach($row as $key => $value)
-					{
-						if(!in_array($key,$ignore)) {
-							
-							$key = str_replace(['.','customer'],['',''],$key);
-							$keycss = str_replace('.','-',$key);
-							
-							if($key == 'newsletter') {
-								echo "<label>".ucfirst($key)."</label>";
-								echo "<input type=\"checkbox\" id=\"".$keycss."\" name=\"".$key."\">";	
-								} else {
-								echo "<label>".ucfirst($key)."</label>";
-								echo "<input type=\"text\" id=\"".$keycss."\" name=\"".$key."\">";
-							}
-							
-							$i++;
-						}
-						
-						if($i == $split) {
-							echo "</div>";
-							echo "<div class=\"ts-shop-form-field\">";
-						}
-					}
-				}
-			}
 		?>
 		</div>
 			<hr />
