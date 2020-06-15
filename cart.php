@@ -1,11 +1,9 @@
 <?php
-
 	include("resources/php/header.inc.php");
 	include("class.Shop.php");
 	
 	$shop     = new Shop();
 	$shopconf = $shop->load_json("inventory/customer.json");
-
 ?>
 
 <html>
@@ -53,7 +51,6 @@
 			
 		<div class="ts-shop-form-field">
 		<?php
-		
 			$ignore = ['customer.id','customer.diff','customer.ua','customer.signup.ua','customer.hash','customer.signup.date','customer.signup.ip'];
 			
 			if($shopconf !== null) {
@@ -67,7 +64,6 @@
 					{
 						if(!in_array($key,$ignore)) {
 							
-									
 							$key = str_replace(['.','customer'],['',''],$key);
 							$keycss = str_replace('.','-',$key);
 							if($key == 'newsletter') {
@@ -87,7 +83,6 @@
 					}
 				}
 			}
-		
 		?>
 		</div>
 			<hr />
