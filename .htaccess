@@ -1,3 +1,8 @@
+Options +FollowSymLinks
 RewriteEngine On
-RewriteRule ^category/([a-zA-Z0-9-/]+)/page/(.+)/?$ pages.php?id=$1&page=$2 [NC,L]
-RewriteRule ^shop/(.*)/(.*)/(.*)/(.*)/$ index.php?uri=$1&cat=$2&product=$3&id=$4&page=$5 [NC,L]
+
+RewriteRule ^shop/(.*)/(.*)/(.*)/(.*)/$ /shop/index.php?uri=$1&cat=$2&product=$3&id=$4&page=$5 [NC,L]
+RewriteRule ^category/(.*)$ /shop/pages.php?id=$1&page=$2 [NC,L]
+
+RewriteRule ^offline/(.*)$ /shop/pages/shop-error.php?reason=1 [NC,L]
+RewriteRule ^closed/(.*)$ /shop/pages/shop-error.php?reason=2 [NC,L]
