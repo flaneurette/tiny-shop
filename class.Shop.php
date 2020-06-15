@@ -4,7 +4,7 @@
 
 class Shop {
 
-	CONST DOMAIN			= 'https://example.com'; 
+	CONST DOMAIN			= 'https://www.example.com'; 
 	CONST SHOPURI			= 'shop'; // path to the shop, without domain and trailing slash .i.e. : www.example.com/shop/ will be: shop
 	CONST SHOP				= "./inventory/shop.json";
 	CONST CSV				= "./inventory/csv/shop.csv"; 
@@ -194,10 +194,10 @@ class Shop {
 			$html .= '<meta charset="'.$this->cleanInput($row['site.charset']).'">';
 			$html .= '<meta name="viewport" content="'.$this->cleanInput($row['site.viewport']).'">';
 			$html .= '<meta name="description" content="'.$this->cleanInput($row['site.description']).'">';
-			$html .= '<link rel="stylesheet" type="text/css" href="'.$this->cleanInput($row['site.stylesheet.reset']).'">';
-			$html .= '<link rel="stylesheet" type="text/css" href="'.$this->cleanInput($row['site.stylesheet']).'">';
-			$html .= '<link rel="icon" type="image/ico" href="'.$this->cleanInput($row['site.icon']).'">';
-			$html .= '<img src="'.$this->cleanInput($row['site.logo']).'" width="115" id="ts.shop.logo">';
+			$html .= '<link rel="stylesheet" type="text/css" href="'.self::DOMAIN.'/'.self::SHOPURI.'/'.$this->cleanInput($row['site.stylesheet.reset']).'">';
+			$html .= '<link rel="stylesheet" type="text/css" href="'.self::DOMAIN.'/'.self::SHOPURI.'/'.$this->cleanInput($row['site.stylesheet']).'">';
+			$html .= '<link rel="icon" type="image/ico" href="'.self::DOMAIN.'/'.self::SHOPURI.'/'.$this->cleanInput($row['site.icon']).'">';
+			$html .= '<img src="'.self::DOMAIN.'/'.self::SHOPURI.'/'.$this->cleanInput($row['site.logo']).'" width="115" id="ts.shop.logo">';
 		}
 		
 		return $html;
@@ -380,6 +380,48 @@ class Shop {
 		$string .= "</div>";		
 		
 		return $string;
+	}
+	
+	public function getpagelist($json,$method) {
+
+		$html = '';
+		
+		switch($method) {
+			
+			case 'blog':
+			if(!isset($json)) {
+				$json = "inventory/blog.json";
+			}
+			$css = 'blog';
+			break;
+			
+			case 'articles':
+			if(!isset($json)) {
+				$json = "inventory/articles.json";
+			}
+			$css = 'articles';
+			break;
+
+			case 'pages':
+			if(!isset($json)) {
+				$json = "inventory/pages.json";
+			}
+			$css = 'pages';
+			break;			
+		}
+		
+		$shopconf = $this->load_json($json);
+
+		foreach($shopconf as $row)
+		{	
+			$html .= '<div class="ts-shop-'.$css.'-item">';
+			foreach($row as $key => $value)
+			{
+				$html .='<b>'.$key.'</b>:'.$value.'<br>';
+			}
+			$html .= '</div>';
+		}
+		return $html;
 	}
 	
 	public function gatewaylist($json,$keys) 
