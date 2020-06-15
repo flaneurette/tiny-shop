@@ -347,6 +347,55 @@ class Shop {
 		return $string;
 	}
 	
+	public function gatewaylist($json,$keys) 
+	{
+		$html = "";
+			if($json !== null) {
+				foreach($json[0][$keys] as $key => $value)
+				{
+					$html.= "<option value=\"".$value."\">".$value."</option>";			
+				}		
+			}
+		return $html;
+	}
+
+	public function generatecart($json,$split,$ignore) 
+	{
+			if($json !== null) {
+
+				$i = 0;
+				$html = "";
+				
+				foreach($json as $row)
+				{
+					foreach($row as $key => $value)
+					{
+						if(!in_array($key,$ignore)) {
+							
+							$key = str_replace(['.','customer'],['',''],$key);
+							$keycss = str_replace('.','-',$key);
+							
+							if($key == 'newsletter') {
+								$html .= "<label>".ucfirst($key)."</label>";
+								$html .="<input type=\"checkbox\" id=\"".$keycss."\" name=\"".$key."\">";	
+								} else {
+								$html .= "<label>".ucfirst($key)."</label>";
+								$html .= "<input type=\"text\" id=\"".$keycss."\" name=\"".$key."\">";
+							}
+							
+							$i++;
+						}
+						
+						if($i == $split) {
+							$html .= "</div>";
+							$html .= "<div class=\"ts-shop-form-field\">";
+						}
+					}
+				}
+			}
+			return $html;
+	}
+	
 	
 	/**
 	* Converter for data, types and strings.
