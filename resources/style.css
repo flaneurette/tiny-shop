@@ -197,3 +197,64 @@ body {
 	
 }
 
+/* 
+ * tinyshop pagination
+*/
+
+.ts.paginate {
+	text-align:center;
+}
+
+.ts.pagination {
+	text-align:center;
+	font-family: monospace;
+	font-size: 10px;
+}
+
+.ts.pagination.link {
+	font-family: monospace;
+	font-size: 10px;
+}
+
+.ts.disabled.span {
+	font-family: monospace;
+	font-size: 10px;
+}
+
+/* 
+ * tinyshop cart form
+*/
+label {
+	display: block;
+}
+
+#ts-shop-cart-form {
+	display: block;
+	width: 500px;
+	margin:5px;
+	text-align:left;
+}
+
+.ts-shop-form-field {
+	float:left;
+	border:1px solid grey;
+	width:40%;
+	margin:15px;
+	padding:15px;
+}
+
+#ts-shop-cart-form-data {
+	display: block;
+	width: 100%;
+	margin:5px;
+}
+
+#ts-shop-cart-form input {
+	display: block;
+	margin:  5px;
+	padding: 2px;
+}
+
+#ts-form-cart-payment-gateway-select {
+	margin:  3px;
+}
