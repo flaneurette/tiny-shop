@@ -1,4 +1,4 @@
-# CoinGate PHP library for API v2
+# Development guide for: CoinGate Payment Gateway
 
 PHP library for CoinGate API.
 
