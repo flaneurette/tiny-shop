@@ -17,12 +17,14 @@
 		
 		<div id="ts-shop-cart-form">
 		
-		<form name="" method="" id="ts-shop-cart-form-data">
+		<form name="ts_cart" method="post" id="ts-shop-cart-form-data">
 		<hr />
 			<select name="payment_gateway" id="ts-form-cart-payment-gateway-select">
 			<option value="">Select payment method...</option>
 			<?php
+			
 			// dynamically generate payment gateways from site.json
+			
 			if($siteconf !== null) {
 				foreach($siteconf[0]['site.payment.gateways'] as $key => $value)
 				{
@@ -36,6 +38,7 @@
 		<?php
 		
 			// dynamically generate form fields from customer.json.
+			
 			$ignore = ['customer.id','customer.diff','customer.ua','customer.signup.ua','customer.hash','customer.signup.date','customer.signup.ip'];
 			
 			if($shopconf !== null) {
@@ -49,9 +52,9 @@
 					{
 						if(!in_array($key,$ignore)) {
 							
-									
 							$key = str_replace(['.','customer'],['',''],$key);
 							$keycss = str_replace('.','-',$key);
+							
 							if($key == 'newsletter') {
 								echo "<label>".ucfirst($key)."</label>";
 								echo "<input type=\"checkbox\" id=\"".$keycss."\" name=\"".$key."\">";	
@@ -59,6 +62,7 @@
 								echo "<label>".ucfirst($key)."</label>";
 								echo "<input type=\"text\" id=\"".$keycss."\" name=\"".$key."\">";
 							}
+							
 							$i++;
 						}
 						
@@ -69,7 +73,6 @@
 					}
 				}
 			}
-		
 		?>
 		</div>
 			<hr />
