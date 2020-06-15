@@ -4,8 +4,8 @@
 
 class Shop {
 
-	CONST DOMAIN				= 'https://example.com'; 
-	CONST SHOPURI				= 'shop'; // path to the shop, without domain and trailing slash .i.e. : www.example.com/shop/ will be: shop
+	CONST DOMAIN			= 'https://example.com'; 
+	CONST SHOPURI			= 'shop'; // path to the shop, without domain and trailing slash .i.e. : www.example.com/shop/ will be: shop
 	CONST SHOP				= "./inventory/shop.json";
 	CONST CSV				= "./inventory/csv/shop.csv"; 
 	CONST BACKUPEXT				= ".bak"; 
@@ -167,7 +167,41 @@ class Shop {
 		}
 		$this->storeshop($shops);
 	}
+	
+	/**
+	* Meta generation
+	* @return $string, html.
+	*/	
+	public function getmeta() {
+		
+		$html = '';
+		$site = $this->load_json("inventory/site.json");
 
+		foreach($site as $row)
+		{
+			if($row['site.status'] == 'offline') {
+				header('Location: /offline/', true, 302);
+				exit;
+			}
+			
+			if($row['site.status'] == 'closed') {
+				header('Location: /closed/', true, 301);
+				exit;			
+			}
+			
+			$html .= '<title>'.$row['site.title'].'</title>';
+			$html .= '<meta charset="'.$row['site.charset'].'">';
+			$html .= '<meta name="viewport" content="'.$row['site.viewport'].'">';
+			$html .= '<meta name="description" content="'.$row['site.description'].'">';
+			$html .= '<link rel="stylesheet" type="text/css" href="'.$row['site.stylesheet.reset'].'">';
+			$html .= '<link rel="stylesheet" type="text/css" href="'.$row['site.stylesheet'].'">';
+			$html .= '<link rel="icon" type="image/ico" href="'.$row['site.icon'].'">';
+			
+			// $row['site.logo'] "resources/images/logo.png",
+		}
+		
+		return $html;
+	}
 
 	/**
 	* Paginate function
