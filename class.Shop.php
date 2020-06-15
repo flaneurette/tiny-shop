@@ -197,7 +197,7 @@ class Shop {
 			$html .= '<link rel="stylesheet" type="text/css" href="'.$this->cleanInput($row['site.stylesheet.reset']).'">';
 			$html .= '<link rel="stylesheet" type="text/css" href="'.$this->cleanInput($row['site.stylesheet']).'">';
 			$html .= '<link rel="icon" type="image/ico" href="'.$this->cleanInput($row['site.icon']).'">';
-			$html .= '<img src="'.$this->cleanInput($row['site.logo']).'" id="ts.shop.logo">';
+			$html .= '<img src="'.$this->cleanInput($row['site.logo']).'" width="115" id="ts.shop.logo">';
 		}
 		
 		return $html;
@@ -253,7 +253,8 @@ class Shop {
 		
 		isset($string) ? $this->$string = $string : $string = false;
 		isset($category) ? $this->$category = $category : $category = false;
-		
+		isset($page_id) ? $this->page_id = (int)$_GET['page_id'] : $this->page_id = 1;
+	
 		// Loading the shop configuration.
 		$shopconf = $this->load_json("inventory/shop.conf.json");
 		$configuration = [];
@@ -339,7 +340,7 @@ class Shop {
 						// $string .= $productimage;
 						$string .= "<div class=\"ts-list-product-status\"><div class=\"".$status."\">".$this->cleanInput($ts[$i]['product.status'])."</div>";
 						$string .= "<div class=\"ts-list-product-price\">".self::CURRENCY.' '.$this->cleanInput($ts[$i]['product.price'])."</div>";
-						$string .= "<div class=\"ts-list-product-link\"><a href=\"".$this->seoUrl($this->cleanInput($ts[$i]['product.category'])).'/'.$this->seoUrl($this->cleanInput($ts[$i]['product.title'])).'/'.$this->cleanInput($ts[$i]['product.id'])."/\">".$this->cleanInput($ts[$i]['product.title'])."</a> </div>";
+						$string .= "<div class=\"ts-list-product-link\"><a href=\"item/".$this->seoUrl($this->cleanInput($ts[$i]['product.category'])).'/'.$this->seoUrl($this->cleanInput($ts[$i]['product.title'])).'/'.$this->cleanInput($ts[$i]['product.id'])."/".(int)$this->page_id."/\">".$this->cleanInput($ts[$i]['product.title'])."</a> </div>";
 						$string .= "<div class=\"ts-list-product-desc\">".$this->cleanInput($ts[$i]['product.description'])."</div>";
 						$string .= "<div class=\"ts-list-product-cat\">".$this->cleanInput($ts[$i]['product.category'])."</div>";
 						
@@ -357,7 +358,7 @@ class Shop {
 						$string .= $productimage;
 						$string .= "<div class=\"ts-group-product-status\"><div class=\"".$status."\">".$this->cleanInput($ts[$i]['product.status'])."</div>";
 						$string .= "<div class=\"ts-group-product-price\">".self::CURRENCY.' '.$this->cleanInput($ts[$i]['product.price'])."</div>";
-						$string .= "<div class=\"ts-group-product-link\"><a href=\"".$this->seoUrl($this->cleanInput($ts[$i]['product.category'])).'/'.$this->seoUrl($this->cleanInput($ts[$i]['product.title'])).'/'.$this->cleanInput($ts[$i]['product.id'])."/\">".$this->cleanInput($ts[$i]['product.title'])."</a> </div>";
+						$string .= "<div class=\"ts-group-product-link\"><a href=\"item/".$this->seoUrl($this->cleanInput($ts[$i]['product.category'])).'/'.$this->seoUrl($this->cleanInput($ts[$i]['product.title'])).'/'.$this->cleanInput($ts[$i]['product.id'])."/\">".$this->cleanInput($ts[$i]['product.title'])."</a> </div>";
 						$string .= "<div class=\"ts-group-product-desc\">".$this->cleanInput($ts[$i]['product.description'])."</div>";
 						$string .= "<div class=\"ts-group-product-cat\">".$this->cleanInput($ts[$i]['product.category'])."</div>";
 						
