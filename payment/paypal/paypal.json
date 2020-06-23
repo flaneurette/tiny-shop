@@ -1,0 +1,21 @@
+[
+   {
+	"paypal_domain": "https://www.shop.com",
+	"paypal_cancel_page": "/pages/cancel",
+	"paypal_return_page": "/pages/payed",
+	"paypal_email": "info@shop.com",
+	"paypal_notify_url": "/pages/ipn/",
+	"paypal_currency_code": "USD",
+	"paypal_custom_field" : "",
+	"image_url": "",
+	"no_note": 1,
+	"no_shipping": 0,
+	"on0": "",
+	"on1": "",
+	"os0": "",
+	"os1": "",
+	"show_user_details": 1,
+	"store_user_details": 1
+    }
+]
+
