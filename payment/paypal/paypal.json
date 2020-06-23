@@ -1,21 +1,20 @@
 [
    {
-	"paypal_domain": "https://www.shop.com",
-	"paypal_cancel_page": "/pages/cancel",
-	"paypal_return_page": "/pages/payed",
-	"paypal_email": "info@shop.com",
-	"paypal_notify_url": "/pages/ipn/",
-	"paypal_currency_code": "USD",
-	"paypal_custom_field" : "",
-	"image_url": "",
-	"no_note": 1,
-	"no_shipping": 0,
-	"on0": "",
-	"on1": "",
-	"os0": "",
-	"os1": "",
-	"show_user_details": 1,
-	"store_user_details": 1
+	"paypal.domain": "https://www.shop.com",
+	"paypal.cancel.page": "/pages/cancel",
+	"paypal.return.page": "/pages/payed",
+	"paypal.email": "info@shop.com",
+	"paypal.notify.url": "/pages/ipn/",
+	"paypal.currency.code": "USD",
+	"paypal.custom.field" : "",
+	"paypal.image.url": "",
+	"paypal.no.note": 1,
+	"paypal.no.shipping": 0,
+	"paypal.on0": "",
+	"paypal.on1": "",
+	"paypal.os0": "",
+	"paypal.os1": "",
+	"paypal.show.user.details": 1,
+	"paypal.store.user.details": 1
     }
 ]
-
