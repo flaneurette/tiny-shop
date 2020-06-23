@@ -6,20 +6,20 @@
 	$shop  		= new Shop();
 	$shopconf 	= $shop->load_json("paypal.json");
 	
-	$paypal_domain 				= $shop->cleanInput($shopconf[0]['paypal.domain']);
+	$paypal_domain 			= $shop->cleanInput($shopconf[0]['paypal.domain']);
 	$paypal_cancel_page 		= $shop->cleanInput($shopconf[0]['paypal.cancel.page']);
 	$paypal_return_page 		= $shop->cleanInput($shopconf[0]['paypal.return.page']);
-	$paypal_email 				= $shop->cleanInput($shopconf[0]['paypal.email']);
-	$paypal_notify_url 			= $shop->cleanInput($shopconf[0]['paypal.notify.url']);
+	$paypal_email 			= $shop->cleanInput($shopconf[0]['paypal.email']);
+	$paypal_notify_url 		= $shop->cleanInput($shopconf[0]['paypal.notify.url']);
 	$paypal_currency_code 		= $shop->cleanInput($shopconf[0]['paypal.currency.code']);
 	$paypal_invoice_number 		= $shop->cleanInput($shopconf[0]['paypal.custom.field']);
-	$paypal_image_url 			= $shop->cleanInput($shopconf[0]['paypal.image.url']);
-	$paypal_no_note 			= $shop->cleanInput($shopconf[0]['paypal.no.note']);
+	$paypal_image_url 		= $shop->cleanInput($shopconf[0]['paypal.image.url']);
+	$paypal_no_note 		= $shop->cleanInput($shopconf[0]['paypal.no.note']);
 	$paypal_no_shipping 		= $shop->cleanInput($shopconf[0]['paypal.no.shipping']);
-	$paypal_on0 				= $shop->cleanInput($shopconf[0]['paypal.on0']);
-	$paypal_on1 				= $shop->cleanInput($shopconf[0]['paypal.on1']);
-	$paypal_os0 				= $shop->cleanInput($shopconf[0]['paypal.os0']);
-	$paypal_os1 				= $shop->cleanInput($shopconf[0]['paypal.os1']);
+	$paypal_on0 			= $shop->cleanInput($shopconf[0]['paypal.on0']);
+	$paypal_on1 			= $shop->cleanInput($shopconf[0]['paypal.on1']);
+	$paypal_os0 			= $shop->cleanInput($shopconf[0]['paypal.os0']);
+	$paypal_os1 			= $shop->cleanInput($shopconf[0]['paypal.os1']);
 	$paypal_show_user_details 	= $shop->cleanInput($shopconf[0]['paypal.show.user.details']);
 	$paypal_store_user_details 	= $shop->cleanInput($shopconf[0]['paypal.store.user.details']);
 	
