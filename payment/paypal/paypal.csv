@@ -1,2 +1,2 @@
-paypal_domain,paypal_cancel_page,paypal_return_page,paypal_email,paypal_notify_url,paypal_currency_code,paypal_custom_field,image_url,no_note,no_shipping,on0,on1,os0,os1,show_user_details,store_user_details
+paypal.domain,paypal.cancel.page,paypal.return.page,paypal.email,paypal.notify.url,paypal.currency.code,paypal.custom.field,paypal.image.url,paypal.no.note,paypal.no.shipping,paypal.on0,paypal.on1,paypal.os0,paypal.os1,paypal.show.user.details,paypal.store.user.details
 https://www.shop.com,/pages/cancel,/pages/payed,info@shop.com,/pages/ipn/,USD,,,1,0,,,,,1,1
