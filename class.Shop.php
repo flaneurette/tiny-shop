@@ -4,8 +4,8 @@
 
 class Shop {
 
-	CONST DOMAIN			= 'https://www.example.com'; 
-	CONST SHOPURI			= 'shop'; // path to the shop, without domain and trailing slash .i.e. : www.example.com/shop/ will be: shop
+	CONST DOMAIN				= 'https://www.example.com'; 
+	CONST SHOPURI				= 'shop'; // path to the shop, without domain and trailing slash .i.e. : www.example.com/shop/ will be: shop
 	CONST SHOP				= "./inventory/shop.json";
 	CONST CSV				= "./inventory/csv/shop.csv"; 
 	CONST BACKUPEXT				= ".bak"; 
@@ -197,6 +197,7 @@ class Shop {
 			$html .= '<link rel="stylesheet" type="text/css" href="'.self::DOMAIN.'/'.self::SHOPURI.'/'.$this->cleanInput($row['site.stylesheet.reset']).'">';
 			$html .= '<link rel="stylesheet" type="text/css" href="'.self::DOMAIN.'/'.self::SHOPURI.'/'.$this->cleanInput($row['site.stylesheet']).'">';
 			$html .= '<link rel="icon" type="image/ico" href="'.self::DOMAIN.'/'.self::SHOPURI.'/'.$this->cleanInput($row['site.icon']).'">';
+			$html .= '<script src="'.self::DOMAIN.'/'.self::SHOPURI.'/'.$this->cleanInput($row['site.javascript']).'" type="text/javascript"></script>';
 			$html .= '<img src="'.self::DOMAIN.'/'.self::SHOPURI.'/'.$this->cleanInput($row['site.logo']).'" width="115" id="ts.shop.logo">';
 		}
 		
@@ -423,6 +424,35 @@ class Shop {
 		}
 		return $html;
 	}
+
+	/**
+	* Showing session messages.
+	* @return mixed object/array
+	*/	
+	public function getcart($json="inventory/cart.json") 
+	{ 
+		
+		$array = [];
+		
+		$shopconf = $this->load_json($json);
+	
+		if(isset($_SESSION['cart'])) { 
+			
+			foreach($_SESSION['cart'] as $item) { 
+			
+				foreach($row as $key => $value)
+				{
+					array_push($array,$this->cleanInput($item));
+				}
+			} 
+			
+		}  else {
+			$_SESSION['cart'] = array();
+		}
+		
+		return $array;
+	} 	
+	
 	
 	public function gatewaylist($json,$keys) 
 	{
