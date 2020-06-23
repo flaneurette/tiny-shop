@@ -51,6 +51,22 @@ input[type="submit"] {
 	border: 1px solid #ced4da;
 	border-radius: .25rem;
 }
+input[type="number"] {
+	display: block;
+	padding: .75rem .75rem;
+	font-size: 1rem;
+	font-weight: 400;
+	line-height: 1.5;
+	color: #495057;
+	background-color: #fff;
+	background-clip: padding-box;
+	border: 1px solid #ced4da;
+	border-radius: .25rem;
+}
+
+input[name="submit"] {
+	margin: 1em;
+}
 input[type=radio] {
 	box-sizing: border-box;
 	padding: 0;
@@ -191,6 +207,24 @@ hr {
 	
 }
 
+		
+/*
+ * Custom elements styling.
+*/
+
+.ts-shop-ul {}
+.ts-shop-li {}
+
+.ts-shop-ul-li-item {
+	display: block;
+	float: left;
+	border: 1px solid #ced4da;
+	margin: 2px;
+	padding: 0.2em;
+	text-align: left;
+	position: relative;
+}
+		
 /*
  * Product styling.
 */
@@ -382,4 +416,35 @@ label {
 	padding: 1.5em;
 	text-align: left;
 	position: relative;
+}
+
+
+/*
+* paypal checkout form
+*/
+
+#ts-shop-form {
+	display: block;
+	width: 100%;
+	margin: 0;
+	text-align: left;
+	display: -ms-flexbox;
+	display: flex;
+	-ms-flex-wrap: wrap;
+	flex-wrap: wrap;
+	border:1px solid #ced4da;
+}
+
+.ts-shop-form-section {
+	display: block;
+	float: left;
+	width: 35%;
+	margin: 10px;
+	padding: 1.5em;
+	text-align: left;
+	position: relative;
+}
+
+label {
+	display: block;
 }
