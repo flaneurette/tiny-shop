@@ -200,7 +200,7 @@ class Shop {
 			$html .= '<meta name="description" content="'.$this->cleanInput($row['site.description']).'">';
 			$html .= '<meta name="author" content="TinyShop">';
 			
-			if(!empty($row['site.updated']) != "") {
+			if(!empty($row['site.updated'])) {
 				$html .= '<meta http-equiv="last-modified" content="'.$this->cleanInput($row['site.updated']).'">';
 			}			
 
@@ -208,19 +208,19 @@ class Shop {
 				$html .= '<meta name="'.$this->cleanInput($row['site.meta.name.1']).'" content="'.$this->cleanInput($row['site.meta.value.1']).'">';
 			}
 
-			if(!empty($row['site.meta.name.2']) != "") {
+			if(!empty($row['site.meta.name.2'])) {
 				$html .= '<meta name="'.$this->cleanInput($row['site.meta.name.2']).'" content="'.$this->cleanInput($row['site.meta.value.2']).'">';
 			}
 
-			if(!empty($row['site.meta.name.3']) != "") {
+			if(!empty($row['site.meta.name.3'])) {
 				$html .= '<meta name="'.$this->cleanInput($row['site.meta.name.3']).'" content="'.$this->cleanInput($row['site.meta.value.3']).'">';
 			}
 
-			if(!empty($row['site.meta.name.4']) != "") {
+			if(!empty($row['site.meta.name.4'])) {
 				$html .= '<meta name="'.$this->cleanInput($row['site.meta.name.4']).'" content="'.$this->cleanInput($row['site.meta.value.4']).'">';
 			}
 
-			if(!empty($row['site.google.tags']) != "") {
+			if(!empty($row['site.google.tags'])) {
 				$html .= '<meta name="google-site-verification" content="'.$this->cleanInput($row['site.google.tags']).'">';
 			}
 
