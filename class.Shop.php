@@ -190,14 +190,55 @@ class Shop {
 				exit;			
 			}
 			
+			if(isset($row['site.cdn'])) {
+				$cdn = $this->cleanInput($row['site.cdn']);
+			}
+
 			$html .= '<title>'.$this->cleanInput($row['site.title']).'</title>';
 			$html .= '<meta charset="'.$this->cleanInput($row['site.charset']).'">';
 			$html .= '<meta name="viewport" content="'.$this->cleanInput($row['site.viewport']).'">';
 			$html .= '<meta name="description" content="'.$this->cleanInput($row['site.description']).'">';
+			$html .= '<meta name="author" content="TinyShop">';
+			
+			if(!empty($row['site.updated']) != "") {
+				$html .= '<meta http-equiv="last-modified" content="'.$this->cleanInput($row['site.updated']).'">';
+			}			
+
+			if(!empty($row['site.meta.name.1'])) {
+				$html .= '<meta name="'.$this->cleanInput($row['site.meta.name.1']).'" content="'.$this->cleanInput($row['site.meta.value.1']).'">';
+			}
+
+			if(!empty($row['site.meta.name.2']) != "") {
+				$html .= '<meta name="'.$this->cleanInput($row['site.meta.name.2']).'" content="'.$this->cleanInput($row['site.meta.value.2']).'">';
+			}
+
+			if(!empty($row['site.meta.name.3']) != "") {
+				$html .= '<meta name="'.$this->cleanInput($row['site.meta.name.3']).'" content="'.$this->cleanInput($row['site.meta.value.3']).'">';
+			}
+
+			if(!empty($row['site.meta.name.4']) != "") {
+				$html .= '<meta name="'.$this->cleanInput($row['site.meta.name.4']).'" content="'.$this->cleanInput($row['site.meta.value.4']).'">';
+			}
+
+			if(!empty($row['site.google.tags']) != "") {
+				$html .= '<meta name="google-site-verification" content="'.$this->cleanInput($row['site.google.tags']).'">';
+			}
+
+
 			$html .= '<link rel="stylesheet" type="text/css" href="'.self::DOMAIN.'/'.self::SHOPURI.'/'.$this->cleanInput($row['site.stylesheet.reset']).'">';
 			$html .= '<link rel="stylesheet" type="text/css" href="'.self::DOMAIN.'/'.self::SHOPURI.'/'.$this->cleanInput($row['site.stylesheet']).'">';
+			
+			if(!empty($row['site.ext.stylesheet'])) {
+				$html .= '<link rel="stylesheet" type="text/css" href="'.$this->cleanInput($row['site.ext.stylesheet']).'">';
+			}		
+			
 			$html .= '<link rel="icon" type="image/ico" href="'.self::DOMAIN.'/'.self::SHOPURI.'/'.$this->cleanInput($row['site.icon']).'">';
 			$html .= '<script src="'.self::DOMAIN.'/'.self::SHOPURI.'/'.$this->cleanInput($row['site.javascript']).'" type="text/javascript"></script>';
+			
+			if(!empty($row['site.ext.javascript'])) {
+				$html .= '<script src="'.$this->cleanInput($row['site.ext.javascript']).'" type="text/javascript"></script>';
+			}					
+			
 			$html .= '<img src="'.self::DOMAIN.'/'.self::SHOPURI.'/'.$this->cleanInput($row['site.logo']).'" width="115" id="ts.shop.logo">';
 		}
 		
