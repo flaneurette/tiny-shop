@@ -15,6 +15,23 @@
 	"paypal.os0": "",
 	"paypal.os1": "",
 	"paypal.show.user.details": 1,
-	"paypal.store.user.details": 1
+	"paypal.store.user.details": 1,
+	"paypal.shopping_url": "",
+	"paypal.discount_amount": "",
+	"paypal.discount_amount2": "",
+	"paypal.discount_rate": "",
+	"paypal.discount_rate2": "",
+	"paypal.discount_num": "",
+	"paypal.discount_amount_cart": "",
+	"paypal.discount_rate_cart": "",
+	"paypal.handling_cart": "",
+	"paypal.upload": "",
+	"paypal.tax": "",
+	"paypal.tax_rate": "",
+	"paypal.tax_cart": "",
+	"paypal.weight_cart": "",
+	"paypal.weight_unit": "",
+	"paypal.display": "",
+	"paypal.return": ""
     }
 ]
