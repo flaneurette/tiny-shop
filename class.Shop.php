@@ -19,7 +19,6 @@ class Shop {
 	CONST MAXTITLE				= 255; // Max length of title.
 	CONST MAXDESCRIPTION			= 500; // Max length of description.
 	CONST CURRENCY				= "&#163;";   // for a list, see currencies.json.
-	
 
 	public function __construct() {
 		$incomplete = false;
@@ -387,7 +386,7 @@ class Shop {
 						$string .= "<div class=\"ts-list-product-cat\">".$this->cleanInput($ts[$i]['product.category'])."</div>";
 						
 						if($configuration[0]['products.quick.cart'] == 'yes') {
-							$string .= "<div><input type='button' class='ts-list-cart-button' name='add_cart' value='".$this->cleanInput($configuration[0]['products.cart.button'])."' /></div>";
+							$string .= "<div><input type='button' onclick='tinyshop.addtocart(\"".$ts[$i]['product.id']."\");' class='ts-list-cart-button' name='add_cart' value='".$this->cleanInput($configuration[0]['products.cart.button'])."' /></div>";
 							} else {
 							$string .= "<div class='ts-list-view-link'><a href=\"product/".$this->cleanInput($ts[$i]['product.id'])."/\">view</a></div>";
 						}
@@ -405,7 +404,7 @@ class Shop {
 						$string .= "<div class=\"ts-group-product-cat\">".$this->cleanInput($ts[$i]['product.category'])."</div>";
 						
 						if($configuration[0]['products.quick.cart'] == 'yes') {
-							$string .= "<div><input type='button' class='ts-group-cart-button' name='add_cart' value='".$this->cleanInput($configuration[0]['products.cart.button'])."' /></div>";
+							$string .= "<div><input type='button' onclick='tinyshop.addtocart(\"".$ts[$i]['product.id']."\");' class='ts-group-cart-button' name='add_cart' value='".$this->cleanInput($configuration[0]['products.cart.button'])."' /></div>";
 							} else {
 							$string .= "<div class='ts-group-view-link'><a href=\"product/".$this->cleanInput($ts[$i]['product.id'])."/\">view</a></div>";
 						}
