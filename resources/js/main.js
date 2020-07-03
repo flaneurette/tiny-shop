@@ -1,12 +1,14 @@
 /*
  * Main.js Tiny Shop custom javascript. For external javascript, edit site.json and add the uri.
  */
+ 
 var tinyshop = {
 
 	// vars
 	name: "tinyshop javascript library",
 	version: "1.0",
 	instanceid: 1000011,
+	csp: ["Access-Control-Allow-Origin","*"];
 
 	xhr: function() {
 
@@ -30,7 +32,7 @@ var tinyshop = {
 	addtocart: function(productId) {
 
 		this.id = parseInt(productId);
-		this.fetchHTML('query.php?id=' + this.id + '&action=addtocart', 'GET', 'result');
+		this.fetchHTML('/cart/' + Math.random() + '/addtocart/'+this.id+'/', 'GET', 'result');
 	},
 
 	toggle: function(id, counter) {
@@ -84,7 +86,7 @@ var tinyshop = {
 
 		var req = this.xhr();
 
-		req.open("GET", 'query.php?rnd=' + Math.random() + '&action=' + method + '&product=' + escape(product) + '&tr=' + g, true);
+		req.open("GET", '/wishlist/' + Math.random() + '/' + method + '/' + escape(product) + '&tr=' + g, true);
 		req.onreadystatechange = function() {
 
 			if (req.readyState == 4 && req.status == 200) {
@@ -95,7 +97,7 @@ var tinyshop = {
 					if (g != '0') {
 						document.getElementById('fhs' + product).innerHTML = text[1];
 						document.getElementById('favheart' + product).className = 'heartfull_png';
-					} else {
+						} else {
 						document.getElementById('fhs' + product).innerHTML = text[1];
 						document.getElementById('favheart' + product).className = 'favheart_fixed';
 					}
@@ -175,9 +177,9 @@ var tinyshop = {
 		if (voucher == '') {
 			alert('Please enter voucher code. This code is a sequence of numbers and letters.');
 		} else {
-
+			
 			var req = this.xhr();
-			req.open("GET", 'query.php?rnd=' + Math.random() + '&action=voucher' + '&code=' + escape(voucher), true);
+			req.open("GET", '/query/' + Math.random() + '/voucher/' + escape(voucher) + '/', true);
 			req.onreadystatechange = function() {
 				if (req.readyState == 4 && req.status == 200) {
 
@@ -222,7 +224,6 @@ var tinyshop = {
 				}
 			}
 			req.send(null);
-
 		}
 
 	}
