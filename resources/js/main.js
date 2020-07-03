@@ -6,9 +6,9 @@ var tinyshop = {
 
 	// vars
 	name: "tinyshop javascript library",
-	version: "1.0",
-	instanceid: 1000011,
-	csp: ["Access-Control-Allow-Origin","*"];
+	version: "1.1",
+	instanceid: 1000000,
+	csp: ["Access-Control-Allow-Origin","*"],
 
 	xhr: function() {
 
@@ -35,11 +35,7 @@ var tinyshop = {
 		this.fetchHTML('/cart/' + Math.random() + '/addtocart/'+this.id+'/', 'GET', 'result');
 	},
 
-	dom: function(id,method,value) {
-		
-		if(!value) {
-			var value = '';
-		}
+	dom: function(id,method,value='') {
 		
 		switch(method) {
 
@@ -70,9 +66,8 @@ var tinyshop = {
 			case 'className':
 			document.getElementById(escape(id)).style.fontWeight = value;
 			break;				
-						
-			
 		}
+		
 		return true;
 	},
 	
@@ -107,6 +102,25 @@ var tinyshop = {
 		return true;
 	},
 
+	fetchJSON: function(uri) {
+
+		var req = this.xhr();
+		var res = '';
+		req.open("GET", uri, true);
+		req.withCredentials = true;
+		req.setRequestHeader('Access-Control-Allow-Origin', '*');
+
+		req.onreadystatechange = function() {
+			if (req.readyState == 4 && req.status == 200) {
+				this.res = req.responseText;
+				tinyshop.dom('result','html',this.res);
+			}
+		}
+		
+		req.send(null);
+		return res;
+	},
+	
 	fetchHTML: function(uri, id, method) {
 
 		var req = this.xhr();
@@ -122,7 +136,7 @@ var tinyshop = {
 		req.onreadystatechange = function() {
 			if (req.readyState == 4 && req.status == 200) {
 				this.res = req.responseText;
-				this.dom(id,'html',this.res);
+				tinyshop.dom(id,'html',this.res);
 			}
 		}
 		
@@ -144,13 +158,13 @@ var tinyshop = {
 
 					if (g != '0') {
 
-						this.dom('fhs' + product,'html',text[1]);
-						this.dom('favheart' + product,'className','heartfull_png');
+						tinyshop.dom('fhs' + product,'html',text[1]);
+						tinyshop.dom('favheart' + product,'className','heartfull_png');
 					
 						} else {
 							
-						this.dom('fhs' + product,'html',text[1]);
-						this.dom('favheart' + product,'className','favheart_fixed');
+						tinyshop.dom('fhs' + product,'html',text[1]);
+						tinyshop.dom('favheart' + product,'className','favheart_fixed');
 					}
 
 					return false;
@@ -158,11 +172,11 @@ var tinyshop = {
 				} else if (text[0].replace(' ', '') == 'X') {
 
 					if (g != '0') {
-						this.dom('fhs' + product,'html',text[1]);
-						this.dom('favheart' + product,'className','heart_png');
+						tinyshop.dom('fhs' + product,'html',text[1]);
+						tinyshop.dom('favheart' + product,'className','heart_png');
 						} else {
-						this.dom('fhs' + product,'html',text[1]);
-						this.dom('favheart' + product,'className','favheart');
+						tinyshop.dom('fhs' + product,'html',text[1]);
+						tinyshop.dom('favheart' + product,'className','favheart');
 					}
 
 					return false;
@@ -178,45 +192,17 @@ var tinyshop = {
 
 	calculatetotal: function(verzendmethode, totaal, parentId) {
 
-		switch (verzendmethode) {
+		var req = this.xhr();
 
-			case '1':
-				// standaard NL
-				var verznd_gw = '190';
-				var vzdb = '1.90';
-				break;
+		// Our JSOn object with shipping values.
+		var shipping = this.fetchJSON('../shop/inventory/shipping.json');
+		
+		// window.alert(shipping);
 
-			case '2':
-				// aangetekend NL
-				var verznd_gw = '750';
-				var vzdb = '7.50';
-				break;
-
-			case '3':
-				// Europe not insured
-				var verznd_gw = '300';
-				var vzdb = '3.00';
-				break;
-
-			case '4':
-				// Europe (Track & Trace)
-				var verznd_gw = '950';
-				var vzdb = '9.50';
-				break;
-
-			case '5':
-				// Gratis
-				var verznd_gw = '0';
-				var vzdb = '0';
-				break;
-
-			default:
-				// standaard NL
-				var verznd_gw = '190';
-				var vzdb = '1.90';
-				break;
-		}
-
+		// standaard NL
+		var verznd_gw = '190';
+		var vzdb = '1.90';
+		
 		var totals = parseFloat(totaal) + parseFloat(vzdb);
 		
 		this.dom(parentId,'html',"&euro;" + totals.toFixed(2));
