@@ -7,8 +7,18 @@ RewriteRule ^category/(.*)$ /shop/pages.php?id=$1&page=$2 [NC,L]
 
 RewriteRule ^blog/(.*)/(.*)/(.*)/(.*)/$ /shop/pages/blog.php?cat=$1&blogid=$2&blogtitle=$3&page=$4  [NC,L]
 RewriteRule ^pages/(.*)/(.*)/(.*)/(.*)/$ /shop/pages/page.php?cat=$1&pageid=$2&pagetitle=$3&page=$4  [NC,L]
-RewriteRule ^articles/(.*)/(.*)/(.*)/(.*)/$ /shop/pages/articles.php?cat=$1&articleid=$2&articletitle=$3&page=$4  [NC,L]
+RewriteRule ^articles/(.*)/(.*)/(.*)/(.*)/$ /shop/pages/article.php?cat=$1&articleid=$2&articletitle=$3&page=$4  [NC,L]
 
 RewriteRule ^vacation/(.*)$ /shop/pages/shop-error.php?reason=1 [NC,L]
 RewriteRule ^offline/(.*)$ /shop/pages/shop-error.php?reason=2 [NC,L]
 RewriteRule ^closed/(.*)$ /shop/pages/shop-error.php?reason=3 [NC,L]
+
+# /query/rnd/action/code/
+RewriteRule ^query/(.*)/(.*)/(.*)/$ /query.php?action=$2&code=$3  [NC,L]
+
+# /wishlist/rnd/action/product/tr/
+RewriteRule ^wishlist/(.*)/(.*)/(.*)/(.*)/$ /query.php?action=$2&product=$3&tr=$4  [NC,L]
+
+# /cart/rnd/action/product/
+# /cart/rnd/addtocart/id/
+RewriteRule ^cart/(.*)/(.*)/(.*)/(.*)/$ /query.php?action=$2&id=$3 [NC,L]
