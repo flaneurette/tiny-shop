@@ -35,29 +35,76 @@ var tinyshop = {
 		this.fetchHTML('/cart/' + Math.random() + '/addtocart/'+this.id+'/', 'GET', 'result');
 	},
 
+	dom: function(id,method,value) {
+		
+		if(!value) {
+			var value = '';
+		}
+		
+		switch(method) {
+
+			case 'get':
+			return document.getElementById(escape(id)).value;
+			break;	
+			
+			case 'set':
+			document.getElementById(escape(id)).value = value;
+			break;
+			
+			case 'html':
+			document.getElementById(escape(id)).innerHTML = value;
+			break;
+			
+			case 'gethtml':
+			document.getElementById(escape(id)).innerHTML;
+			break;	
+			
+			case 'display':
+			document.getElementById(escape(id)).style.display = value;
+			break;	
+			
+			case 'fontWeight':
+			document.getElementById(escape(id)).style.fontWeight = value;
+			break;	
+			
+			case 'className':
+			document.getElementById(escape(id)).style.fontWeight = value;
+			break;				
+						
+			
+		}
+		return true;
+	},
+	
 	toggle: function(id, counter) {
+		
 		for (i = 0; i < counter; i++) {
+			
 			try {
-				document.getElementById('toggle' + i).style.display = 'none';
-				document.getElementById('cat' + id).style.fontWeight = '100';
+				this.dom('toggle' + id,'display','none');
+				this.dom('cat' + id,'fontWeight','100');
+		
 			} catch (e) {}
 		}
-		document.getElementById('toggle' + id).style.display = 'block';
-		document.getElementById('cat' + id).style.fontWeight = 'bold';
+		
+		this.dom('toggle' + id,'display','block');
+		this.dom('cat' + id,'fontWeight','bold');
 	},
 
 	calculateTotalPayPal: function(amount) {
 
-		var price = document.getElementById('item_price').value;
-		var shipping = document.getElementById('shipping').value;
-		var handling = document.getElementById('handling').value;
-		var total_amount = document.getElementById('total_amount').value;
+		var price = this.dom('item_price','get');
+		var shipping = this.dom('shipping','get');
+		var handling = this.dom('handling','get');
+		var total_amount = this.dom('total_amount','get');
+		
 		var pre = parseInt(parseInt(shipping) + parseInt(handling));
 		var sub_total = parseInt(price * amount);
 		var total = parseInt(parseInt(pre) + parseInt(sub_total));
-		document.getElementById('total_amount').value = total;
+		
+		this.dom('total_amount','set',total);
+		
 		return true;
-
 	},
 
 	fetchHTML: function(uri, id, method) {
@@ -75,10 +122,10 @@ var tinyshop = {
 		req.onreadystatechange = function() {
 			if (req.readyState == 4 && req.status == 200) {
 				this.res = req.responseText;
-				document.getElementById(id).innerHTML = this.res;
+				this.dom(id,'html',this.res);
 			}
 		}
-
+		
 		req.send(null);
 	},
 
@@ -87,6 +134,7 @@ var tinyshop = {
 		var req = this.xhr();
 
 		req.open("GET", '/wishlist/' + Math.random() + '/' + method + '/' + escape(product) + '&tr=' + g, true);
+		
 		req.onreadystatechange = function() {
 
 			if (req.readyState == 4 && req.status == 200) {
@@ -95,11 +143,14 @@ var tinyshop = {
 				if (text[0].replace(' ', '') == 'O') {
 
 					if (g != '0') {
-						document.getElementById('fhs' + product).innerHTML = text[1];
-						document.getElementById('favheart' + product).className = 'heartfull_png';
+
+						this.dom('fhs' + product,'html',text[1]);
+						this.dom('favheart' + product,'className','heartfull_png');
+					
 						} else {
-						document.getElementById('fhs' + product).innerHTML = text[1];
-						document.getElementById('favheart' + product).className = 'favheart_fixed';
+							
+						this.dom('fhs' + product,'html',text[1]);
+						this.dom('favheart' + product,'className','favheart_fixed');
 					}
 
 					return false;
@@ -107,11 +158,11 @@ var tinyshop = {
 				} else if (text[0].replace(' ', '') == 'X') {
 
 					if (g != '0') {
-						document.getElementById('fhs' + product).innerHTML = text[1];
-						document.getElementById('favheart' + product).className = 'heart_png';
-					} else {
-						document.getElementById('fhs' + product).innerHTML = text[1];
-						document.getElementById('favheart' + product).className = 'favheart';
+						this.dom('fhs' + product,'html',text[1]);
+						this.dom('favheart' + product,'className','heart_png');
+						} else {
+						this.dom('fhs' + product,'html',text[1]);
+						this.dom('favheart' + product,'className','favheart');
 					}
 
 					return false;
@@ -167,12 +218,13 @@ var tinyshop = {
 		}
 
 		var totals = parseFloat(totaal) + parseFloat(vzdb);
-		document.getElementById(parentId).innerHTML = "&euro;" + totals.toFixed(2);
+		
+		this.dom(parentId,'html',"&euro;" + totals.toFixed(2));
 	},
 
 	redeemVoucher: function() {
 
-		var voucher = document.getElementById('voucher').value;
+		var voucher = this.dom('voucher','get');
 
 		if (voucher == '') {
 			alert('Please enter voucher code. This code is a sequence of numbers and letters.');
@@ -188,7 +240,9 @@ var tinyshop = {
 						var check = req.responseText.split('|');
 
 						if (check[0].replace(' ', '') == 'OK') {
-							var tot = document.getElementById('total').innerHTML;
+							
+							var tot = this.dom('total','gethtml');
+							
 							tot = tot.replace('&euro;', '').replace(/\u20ac/g, '').replace(',', '.').replace(' ', '');
 
 							var totals = parseFloat(tot);
@@ -206,9 +260,9 @@ var tinyshop = {
 								alert('The amount is too tow to redeem the voucher.');
 							} else {
 								if (totalsx.toFixed(2) == 'NaN') {
-									document.getElementById('total').innerHTML = "&euro;" + totalsx;
-								} else {
-									document.getElementById('total').innerHTML = "&euro;" + totalsx.toFixed(2);
+									this.dom('total','html',"&euro;" + totalsx);
+									} else {
+									this.dom('total','html',"&euro;" + totalsx.toFixed(2));
 								}
 							}
 
