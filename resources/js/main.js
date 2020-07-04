@@ -153,6 +153,7 @@ var tinyshop = {
 		var price = this.dom('item_price','get');
 		var shipping = this.dom('shipping','get');
 		var handling = this.dom('handling','get');
+		
 		var total_amount = this.dom('total_amount','get');
 		
 		var pre = this.math('int',this.math('int',shipping) + this.math('int',handling));
@@ -164,24 +165,44 @@ var tinyshop = {
 		return true;
 	},
 
-	fetchJSON: function(uri) {
+	/*
+		var xmlhttp = new XMLHttpRequest();
+		xmlhttp.onreadystatechange = function() {
+		  if (this.readyState == 4 && this.status == 200) {
+			var myObj = JSON.parse(this.responseText);
+			document.getElementById("demo").innerHTML = myObj.name;
+		  }
+		};
+		xmlhttp.open("GET", "json_demo.txt", true);
+		xmlhttp.send();
+		
+	*/
+	
+	returner: function(data) {
+		window.alert(data);
+		return data;
+	},
 
-		var req = this.xhr();
-		var res = '';
+	json: function(uri) {
+	 tinyshop.fetchJSON(uri,function(response) {
+		return JSON.parse(response);
+	 });
+	},
+	 
+	fetchJSON: function(uri,callback) {
+
+		var req = tinyshop.xhr();
+
 		req.open("GET", uri, true);
 		req.withCredentials = true;
 		req.setRequestHeader('Access-Control-Allow-Origin', '*');
 		
 		req.onreadystatechange = function() {
 			if (req.readyState == 4 && req.status == 200) {
-				this.res = req.responseText;
-				//tinyshop.dom('result','html',this.res);
-				return this.res;
+				callback(req.responseText);
 			}
 		}
-		
 		req.send(null);
-		return this.res;
 	},
 	
 	fetchHTML: function(uri, id, method) {
@@ -237,28 +258,36 @@ var tinyshop = {
 		req.send(null);
 	},
 
+	// Define recursive function to print nested values
+	printValues: function(obj) {
+		for(var k in obj) {
+			if(obj[k] instanceof Object) {
+				this.printValues(obj[k]);
+			} else {
+				window.alert(obj[k] + "\n");
+			};
+		}
+	},
+	
 	calculatetotal: function(verzendmethode, totaal, parentId) {
 
-		// var req = this.xhr();
 		// Our JSON object with shipping values.
 		// var shipping = this.fetchJSON('../shop/inventory/shipping.json');
+		
 		// load site configurations, such as currency selection.
 		// var site = this.fetchJSON('../shop/inventory/site.json');
 
-		var d = tinyshop.fetchJSON('../shop/inventory/shipping.json');
-		this.message(d);
-		var data = JSON.parse(d);
+		var obj = tinyshop.json('../shop/inventory/shipping.json');
 		
-		this.message(data);
-		this.message(data.typeof);
-		
-		var t = '';
-		
-		for(i in data) {
-			t + data[i];
-		}
-		
-		this.message(t);
+		// Printing all the values from the resulting object
+		// tinyshop.printValues(obj);
+
+
+		var json = JSON.stringify(obj);
+		window.alert(json);
+
+		// window.alert(obj["shipping.Albania"]);
+		//window.alert(obj[0]["shipping.Albania"]);
 
 		// standaard NL
 		// var verznd_gw = '190';
@@ -266,6 +295,7 @@ var tinyshop = {
 		// var totals = parseFloat(totaal) + parseFloat(vzdb);
 		// this.dom(parentId,'html',"&euro;" + totals.toFixed(2));
 	},
+
 
 	redeemVoucher: function() {
 
