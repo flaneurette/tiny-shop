@@ -1,0 +1,10 @@
+[
+	{
+		"messages.voucher.1": "Please enter voucher code. This code is a sequence of numbers and letters.",
+		"messages.voucher.2": "The amount is too tow to redeem the voucher.",
+		"messages.voucher.3": "Code has already been redeemed, or is wrong.",
+		"messages.voucher.4": "There was a problem with redeeming the voucher code. Please check if the code is correct.",
+		"messages.voucher.5": "There was a problem with redeeming. Please check if the code is correct.",
+		"messages.voucher.8": ""
+	}
+]
