@@ -8,7 +8,9 @@ include("resources/php/class.Security.php");
 
 $secure = new Security();
 
-isset($_GET['action'])) {
+$default = null;
+
+if(isset($_GET['action'])) {
 	
 	$action = $_GET['action'];
 	
@@ -20,6 +22,7 @@ isset($_GET['action'])) {
 			
 			case 'addtocart':
 			$id = (int)$secure->sanitize($_GET['id'],'num');
+			// echo $id;
 			break;
 			
 			case 'deletefromcart':
@@ -45,7 +48,9 @@ isset($_GET['action'])) {
 	
 	} else {
 	// contains other characters.
+	echo $default;
 	}
+} else {
+	echo $default;
 }
-
 ?>
