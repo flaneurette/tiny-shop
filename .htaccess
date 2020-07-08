@@ -19,6 +19,6 @@ RewriteRule ^query/(.*)/(.*)/(.*)/$ /query.php?action=$2&code=$3  [NC,L]
 # /wishlist/rnd/action/product/tr/
 RewriteRule ^wishlist/(.*)/(.*)/(.*)/(.*)/$ /query.php?action=$2&product=$3&tr=$4  [NC,L]
 
-# /cart/rnd/action/product/
-# /cart/rnd/addtocart/id/
-RewriteRule ^cart/(.*)/(.*)/(.*)/(.*)/$ /query.php?action=$2&id=$3 [NC,L]
+# /cart/action/rnd/product/
+# /cart/addtocart/rnd/id/
+RewriteRule ^cart/(.*)/(.*)/(.*)/$ /query.php?action=$1&id=$3 [NC,L]
