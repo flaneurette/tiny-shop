@@ -139,7 +139,7 @@ var tinyshop = {
 			break;	
 			
 			case 'className':
-			document.getElementById(escape(id)).style.fontWeight = value;
+			document.getElementById(escape(id)).className = value;
 			break;				
 		}
 		
