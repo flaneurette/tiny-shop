@@ -6,7 +6,7 @@ var tinyshop = {
 
 	// vars
 	name: "tinyshop javascript library",
-	version: "1.0",
+	version: "1.12",
 	instanceid: 1000011,
 	messagecode: 1e5,
 	csp: ["Access-Control-Allow-Origin","*"],
@@ -73,6 +73,10 @@ var tinyshop = {
 			this.result = e.toFixed(mod);
 			break;	
 			
+			case 'rand':
+			this.result = Math.random();
+			break;
+			
 		}
 		
 		return result;
@@ -90,11 +94,6 @@ var tinyshop = {
 			break;			
 		}
 		return this.r;
-	},
-	
-	addtocart: function(productId) {
-		this.id = this.math('int',productId,1);
-		this.fetchHTML('/cart/' + this.rnd() + '/addtocart/'+this.id+'/', 'GET', 'result');
 	},
 	
 	toggle: function(id, counter) {
@@ -148,36 +147,6 @@ var tinyshop = {
 		return true;
 	},
 	
-	calculateTotalPayPal: function(amount) {
-
-		var price = this.dom('item_price','get');
-		var shipping = this.dom('shipping','get');
-		var handling = this.dom('handling','get');
-		
-		var total_amount = this.dom('total_amount','get');
-		
-		var pre = this.math('int',this.math('int',shipping) + this.math('int',handling));
-		var sub_total = this.math('int',price * amount);
-		var total = this.math('int',this.math('int',pre) + this.math('int',sub_total));
-		
-		this.dom('total_amount','set',total);
-		
-		return true;
-	},
-
-	/*
-		var xmlhttp = new XMLHttpRequest();
-		xmlhttp.onreadystatechange = function() {
-		  if (this.readyState == 4 && this.status == 200) {
-			var myObj = JSON.parse(this.responseText);
-			document.getElementById("demo").innerHTML = myObj.name;
-		  }
-		};
-		xmlhttp.open("GET", "json_demo.txt", true);
-		xmlhttp.send();
-		
-	*/
-	
 	returner: function(data) {
 		window.alert(data);
 		return data;
@@ -185,10 +154,39 @@ var tinyshop = {
 
 	json: function(uri) {
 	 tinyshop.fetchJSON(uri,function(response) {
-		return JSON.parse(response);
+		var obj =  JSON.parse(response);
+		return obj;
 	 });
 	},
-	 
+	
+	caller: function(uri,method) {
+	
+		var func = method;
+		var req  = tinyshop.xhr();
+		req.onreadystatechange = returncall;
+		req.open("GET", uri, true); 
+		req.send();
+		
+		function returncall() {
+
+			if (req.readyState == 4) {	
+				// add a switch case for each file we need to process.
+				switch(func) {
+					case 'inventory':
+					tinyshop.getinventory(this.responseText);
+					break;
+					case 'settings':
+					tinyshop.getsettings(this.responseText);
+					break;
+					case 'shipping':
+					tinyshop.getshipping(this.responseText);
+					break;
+				}
+				
+			}
+		};
+	},
+ 
 	fetchJSON: function(uri,callback) {
 
 		var req = tinyshop.xhr();
@@ -209,6 +207,7 @@ var tinyshop = {
 
 		var req = this.xhr();
 		var res = '';
+		
 		req.open("GET", uri + '&rnd=' + this.rnd(), true);
 		req.withCredentials = true;
 		req.setRequestHeader('Access-Control-Allow-Origin', '*');
@@ -220,6 +219,139 @@ var tinyshop = {
 			}
 		}
 		req.send(null);
+	},
+
+	//--> end of tinyshop javascript logic.
+
+
+	/*
+	* Site specific functions
+	*/
+	
+	addtocart: function(productId) {
+		this.id = this.math('int',productId,1);
+		this.fetchHTML('/cart/' + this.rnd() + '/addtocart/'+this.id+'/', 'GET', 'result');
+	},
+	
+	/*
+	* PayPal functions.
+	*/
+	
+	calculateTotalPayPal: function(amount) {
+
+		var price = this.dom('item_price','get');
+		var shipping = this.dom('shipping','get');
+		var handling = this.dom('handling','get');
+		
+		var total_amount = this.dom('total_amount','get');
+		
+		var pre = this.math('int',this.math('int',shipping) + this.math('int',handling));
+		var sub_total = this.math('int',price * amount);
+		var total = this.math('int',this.math('int',pre) + this.math('int',sub_total));
+		
+		this.dom('total_amount','set',total);
+		
+		return true;
+	},
+
+	/*
+	* Functions to retrieve JSON files. These are called by the caller function.
+	* Example: tinyshop.caller('inventory/site.json','settings');
+	* This retrieves the site.json file, and prints the object out in html. 
+	*/
+
+    getshipping: function(jsonData) {
+	
+        var arr = [];
+		var col = [];
+        arr = JSON.parse(jsonData); 
+		
+        for (var i = 0; i < arr.length; i++) {
+            for (var key in arr[i]) {
+                if (col.indexOf(key) === -1) {
+                    col.push(key);
+                }
+            }
+        }
+		
+		for (var i = 0; i < arr.length; i++) {
+			for (var j = 0; j < col.length; j++) {
+				if(arr[i][col[j]] == '' || arr[i][col[j]] == null) {
+				} else {
+				document.write(col[j] + ':');
+				document.write(arr[i][col[j]]);
+				document.write('<br>');
+				}
+			}
+		}
+	
+    },
+	
+    getsettings: function(jsonData) {
+	
+        var arr = [];
+		var col = [];
+        arr = JSON.parse(jsonData); 
+		
+        for (var i = 0; i < arr.length; i++) {
+            for (var key in arr[i]) {
+                if (col.indexOf(key) === -1) {
+                    col.push(key);
+                }
+            }
+        }
+		
+		for (var i = 0; i < arr.length; i++) {
+			for (var j = 0; j < col.length; j++) {
+				if(arr[i][col[j]] == '' || arr[i][col[j]] == null) {
+				} else {
+				document.write(col[j] + ':');
+				document.write(arr[i][col[j]]);
+				document.write('<br>');
+				}
+			}
+		}
+	
+    },
+	
+    getinventory: function(jsonData) {
+	
+        var arr = [];
+		var col = [];
+        arr = JSON.parse(jsonData); 
+		
+        for (var i = 0; i < arr.length; i++) {
+            for (var key in arr[i]) {
+                if (col.indexOf(key) === -1) {
+                    col.push(key);
+                }
+            }
+        }
+		
+		for (var i = 0; i < arr.length; i++) {
+			for (var j = 0; j < col.length; j++) {
+				if(arr[i][col[j]] == '' || arr[i][col[j]] == null) {
+				} else {
+				document.write(col[j] + ':');
+				document.write(arr[i][col[j]]);
+				document.write('<br>');
+				}
+			}
+		}
+	
+    },
+	
+	calculatetotal: function(verzendmethode, totaal, parentId) {
+
+		// load site configurations, such as currency selection.
+		tinyshop.caller('inventory/site.json','settings');
+		tinyshop.caller('inventory/shipping.json','shipping');
+
+		// standaard NL
+		// var verznd_gw = '190';
+		// var vzdb = '1.90';
+		// var totals = parseFloat(totaal) + parseFloat(vzdb);
+		// this.dom(parentId,'html',"&euro;" + totals.toFixed(2));
 	},
 
 	wishlist: function(method, product, g) {
@@ -255,48 +387,10 @@ var tinyshop = {
 				}
 			}
 		}
+		
 		req.send(null);
 	},
-
-	// Define recursive function to print nested values
-	printValues: function(obj) {
-		for(var k in obj) {
-			if(obj[k] instanceof Object) {
-				this.printValues(obj[k]);
-			} else {
-				window.alert(obj[k] + "\n");
-			};
-		}
-	},
 	
-	calculatetotal: function(verzendmethode, totaal, parentId) {
-
-		// Our JSON object with shipping values.
-		// var shipping = this.fetchJSON('../shop/inventory/shipping.json');
-		
-		// load site configurations, such as currency selection.
-		// var site = this.fetchJSON('../shop/inventory/site.json');
-
-		var obj = tinyshop.json('../shop/inventory/shipping.json');
-		
-		// Printing all the values from the resulting object
-		// tinyshop.printValues(obj);
-
-
-		var json = JSON.stringify(obj);
-		window.alert(json);
-
-		// window.alert(obj["shipping.Albania"]);
-		//window.alert(obj[0]["shipping.Albania"]);
-
-		// standaard NL
-		// var verznd_gw = '190';
-		// var vzdb = '1.90';
-		// var totals = parseFloat(totaal) + parseFloat(vzdb);
-		// this.dom(parentId,'html',"&euro;" + totals.toFixed(2));
-	},
-
-
 	redeemVoucher: function() {
 
 		var voucher = this.dom('voucher','get');
