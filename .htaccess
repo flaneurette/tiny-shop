@@ -14,11 +14,12 @@ RewriteRule ^offline/(.*)$ /shop/pages/shop-error.php?reason=2 [NC,L]
 RewriteRule ^closed/(.*)$ /shop/pages/shop-error.php?reason=3 [NC,L]
 
 # /query/rnd/action/code/
-RewriteRule ^query/(.*)/(.*)/(.*)/$ /query.php?action=$2&code=$3  [NC,L]
+RewriteRule ^query/(.*)/(.*)/(.*)/$ query.php?action=$2&code=$3  [NC,L]
 
 # /wishlist/rnd/action/product/tr/
-RewriteRule ^wishlist/(.*)/(.*)/(.*)/(.*)/$ /query.php?action=$2&product=$3&tr=$4  [NC,L]
+RewriteRule ^wishlist/(.*)/(.*)/(.*)/(.*)/$ query.php?action=$2&product=$3&tr=$4  [NC,L]
 
 # /cart/action/rnd/product/
 # /cart/addtocart/rnd/id/
-RewriteRule ^cart/(.*)/(.*)/(.*)/$ /query.php?action=$1&id=$3 [NC,L]
+RewriteRule ^cart/(.*)/(.*)/(.*)/$ query.php?action=$1&id=$3 [NC,L]
+RewriteRule ^shop/cart/(.*)/(.*)/(.*)/$ query.php?action=$1&id=$3 [NC,L]
