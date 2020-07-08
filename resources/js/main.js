@@ -75,8 +75,12 @@ var tinyshop = {
 			break;	
 			
 			case 'rand':
-			this.result = Math.random();
+			this.result = Math.random(1,Number.MAX_SAFE_INTEGER);
 			break;
+			
+			case 'uuid':
+			this.result = Math.random().toString(16).slice(2, 10);
+			break;			
 			
 		}
 		
@@ -88,8 +92,11 @@ var tinyshop = {
 		let r = null;
 		switch(method) {
 			case 'rand':
-			this.r = Math.random();
+			this.r = Math.random(1,Number.MAX_SAFE_INTEGER);
 			break;
+			case 'uuid':
+			this.r = Math.random().toString(16).slice(2, 14);
+			break;			
 			case 'bytes':
 			this.r = Math.random();
 			break;			
@@ -226,7 +233,7 @@ var tinyshop = {
 		var req = this.xhr();
 		var res = '';
 		
-		req.open("GET", uri + '&cache-control=' + this.instanceid, true);
+		req.open("GET", uri, true);
 		req.withCredentials = true;
 		req.setRequestHeader('Access-Control-Allow-Origin', '*');
 
@@ -248,7 +255,7 @@ var tinyshop = {
 	
 	addtocart: function(productId) {
 		this.id = this.math('int',productId,1);
-		this.fetchHTML('/cart/' + this.rnd() + '/addtocart/'+this.id+'/', 'GET', 'result');
+		this.fetchHTML('/shop/cart/addtocart/' + this.instanceid + '/'+this.id+'/', 'GET', 'result');
 	},
 	
 	/*
@@ -475,4 +482,4 @@ var tinyshop = {
  * the instanceid prevents json caching for recently updated files, 
  * but also prevents caching too much on individual json files.
 */
-tinyshop.instanceid = tinyshop.rnd();
+tinyshop.instanceid = tinyshop.rnd('uuid');
