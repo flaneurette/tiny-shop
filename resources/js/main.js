@@ -7,7 +7,7 @@ var tinyshop = {
 	// vars
 	name: "tinyshop javascript library",
 	version: "1.12",
-	instanceid: 1000011,
+	instanceid: 1e5,
 	messagecode: 1e5,
 	csp: ["Access-Control-Allow-Origin","*"],
 
@@ -31,7 +31,8 @@ var tinyshop = {
 	},
 	
 	message: function(str) {
-		this.message(escape(str) + '\n' + '-'.repeat(32) + '\n' + '#TS-MSGC-' + this.messagecode);
+		
+		window.alert(str + '\n' + '-'.repeat(32) + '\n' + '#TS-MSGC-' + this.messagecode);
 		if(this.messagecode < Number.MAX_SAFE_INTEGER) {
 			this.messagecode++;
 		}
@@ -47,7 +48,7 @@ var tinyshop = {
 	
 	math: function(method,e,mod=1) {
 		
-		let result = null;
+		var result;
 		let i = 0;
 		
 		switch(method) {
@@ -79,7 +80,7 @@ var tinyshop = {
 			
 		}
 		
-		return result;
+		return this.result;
 	},	
 	
 	rnd: function(method='rand',e=null,len=null,seed=null) {
@@ -139,7 +140,7 @@ var tinyshop = {
 			break;	
 			
 			case 'className':
-			document.getElementById(escape(id)).className = value;
+			document.getElementById(escape(id)).style.fontWeight = value;
 			break;				
 		}
 		
@@ -158,12 +159,30 @@ var tinyshop = {
 	 });
 	},
 	
-	caller: function(uri,method) {
+	caller: function(method,opts=[],uri) {
 	
+		if(!uri) {
+			
+			switch(method) {
+				
+				case 'shipping':
+				var uri = 'inventory/shipping.json';
+				break;
+				
+				case 'inventory':
+				var uri = 'inventory/shipping.json';
+				break;	
+				
+				case 'settings':
+				var uri = 'inventory/site.json';
+				break;		
+			}	
+		}
+		
 		var func = method;
 		var req  = tinyshop.xhr();
 		req.onreadystatechange = returncall;
-		req.open("GET", uri, true); 
+		req.open("GET", uri + '?cache-control=' + this.instanceid, true); 
 		req.send();
 		
 		function returncall() {
@@ -178,7 +197,7 @@ var tinyshop = {
 					tinyshop.getsettings(this.responseText);
 					break;
 					case 'shipping':
-					tinyshop.getshipping(this.responseText);
+					tinyshop.getshipping(this.responseText,opts);
 					break;
 				}
 				
@@ -207,7 +226,7 @@ var tinyshop = {
 		var req = this.xhr();
 		var res = '';
 		
-		req.open("GET", uri + '&rnd=' + this.rnd(), true);
+		req.open("GET", uri + '&cache-control=' + this.instanceid, true);
 		req.withCredentials = true;
 		req.setRequestHeader('Access-Control-Allow-Origin', '*');
 
@@ -255,41 +274,15 @@ var tinyshop = {
 
 	/*
 	* Functions to retrieve JSON files. These are called by the caller function.
-	* Example: tinyshop.caller('inventory/site.json','settings');
+	* Example: tinyshop.caller('settings',[opt1,opt2,opt3],'inventory/site.json'); 
+	* The 3rd param is optional, as it is constructed from the 1st.
 	* This retrieves the site.json file, and prints the object out in html. 
 	*/
-
-    getshipping: function(jsonData) {
-	
-        var arr = [];
-	var col = [];
-        arr = JSON.parse(jsonData); 
-		
-        for (var i = 0; i < arr.length; i++) {
-            for (var key in arr[i]) {
-                if (col.indexOf(key) === -1) {
-                    col.push(key);
-                }
-            }
-        }
-	for (var i = 0; i < arr.length; i++) {
-			
-		for (var j = 0; j < col.length; j++) {
-				if(arr[i][col[j]] == '' || arr[i][col[j]] == null) {
-				} else {
-				document.write(col[j] + ':');
-				document.write(arr[i][col[j]]);
-				document.write('<br>');
-			}
-		}
-	}
-	
-    },
 	
     getsettings: function(jsonData) {
 	
         var arr = [];
-	var col = [];
+		var col = [];
         arr = JSON.parse(jsonData); 
 		
         for (var i = 0; i < arr.length; i++) {
@@ -307,6 +300,7 @@ var tinyshop = {
 				document.write(col[j] + ':');
 				document.write(arr[i][col[j]]);
 				document.write('<br>');
+				
 			}
 		}
 	}
@@ -314,9 +308,9 @@ var tinyshop = {
     },
 	
     getinventory: function(jsonData) {
-	
+		
         var arr = [];
-	var col = [];
+		var col = [];
         arr = JSON.parse(jsonData); 
 		
         for (var i = 0; i < arr.length; i++) {
@@ -326,30 +320,58 @@ var tinyshop = {
                 }
             }
         }
-	for (var i = 0; i < arr.length; i++) {
-			
-		for (var j = 0; j < col.length; j++) {
-				if(arr[i][col[j]] == '' || arr[i][col[j]] == null) {
-				} else {
-				document.write(col[j] + ':');
-				document.write(arr[i][col[j]]);
-				document.write('<br>');
+		for (var i = 0; i < arr.length; i++) {
+				
+			for (var j = 0; j < col.length; j++) {
+					if(arr[i][col[j]] == '' || arr[i][col[j]] == null) {
+					} else {
+					document.write(col[j] + ':');
+					document.write(arr[i][col[j]]);
+					document.write('<br>');
+					
+				}
 			}
 		}
-	}
     },
 	
-    calculatetotal: function(verzendmethode, totaal, parentId) {
+    getshipping: function(jsonData,opts) {
 
-	// load site configurations, such as currency selection.
-	tinyshop.caller('inventory/site.json','settings');
-	tinyshop.caller('inventory/shipping.json','shipping');
+		if(!opts[2]) {
+			this.message('Shipping country is not set, cannot calculate shipping cost.');
+		} else {
+			
+			var arr = [];
+			var col = [];
+			
+			var verzendmethode 	= opts[0];
+			var totaal 			= opts[1];
+			var country 		= opts[2];
+			var parentId 		= opts[3];
+			
+			var sc = 'shipping.' + escape(country);
+			
+			arr = JSON.parse(jsonData); 
+				
+				for (var i = 0; i < arr.length; i++) {
+					for (var key in arr[i]) {
+						if (col.indexOf(key) === -1) {
+							col.push(key);
+						}
+					}
+				}
+				
+			for (var i = 0; i < arr.length; i++) {
+					
+				for (var j = 0; j < col.length; j++) {
 
-	// standaard NL
-	// var verznd_gw = '190';
-	// var vzdb = '1.90';
-	// var totals = parseFloat(totaal) + parseFloat(vzdb);
-	// this.dom(parentId,'html',"&euro;" + totals.toFixed(2));
+					if(col[j] == sc) {
+						var sp = arr[i][col[j]]; // shipping price
+						var totals = this.math('float',totaal) + this.math('float',sp);
+						this.dom(parentId,'html',"&euro;" + this.math('float',totals,2));
+					}	
+				}
+			}
+		}
     },
 
     wishlist: function(method, product, g) {
@@ -445,6 +467,12 @@ var tinyshop = {
 			}
 			req.send(null);
 		}
-	}
-
+	},
 };
+
+/* Cache-control.
+ * Setting a fixed instanceid when main.js is loaded. 
+ * the instanceid prevents json caching for recently updated files, 
+ * but also prevents caching too much on individual json files.
+*/
+tinyshop.instanceid = tinyshop.rnd();
