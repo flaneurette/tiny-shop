@@ -54,12 +54,12 @@ var tinyshop = {
 			
 			case 'int':
 			if(mod > 1) {
-					while(mod > i) {
-						this.math('int',e,mod);
-						this.result = parseInt(e);
-						mod--;
-					}
-				} else {
+				while(mod > i) {
+					this.math('int',e,mod);
+					this.result = parseInt(e);
+					mod--;
+				}
+			} else {
 			this.result = parseInt(e);
 			}
 			
@@ -103,7 +103,6 @@ var tinyshop = {
 			try {
 				this.dom('toggle' + id,'display','none');
 				this.dom('cat' + id,'fontWeight','100');
-		
 			} catch (e) {}
 		}
 		
@@ -263,7 +262,7 @@ var tinyshop = {
     getshipping: function(jsonData) {
 	
         var arr = [];
-		var col = [];
+	var col = [];
         arr = JSON.parse(jsonData); 
 		
         for (var i = 0; i < arr.length; i++) {
@@ -273,24 +272,24 @@ var tinyshop = {
                 }
             }
         }
-		
-		for (var i = 0; i < arr.length; i++) {
-			for (var j = 0; j < col.length; j++) {
+	for (var i = 0; i < arr.length; i++) {
+			
+		for (var j = 0; j < col.length; j++) {
 				if(arr[i][col[j]] == '' || arr[i][col[j]] == null) {
 				} else {
 				document.write(col[j] + ':');
 				document.write(arr[i][col[j]]);
 				document.write('<br>');
-				}
 			}
 		}
+	}
 	
     },
 	
     getsettings: function(jsonData) {
 	
         var arr = [];
-		var col = [];
+	var col = [];
         arr = JSON.parse(jsonData); 
 		
         for (var i = 0; i < arr.length; i++) {
@@ -300,24 +299,24 @@ var tinyshop = {
                 }
             }
         }
-		
-		for (var i = 0; i < arr.length; i++) {
-			for (var j = 0; j < col.length; j++) {
+	for (var i = 0; i < arr.length; i++) {
+			
+		for (var j = 0; j < col.length; j++) {
 				if(arr[i][col[j]] == '' || arr[i][col[j]] == null) {
 				} else {
 				document.write(col[j] + ':');
 				document.write(arr[i][col[j]]);
 				document.write('<br>');
-				}
 			}
 		}
+	}
 	
     },
 	
     getinventory: function(jsonData) {
 	
         var arr = [];
-		var col = [];
+	var col = [];
         arr = JSON.parse(jsonData); 
 		
         for (var i = 0; i < arr.length; i++) {
@@ -327,34 +326,33 @@ var tinyshop = {
                 }
             }
         }
-		
-		for (var i = 0; i < arr.length; i++) {
-			for (var j = 0; j < col.length; j++) {
+	for (var i = 0; i < arr.length; i++) {
+			
+		for (var j = 0; j < col.length; j++) {
 				if(arr[i][col[j]] == '' || arr[i][col[j]] == null) {
 				} else {
 				document.write(col[j] + ':');
 				document.write(arr[i][col[j]]);
 				document.write('<br>');
-				}
 			}
 		}
-	
+	}
     },
 	
-	calculatetotal: function(verzendmethode, totaal, parentId) {
+    calculatetotal: function(verzendmethode, totaal, parentId) {
 
-		// load site configurations, such as currency selection.
-		tinyshop.caller('inventory/site.json','settings');
-		tinyshop.caller('inventory/shipping.json','shipping');
+	// load site configurations, such as currency selection.
+	tinyshop.caller('inventory/site.json','settings');
+	tinyshop.caller('inventory/shipping.json','shipping');
 
-		// standaard NL
-		// var verznd_gw = '190';
-		// var vzdb = '1.90';
-		// var totals = parseFloat(totaal) + parseFloat(vzdb);
-		// this.dom(parentId,'html',"&euro;" + totals.toFixed(2));
-	},
+	// standaard NL
+	// var verznd_gw = '190';
+	// var vzdb = '1.90';
+	// var totals = parseFloat(totaal) + parseFloat(vzdb);
+	// this.dom(parentId,'html',"&euro;" + totals.toFixed(2));
+    },
 
-	wishlist: function(method, product, g) {
+    wishlist: function(method, product, g) {
 
 		var req = this.xhr();
 
@@ -389,9 +387,9 @@ var tinyshop = {
 		}
 		
 		req.send(null);
-	},
+    },
 	
-	redeemVoucher: function() {
+    redeemVoucher: function() {
 
 		var voucher = this.dom('voucher','get');
 
