@@ -3,7 +3,7 @@
 set_time_limit(0); 
 session_start(); 
 
-require("class.imageSanitize.php");
+require("../resources/php/class.imageSanitize.php");
 
 if(isset($_REQUEST['upload'])) {
 
