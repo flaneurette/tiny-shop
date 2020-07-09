@@ -5,6 +5,7 @@ class Security {
 	/**
 	* Security class
 	*/
+	CONST MAXINT  = 9999999;
 
 	public function __construct() {
 		$securing = true;
@@ -30,7 +31,8 @@ class Security {
 	* @return string
 	*/
 	
-	public function sanitize($string,$method='',$buffer=255) {
+	public function sanitize($string,$method='',$buffer=255) 
+	{
 		
 		$data = '';
 		$strbf = '';
@@ -42,7 +44,13 @@ class Security {
 			break;
 			
 			case 'num':
+			
+			if($string > self::MAXINT) {
+				return false;
+				} else {
 				$this->data =  preg_replace('/[^0-9]/','', $string);
+			}
+				
 			break;
 			
 			case 'unicode':
