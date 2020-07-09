@@ -6,7 +6,7 @@ var tinyshop = {
 
 	// vars
 	name: "tinyshop javascript library",
-	version: "1.12",
+	version: "1.13",
 	instanceid: 1e5,
 	messagecode: 1e5,
 	csp: ["Access-Control-Allow-Origin","*"],
@@ -32,21 +32,49 @@ var tinyshop = {
 	
 	message: function(str) {
 		
-		window.alert(str + '\n' + '-'.repeat(32) + '\n' + '#TS-MSGC-' + this.messagecode);
-		if(this.messagecode < Number.MAX_SAFE_INTEGER) {
+		window.alert(this.htmlspecialchars(str,'full') + '\n' + '-'.repeat(32) + '\n' + '#TS-MSGC-' + this.messagecode);
+		if(this.messagecode < this.math('maxint')) {
 			this.messagecode++;
 		}
 	},
 
+	htmlspecialchars: function(str,method='full',encoding='utf-8') {
+		
+		switch(method) {
+			
+			case 'full':
+			f 	= ['<','>','!','$','%','\'','(',')','*','+',':','=','`','{','}','[',']'];
+			r 	= ['&#60;','&#62;','&#34;','&#36;','&#37;','&#39;','&#40;','&#41;','&#42;','&#43;','&#58;','&#61;','&#96;','&#123;','&#125;','&#91;','&#93;'];
+			break;
+			
+			case 'uri':
+			f 	= ['<','>','\''];
+			r 	= ['&#60;','&#62;','&#39;'];
+			break;
+		}
+		
+		for (var i = 0; i < f.length; i++) {
+			str = String(str).replace(f[i], r[i]);
+		}
+		 
+		return str;
+	},
+	
+	duplicatearray: function(a,b) {
+		a.length = 0;
+		a.push.apply(a, b);
+		return a;
+	},
+	
 	redirect: function(uri) {
 		if(!uri) {
-			document.location = location.href;
+			document.location = this.htmlspecialchars(location.href,'uri');
 			} else {
-			document.location = escape(uri);
+			document.location = this.htmlspecialchars(uri,'uri');
 		}
 	},
 	
-	math: function(method,e,mod=1) {
+	math: function(method,e=1,mod=1) {
 		
 		var result;
 		let i = 0;
@@ -61,7 +89,7 @@ var tinyshop = {
 					mod--;
 				}
 			} else {
-			this.result = parseInt(e);
+			this.result = parseInt(e); 
 			}
 			
 			break;
@@ -77,6 +105,10 @@ var tinyshop = {
 			case 'rand':
 			this.result = Math.random(1,Number.MAX_SAFE_INTEGER);
 			break;
+			
+			case 'maxint':
+			this.result = Number.MAX_SAFE_INTEGER;
+			break;		
 			
 			case 'uuid':
 			this.result = Math.random().toString(16).slice(2, 10);
@@ -119,44 +151,54 @@ var tinyshop = {
 	},
 	
 	dom: function(id,method,value='') {
-		
-		switch(method) {
 
-			case 'get':
-			return document.getElementById(escape(id)).value;
-			break;	
+		try {
+			if((value) && value != null || value != 'null') {
 			
-			case 'set':
-			document.getElementById(escape(id)).value = value;
-			break;
+				switch(method) {
+
+					case 'get':
+					return document.getElementById(escape(id)).value;
+					break;	
+					
+					case 'set':
+					document.getElementById(escape(id)).value = this.htmlspecialchars(value,'full');
+					break;
+					
+					case 'html':
+					document.getElementById(escape(id)).innerHTML = this.htmlspecialchars(value,'full');
+					break;
+					
+					case 'gethtml':
+					document.getElementById(escape(id)).innerHTML;
+					break;	
+					
+					case 'display':
+					document.getElementById(escape(id)).style.display = this.htmlspecialchars(value,'full');
+					break;	
+					
+					case 'fontWeight':
+					document.getElementById(escape(id)).style.fontWeight = this.htmlspecialchars(value,'full');
+					break;	
+					
+					case 'className':
+					document.getElementById(escape(id)).style.fontWeight = this.htmlspecialchars(value,'full');
+					break;				
+				}
 			
-			case 'html':
-			document.getElementById(escape(id)).innerHTML = value;
-			break;
-			
-			case 'gethtml':
-			document.getElementById(escape(id)).innerHTML;
-			break;	
-			
-			case 'display':
-			document.getElementById(escape(id)).style.display = value;
-			break;	
-			
-			case 'fontWeight':
-			document.getElementById(escape(id)).style.fontWeight = value;
-			break;	
-			
-			case 'className':
-			document.getElementById(escape(id)).style.fontWeight = value;
-			break;				
+			} else {
+				this.message('DOM constructor could not populate the requested action.');
+			}
+		} catch(e) {
+			this.message(this.htmlspecialchars(e,'full'));
 		}
 		
 		return true;
 	},
 	
 	returner: function(data) {
-		window.alert(data);
-		return data;
+		window.alert(this.htmlspecialchars(data,'full'));
+		return this.htmlspecialchars(data,'full');
 	},
 
 	json: function(uri) {
@@ -177,12 +219,49 @@ var tinyshop = {
 				break;
 				
 				case 'inventory':
-				var uri = 'inventory/shipping.json';
+				var uri = 'inventory/shop.json';
 				break;	
 				
 				case 'settings':
 				var uri = 'inventory/site.json';
+				break;
+				
+				case 'currencies':
+				var uri = 'inventory/currencies.json';
+				break;	
+				
+				case 'pages':
+				var uri = 'inventory/pages.json';
+				break;	
+				
+				case 'articles':
+				var uri = 'inventory/articles.json';
+				break;	
+
+				case 'blog':
+				var uri = 'inventory/blog.json';
+				break;	
+				
+				case 'messages':
+				var uri = 'inventory/messages.json';
+				break;	
+
+				case 'conf':
+				var uri = 'inventory/shop.conf.json';
+				break;	
+				
+				case 'cart':
+				var uri = 'inventory/cart.json';
+				break;	
+				
+				case 'customer':
+				var uri = 'inventory/customer.json';
 				break;		
+				
+				case 'orders':
+				var uri = 'inventory/orders.json';
+				break;		
+				
 			}	
 		}
 		
@@ -190,6 +269,9 @@ var tinyshop = {
 		var req  = tinyshop.xhr();
 		req.onreadystatechange = returncall;
 		req.open("GET", uri + '?cache-control=' + this.instanceid, true); 
+		req.withCredentials = true;
+		req.setRequestHeader('Access-Control-Allow-Origin', '*');
+		req.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		req.send();
 		
 		function returncall() {
@@ -197,15 +279,54 @@ var tinyshop = {
 			if (req.readyState == 4) {	
 				// add a switch case for each file we need to process.
 				switch(func) {
+					
 					case 'inventory':
 					tinyshop.getinventory(this.responseText);
 					break;
+					
 					case 'settings':
 					tinyshop.getsettings(this.responseText);
 					break;
+					
 					case 'shipping':
 					tinyshop.getshipping(this.responseText,opts);
 					break;
+					
+					case 'currencies':
+					tinyshop.getcurrencies(this.responseText,opts);
+					break;	
+					
+					case 'pages':
+					tinyshop.getpages(this.responseText,opts);
+					break;	
+					
+					case 'articles':
+					tinyshop.getarticles(this.responseText,opts);
+					break;	
+
+					case 'blog':
+					tinyshop.getblog(this.responseText,opts);
+					break;	
+					
+					case 'messages':
+					tinyshop.getmessages(this.responseText,opts);
+					break;	
+
+					case 'conf':
+					tinyshop.getconf(this.responseText,opts);
+					break;	
+					
+					case 'cart':
+					tinyshop.getcart(this.responseText,opts);
+					break;	
+					
+					case 'customer':
+					tinyshop.getcustomer(this.responseText,opts);
+					break;		
+					
+					case 'orders':
+					tinyshop.getorders(this.responseText,opts);
+					break;	
 				}
 				
 			}
@@ -219,6 +340,7 @@ var tinyshop = {
 		req.open("GET", uri, true);
 		req.withCredentials = true;
 		req.setRequestHeader('Access-Control-Allow-Origin', '*');
+		req.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		
 		req.onreadystatechange = function() {
 			if (req.readyState == 4 && req.status == 200) {
@@ -236,6 +358,7 @@ var tinyshop = {
 		req.open("GET", uri, true);
 		req.withCredentials = true;
 		req.setRequestHeader('Access-Control-Allow-Origin', '*');
+		req.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 
 		req.onreadystatechange = function() {
 			if (req.readyState == 4 && req.status == 200) {
@@ -299,19 +422,18 @@ var tinyshop = {
                 }
             }
         }
-	for (var i = 0; i < arr.length; i++) {
-			
-		for (var j = 0; j < col.length; j++) {
-				if(arr[i][col[j]] == '' || arr[i][col[j]] == null) {
-				} else {
-				document.write(col[j] + ':');
-				document.write(arr[i][col[j]]);
-				document.write('<br>');
+		
+		for (var i = 0; i < arr.length; i++) {
 				
+			for (var j = 0; j < col.length; j++) {
+					if(arr[i][col[j]] == '' || arr[i][col[j]] == null) {
+					} else {
+					document.write(col[j] + ':');
+					document.write(arr[i][col[j]]);
+					document.write('<br>');
+				}
 			}
 		}
-	}
-	
     },
 	
     getinventory: function(jsonData) {
@@ -327,6 +449,7 @@ var tinyshop = {
                 }
             }
         }
+		
 		for (var i = 0; i < arr.length; i++) {
 				
 			for (var j = 0; j < col.length; j++) {
@@ -335,7 +458,6 @@ var tinyshop = {
 					document.write(col[j] + ':');
 					document.write(arr[i][col[j]]);
 					document.write('<br>');
-					
 				}
 			}
 		}
@@ -350,27 +472,25 @@ var tinyshop = {
 			var arr = [];
 			var col = [];
 			
-			var verzendmethode 	= opts[0];
+			var verzendmethode 	= this.htmlspecialchars(opts[0],'full');
 			var totaal 			= opts[1];
-			var country 		= opts[2];
-			var parentId 		= opts[3];
+			var country 		= this.htmlspecialchars(opts[2],'full');
+			var parentId 		= this.htmlspecialchars(opts[3],'full');
 			
-			var sc = 'shipping.' + escape(country);
+			var sc = 'shipping.' + this.htmlspecialchars(country,'full');
 			
 			arr = JSON.parse(jsonData); 
 				
-				for (var i = 0; i < arr.length; i++) {
+			for (var i = 0; i < arr.length; i++) {
 					for (var key in arr[i]) {
 						if (col.indexOf(key) === -1) {
-							col.push(key);
-						}
+						col.push(key);
 					}
 				}
+			}
 				
 			for (var i = 0; i < arr.length; i++) {
-					
 				for (var j = 0; j < col.length; j++) {
-
 					if(col[j] == sc) {
 						var sp = arr[i][col[j]]; // shipping price
 						var totals = this.math('float',totaal) + this.math('float',sp);
@@ -385,7 +505,7 @@ var tinyshop = {
 
 		var req = this.xhr();
 
-		req.open("GET", '/wishlist/' + this.rnd() + '/' + method + '/' + escape(product) + '&tr=' + g, true);
+		req.open("GET", '/wishlist/' + this.rnd() + '/' + method + '/' + this.htmlspecialchars(product,'full') + '&tr=' + this.htmlspecialchars(g,'uri'), true);
 		
 		req.onreadystatechange = function() {
 
@@ -427,7 +547,7 @@ var tinyshop = {
 		} else {
 			
 			var req = this.xhr();
-			req.open("GET", '/query/' + this.rnd() + '/voucher/' + escape(voucher) + '/', true);
+			req.open("GET", '/query/' + this.rnd() + '/voucher/' + this.htmlspecialchars(voucher) + '/', true);
 			req.onreadystatechange = function() {
 				if (req.readyState == 4 && req.status == 200) {
 
