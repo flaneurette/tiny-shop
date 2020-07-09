@@ -1,6 +1,8 @@
 # Password protected area.
 
-Tinyshop is entirely based upon CSV and JSON files. Since Tinyshop does not have an elaborate administration area, it uses a .htaccess and Apache basic authentication to access the administration folder. The administration folder contains a development folder, and a few upload pages to convert CSV to JSON. Personally, I upload these files with my own SCP software and Secure Copy the data. This administration page is therefore entirely optional.
+Tinyshop is entirely based upon CSV and JSON files. Since Tinyshop does not have an elaborate administration area, it uses a .htaccess and Apache basic authentication to access the administration folder. The administration folder contains a development folder, and a few upload pages to convert CSV to JSON. Personally, I upload the CSV and JSON files with my own SCP software and Secure Copy the data. This administration page is therefore entirely optional.
+
+# Configuration
 
 A htpasswd needs to be generated and placed below the /www/ folder.
 
