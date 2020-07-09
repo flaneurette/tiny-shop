@@ -34,6 +34,7 @@ RewriteRule ^cart/(.*)/(.*)/(.*)/$ query.php?action=$1&id=$3 [NC,L]
 RewriteRule ^shop/cart/(.*)/(.*)/(.*)/$ query.php?action=$1&id=$3 [NC,L]
 
 # Webapplication firewall.
+
 RewriteCond %{REQUEST_METHOD}  ^(HEAD|TRACE|DELETE|TRACK) [NC,OR]
 RewriteCond %{HTTP_REFERER}    ^(.*)(<|>|'|%0A|%0D|%27|%3C|%3E|%00).* [NC,OR]
 RewriteCond %{REQUEST_URI}     ^/(,|;|<|>|/{2,999}).* [NC,OR]
@@ -48,11 +49,6 @@ RewriteCond %{QUERY_STRING}    ^.*(localhost|loopback|127\.0\.0\.1).* [NC,OR]
 RewriteCond %{QUERY_STRING}    ^.*\.[A-Za-z0-9].* [NC,OR] # prevents shell injection
 RewriteCond %{QUERY_STRING}    ^.*(<|>|'|%0A|%0D|%27|%3C|%3E|%00).* [NC]
 RewriteRule ^(.*)$ index.php
-
-<IfModule mod_headers.c>
-    # Remove "includeSubDomains" if you don't want to enforce HSTS on all subdomains
-    Header always set Strict-Transport-Security "max-age=31536000;includeSubDomains"
-</IfModule>
 
 # Prevent framing
 Header set X-Frame-Options SAMEORIGIN env=!allow_framing
@@ -70,20 +66,7 @@ Header set X-Frame-Options SAMEORIGIN env=!allow_framing
     # Require all denied
 </FilesMatch>
 
-<IfModule mod_headers.c>
-    BrowserMatch MSIE is-msie
-    Header set X-UA-Compatible IE=edge env=is-msie
-</IfModule>
-
 <IfModule mod_deflate.c>
-
-    # Force compression for mangled headers.
-    <IfModule mod_setenvif.c>
-        <IfModule mod_headers.c>
-            SetEnvIfNoCase ^(Accept-EncodXng|X-cept-Encoding|X{15}|~{15}|-{15})$ ^((gzip|deflate)\s*,?\s*)+|[X~-]{4,13}$ HAVE_Accept-Encoding
-            RequestHeader append Accept-Encoding "gzip,deflate" env=HAVE_Accept-Encoding
-        </IfModule>
-    </IfModule>
 
     # Compress all output labeled with one of the following MIME-types
     <IfModule mod_filter.c>
@@ -107,6 +90,7 @@ Header set X-Frame-Options SAMEORIGIN env=!allow_framing
 </IfModule>
 
 <IfModule mod_expires.c>
+
     ExpiresActive on
     ExpiresDefault                                      "access plus 1 month"
 
@@ -134,24 +118,4 @@ Header set X-Frame-Options SAMEORIGIN env=!allow_framing
     ExpiresByType application/x-web-app-manifest+json   "access plus 0 seconds"
     ExpiresByType text/cache-manifest                   "access plus 0 seconds"
 
-  # Media
-    ExpiresByType audio/ogg                             "access plus 1 month"
-    ExpiresByType image/gif                             "access plus 1 month"
-    ExpiresByType image/jpeg                            "access plus 1 month"
-    ExpiresByType image/png                             "access plus 1 month"
-    ExpiresByType video/mp4                             "access plus 1 month"
-    ExpiresByType video/ogg                             "access plus 1 month"
-    ExpiresByType video/webm                            "access plus 1 month"
-
-  # Web feeds
-    ExpiresByType application/atom+xml                  "access plus 1 hour"
-    ExpiresByType application/rss+xml                   "access plus 1 hour"
-
-  # Web fonts
-    ExpiresByType application/font-woff2                "access plus 1 month"
-    ExpiresByType application/font-woff                 "access plus 1 month"
-    ExpiresByType application/vnd.ms-fontobject         "access plus 1 month"
-    ExpiresByType application/x-font-ttf                "access plus 1 month"
-    ExpiresByType font/opentype                         "access plus 1 month"
-    ExpiresByType image/svg+xml                         "access plus 1 month"
 </IfModule>
