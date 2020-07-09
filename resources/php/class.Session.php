@@ -1,12 +1,14 @@
 <?php
 
+
 class Session {
 
-	CONST PWD 	= "Password to encrypt session data";
+	CONST PWD 		= "Password to encrypt session data";
 	CONST FILE_ENC  = "UTF-8";
 
 	public function __construct() {
 		$incomplete = false;
+		session_regenerate_id;
 	}
 	
 	/**
@@ -17,6 +19,19 @@ class Session {
 	public function cleanInput($string) 
 	{
 		return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
+	}
+	/**
+	* Sanitizes user-input
+	* @param string
+	* @return string
+	*/
+	public function cleanArray($string) 
+	{
+		if(is_array($string)) {
+			return @array_map("htmlspecialchars", $string, array(ENT_QUOTES, 'UTF-8'));
+			} else {
+			return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
+		}
 	}
 	
 	/**
@@ -47,6 +62,63 @@ class Session {
 		} 
 		$_SESSION['messages'] = array();
 	} 
+	
+	/**
+	* Showing session messages.
+	* @return mixed object/array
+	*/	
+	public function addtocart($obj) 
+	{ 
+		
+		if(!empty($_SESSION['cart'])) { 
+		
+			$c = count($_SESSION['cart']);
+			
+			for($i = 0; $i < $c; $i++) {
+				
+				if($_SESSION['cart'][$i]['product.id'] == $obj['product.id']) {
+					
+					if($obj['product.qty'] < 1) {
+						$obj['product.qty'] = 1;
+						} elseif($obj['product.qty'] > 9999) {
+						$obj['product.qty'] = 1;
+					} else {}
+					
+					$_SESSION['cart'][$i]['product.qty'] = ($_SESSION['cart'][$i]['product.qty'] + $obj['product.qty']);
+					} else {
+					array_push($_SESSION['cart'],$obj);
+				}
+			}
+			
+		} else {
+			$_SESSION['cart'] = [];
+			array_push($_SESSION['cart'],$obj);
+		}
+		
+		return true;
+	} 	
+	
+	
+	/**
+	* Showing session messages.
+	* @return mixed object/array
+	*/	
+	public function getcart() 
+	{ 
+		if(isset($_SESSION['cart'])) { 
+
+			$array = [];
+			
+			foreach($_SESSION['cart'] as $item) { 
+				array_push($array,cleanArray($item));
+			} 
+			
+		}  else {
+			$_SESSION['cart'] = array();
+		}
+		return $array;
+	} 	
+	
 	
 	/**
 	* Encryption function (requires OpenSSL)
@@ -97,6 +169,5 @@ class Session {
 			return $original_plaintext;
 		}
 	}
-	
 }
 ?>
