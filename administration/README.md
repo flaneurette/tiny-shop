@@ -1,6 +1,6 @@
 # Password protected area.
 
-It uses a .htaccess and Apache basic authentication to access the administration folder. It is also restricted by IP.
+Tinyshop uses a .htaccess and Apache basic authentication to access the administration folder. It is also restricted by IP.
 
 A htpasswd needs to be generated and placed below the /www/ folder.
 
@@ -24,5 +24,6 @@ Require valid-user
 # Documentation
 
 https://httpd.apache.org/docs/2.4/howto/auth.html
+
 https://httpd.apache.org/docs/2.4/mod/mod_ssl.html
 
