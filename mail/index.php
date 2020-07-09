@@ -10,14 +10,13 @@ header("X-XSS-Protection: 1; mode=block");
 header("Strict-Transport-Security: max-age=30");
 header("Referrer-Policy: same-origin");
 
-// Start our session.
 session_start();
 
-// Include our class, optional: make it required.
-include("\resources\php\class.SecureMail.php");
+include("resources/php/class.SecureMail.php");
 		
 $setup = new \security\forms\SecureMail();
 $token = $setup->getToken();
+
 // Place the token inside a server-side session.
 $_SESSION['token'] = $token;
 
@@ -33,7 +32,6 @@ $robot = $setup->detectrobot();
 <h2>Contact</h2>
 <b>E-mail</b>
 For any inquiry, use the contact form below.
-
 
 <h2>Contact form</h2>Contact us and we will try to get back to your request as soon as time allows us to. Please leave your name and e-mail as well as your request. Thank you for your patience and inquiry. 
 <?php
