@@ -4,18 +4,29 @@ session_start();
 /* 
  * TinyShop PHP Query script that handles all XHR queries.
 */
+include("resources/php/class.Security.php");
 include("resources/php/class.Session.php");
 
 $session = new Session();
-
-include("resources/php/class.Security.php");
-
 $secure = new Security();
 
-/* todo: 
+$token = $secure->getToken();
+
+$_SESSION['token'] = $token;
+
+/* 
+	todo: 
 	+ add anti-csrf
 */
 
+if(isset($_POST['token']))  {
+	// A token was provided through $_POST data. Check if it is the same as our session token.
+	if($_POST['token'] === $_SESSION['token']) {
+		// token is correct.
+	}
+}
+			
+			
 $default = null;
 
 if(isset($_GET['action'])) {
@@ -34,8 +45,8 @@ if(isset($_GET['action'])) {
 			$qty = (int)$secure->sanitize($_GET['qty'],'num');
 			
 			$arr = [
-				'product.id' => $id,
-				'product.qty' => $qty
+					'product.id' => $id,
+					'product.qty' => $qty
 			];
 
 			$session->addtocart($arr);
