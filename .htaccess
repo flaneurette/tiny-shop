@@ -6,6 +6,26 @@ ServerSignature Off
 
 IndexIgnore *
 
+# PHP 5.
+# <IfModule mod_php5.c>
+#   php_value include_path ".:/usr/local/lib/php"
+#   php_flag mail.add_x_header Off
+#   php_value memory_limit 64M
+#   php_value post_max_size 10M
+#   php_value upload_max_filesize 10M
+#   php_value display_errors 0
+# </IfModule>
+
+# PHP 7.
+# <IfModule mod_php7.c>
+#   php_value include_path ".:/usr/local/lib/php"
+#   php_flag mail.add_x_header Off
+#   php_value memory_limit 64M
+#   php_value post_max_size 10M
+#   php_value upload_max_filesize 10M
+#   php_value display_errors 0
+# </IfModule>
+
 # Rewrite URI's
 RewriteCond %{HTTPS} !on
 RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI}
