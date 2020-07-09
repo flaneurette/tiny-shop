@@ -15,3 +15,7 @@ Add your IP:
 Allow from 111.222.333.444
 
 
+# Documentation
+
+https://httpd.apache.org/docs/2.4/howto/auth.html
+
