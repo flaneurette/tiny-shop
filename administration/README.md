@@ -14,8 +14,14 @@ Add your IP:
 
 Allow from 111.222.333.444
 
+# SSL
+
+Require ssl
+Require ssl-verify-client
+Require valid-user
 
 # Documentation
 
 https://httpd.apache.org/docs/2.4/howto/auth.html
+https://httpd.apache.org/docs/2.4/mod/mod_ssl.html
 
