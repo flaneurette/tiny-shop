@@ -30,8 +30,8 @@ RewriteRule ^wishlist/(.*)/(.*)/(.*)/(.*)/$ query.php?action=$2&product=$3&tr=$4
 
 # /cart/action/rnd/product/
 # /cart/addtocart/rnd/id/
-RewriteRule ^cart/(.*)/(.*)/(.*)/$ query.php?action=$1&id=$3 [NC,L]
-RewriteRule ^shop/cart/(.*)/(.*)/(.*)/$ query.php?action=$1&id=$3 [NC,L]
+RewriteRule ^cart/(.*)/(.*)/(.*)/(.*)/$ query.php?action=$1&id=$3&qty=$4 [NC,L]
+RewriteRule ^shop/cart/(.*)/(.*)/(.*)/(.*)/$ query.php?action=$1&id=$3&qty=$4 [NC,L]
 
 # Webapplication firewall.
 
