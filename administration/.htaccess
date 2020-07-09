@@ -1,0 +1,12 @@
+# password protect excluding specific ip
+
+<IfModule mod_auth.c>
+ AuthName "Username and password required"
+ AuthUserFile /home/path/.htpasswd
+ AuthType Basic
+ Require valid-user
+ Order Deny,Allow
+ Deny from all
+ Allow from 111.222.333.444
+ Satisfy Any
+</IfModule>
