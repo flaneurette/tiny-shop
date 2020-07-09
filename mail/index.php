@@ -12,7 +12,7 @@ header("Referrer-Policy: same-origin");
 
 session_start();
 
-include("resources/php/class.SecureMail.php");
+include("../resources/php/class.SecureMail.php");
 		
 $setup = new \security\forms\SecureMail();
 $token = $setup->getToken();
