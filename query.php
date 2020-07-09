@@ -1,12 +1,20 @@
 <?php
 
+session_start();
 /* 
  * TinyShop PHP Query script that handles all XHR queries.
 */
+include("resources/php/class.Session.php");
+
+$session = new Session();
 
 include("resources/php/class.Security.php");
 
 $secure = new Security();
+
+/* todo: 
+	+ add anti-csrf
+*/
 
 $default = null;
 
@@ -21,8 +29,19 @@ if(isset($_GET['action'])) {
 		switch($action) {
 			
 			case 'addtocart':
+			
 			$id = (int)$secure->sanitize($_GET['id'],'num');
-			// echo $id;
+			$qty = (int)$secure->sanitize($_GET['qty'],'num');
+			
+			$arr = [
+				'product.id' => $id,
+				'product.qty' => $qty
+			];
+
+			$session->addtocart($arr);
+			// echo $_SESSION['cart'][0]['product.id'];
+			// echo $_SESSION['cart'][0]['product.qty'];
+			echo "Product added to cart.";
 			break;
 			
 			case 'deletefromcart':
