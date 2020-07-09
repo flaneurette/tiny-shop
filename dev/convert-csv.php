@@ -7,7 +7,7 @@
 	error_reporting(E_ALL);
 	session_start();
 	
-	include("class.Shop.php");
+	include("../class.Shop.php");
 	$shop  = new Shop();
 	$shoplist = $shop->decode();
 	
