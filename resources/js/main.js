@@ -6,7 +6,7 @@ var tinyshop = {
 
 	// vars
 	name: "tinyshop javascript library",
-	version: "1.13",
+	version: "1.14",
 	instanceid: 1e5,
 	messagecode: 1e5,
 	csp: ["Access-Control-Allow-Origin","*"],
@@ -208,8 +208,18 @@ var tinyshop = {
 	 });
 	},
 	
-	caller: function(method,opts=[],uri) {
+	caller: function(action,method,opts=[],data=[],uri) {
 	
+		if(action == 'POST') {
+			
+			if(data != null) {
+				var requestMethod = 'POST';
+			}
+			
+		} else {
+			var requestMethod =  'GET';
+		}
+		
 		if(!uri) {
 			
 			switch(method) {
@@ -267,12 +277,26 @@ var tinyshop = {
 		
 		var func = method;
 		var req  = tinyshop.xhr();
+		
 		req.onreadystatechange = returncall;
-		req.open("GET", uri + '?cache-control=' + this.instanceid, true); 
+		req.open(requestMethod, uri + '?cache-control=' + this.instanceid, true); 
 		req.withCredentials = true;
 		req.setRequestHeader('Access-Control-Allow-Origin', '*');
-		req.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-		req.send();
+		
+		if(requestMethod == 'POST' ) {
+			
+			req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+			req.send(JSON.stringify(data));
+			
+			// req.onload = function (d) {
+			//     callback(d.currentTarget.response);
+			// };
+		
+			} else {
+			req.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+			req.send();
+		}
+
 		
 		function returncall() {
 
@@ -350,23 +374,39 @@ var tinyshop = {
 		req.send(null);
 	},
 	
-	fetchHTML: function(uri, id, method) {
+	fetchHTML: function(method,uri,data=[],id) {
 
 		var req = this.xhr();
 		var res = '';
+
+		if(method == 'POST') {
+			if(data != null) {
+				var requestMethod = 'POST';
+			}
+		} else {
+			var requestMethod =  'GET';
+		}
 		
-		req.open("GET", uri, true);
+		req.open(requestMethod, uri, true);
 		req.withCredentials = true;
 		req.setRequestHeader('Access-Control-Allow-Origin', '*');
-		req.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 
-		req.onreadystatechange = function() {
-			if (req.readyState == 4 && req.status == 200) {
-				this.res = req.responseText;
-				tinyshop.dom(id,'html',this.res);
+		if(requestMethod == 'POST' ) {
+			
+			req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+			req.send(data);
+			
+			req.onreadystatechange = function() {
+				if (req.readyState == 4 && req.status == 200) {
+					this.res = req.responseText;
+					tinyshop.dom(id,'html',this.res);
+				}
 			}
+		
+			} else {
+			req.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+			req.send(null);
 		}
-		req.send(null);
 	},
 
 	//--> end of tinyshop javascript logic.
@@ -376,9 +416,22 @@ var tinyshop = {
 	* Site specific functions
 	*/
 	
-	addtocart: function(productId) {
-		this.id = this.math('int',productId,1);
-		this.fetchHTML('/shop/cart/addtocart/' + this.instanceid + '/'+this.id+'/', 'GET', 'result');
+	addtocart: function(productId,qtyformId,token) {
+		
+		if(!token) {
+			var token = 'invalid';
+		}
+		
+		var quantity = this.dom(qtyformId,'get');
+		
+		if(!quantity || quantity.isNaN) {
+			var quantity = 1;
+		}
+		
+		this.id  = this.math('int',productId,1);
+		this.qty = this.math('int',quantity, 1);
+		
+		this.fetchHTML('POST','/shop/cart/addtocart/' + this.instanceid + '/', 'action=addtocart&id='+this.id+'&qty='+this.qty+'&token='+token, 'result');
 	},
 	
 	/*
@@ -404,8 +457,8 @@ var tinyshop = {
 
 	/*
 	* Functions to retrieve JSON files. These are called by the caller function.
-	* Example: tinyshop.caller('settings',[opt1,opt2,opt3],'inventory/site.json'); 
-	* The 3rd param is optional, as it is constructed from the 1st.
+	* Example: tinyshop.caller('GET','settings',[opt1,opt2,opt3],data={},'inventory/site.json'); 
+	* The 3rd and 4th param is optional, as it is constructed from the 1st. the 3rd takes a data object for POST.
 	* This retrieves the site.json file, and prints the object out in html. 
 	*/
 	
