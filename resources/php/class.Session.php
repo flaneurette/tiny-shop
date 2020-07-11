@@ -3,7 +3,7 @@
 
 class Session {
 
-	CONST PWD 		= "Password to encrypt session data";
+	CONST PWD 	= "Password to encrypt session data";
 	CONST FILE_ENC  = "UTF-8";
 	CONST MAXQTY    = 9999; // Max quantity per product, a fixed constant to prevent buffer overflows.
 
