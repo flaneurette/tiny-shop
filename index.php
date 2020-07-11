@@ -4,6 +4,11 @@
 	include("class.Shop.php");
 	
 	$shop  = new Shop();
+
+	$token = $shop->getToken();
+
+	$_SESSION['token'] = $token;
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -30,6 +35,6 @@
 				</center>
 			</div>
 			<!-- caller: method, opts, uri. -->
-			<button onclick="tinyshop.caller('shipping',['verzendmethode',100,'Afghanistan','result']);">test</button>
+			<button onclick="tinyshop.caller('GET','shipping',['verzendmethode',100,'Afghanistan','result']);">test</button>
 	</body>
 </html>
