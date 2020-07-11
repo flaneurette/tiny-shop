@@ -117,6 +117,8 @@ class Security {
 		
 		$bytes = 0;
 		
+		$_SESSION['token'] = "";
+		
 		if (function_exists('random_bytes')) {
 			$len   = mt_rand(self::MINHASHBYTES,self::MAXHASHBYTES);
         		$bytes .= bin2hex(random_bytes($len));
