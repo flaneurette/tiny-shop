@@ -5,6 +5,7 @@ class Session {
 
 	CONST PWD 		= "Password to encrypt session data";
 	CONST FILE_ENC  = "UTF-8";
+	CONST MAXQTY    = 9999; // Max quantity per product, a fixed constant to prevent buffer overflows.
 
 	public function __construct() {
 		$incomplete = false;
@@ -67,37 +68,92 @@ class Session {
 	* Showing session messages.
 	* @return mixed object/array
 	*/	
+	
+	function unique_array($array, $needle=false) {
+		
+		if(is_array($array)) {
+			
+			$arraynew = [];
+			$c = count($array);
+			$i=0;
+			foreach($array as $key => $value) {
+				if($needle) {
+					if(!in_array($array[$key][$needle],array_column($arraynew,$needle))) {
+						array_push($arraynew,$array[$i]);
+					}
+				} else {
+					if(!in_array($array[$i],$arraynew)) {
+					    array_push($arraynew,$array[$i]);
+					}		        
+				}
+			 $i++;
+			}
+			
+		return $arraynew;
+		} else {
+		return false;
+		}
+	}
+
 	public function addtocart($obj) 
 	{ 
+		$c = count($_SESSION['cart']);
 		
-		if(!empty($_SESSION['cart'])) { 
+		if($obj['product.qty'] > self::MAXQTY) {
+			$obj['product.qty'] = 1;
+		}
 		
-			$c = count($_SESSION['cart']);
-			
-			for($i = 0; $i < $c; $i++) {
+		if($c > 0) { 
+
+			for($i = 0; $i <= $c; $i++) {
 				
-				if($_SESSION['cart'][$i]['product.id'] == $obj['product.id']) {
-					
-					if($obj['product.qty'] < 1) {
-						$obj['product.qty'] = 1;
-						} elseif($obj['product.qty'] > 9999) {
-						$obj['product.qty'] = 1;
-					} else {}
-					
-					$_SESSION['cart'][$i]['product.qty'] = ($_SESSION['cart'][$i]['product.qty'] + $obj['product.qty']);
-					} else {
-					array_push($_SESSION['cart'],$obj);
-				}
+					if($_SESSION['cart'][$i]['product.id'] === $obj['product.id']) {
+						
+						if($obj['product.qty'] < 1) {
+							$obj['product.qty'] = 1;
+							} elseif($obj['product.qty'] > self::MAXQTY) {
+							$obj['product.qty'] = 1;
+						} else {}
+						
+						if(($_SESSION['cart'][$i]['product.qty'] + $obj['product.qty']) > self::MAXQTY) {
+						} else {
+						$_SESSION['cart'][$i]['product.qty'] = ($_SESSION['cart'][$i]['product.qty'] + $obj['product.qty']);
+						}
+						} else {
+						array_push($_SESSION['cart'],$obj);
+					}
 			}
 			
 		} else {
 			$_SESSION['cart'] = [];
 			array_push($_SESSION['cart'],$obj);
 		}
-		
+
 		return true;
 	} 	
 	
+	function deletefromcart($needle=false) {
+		
+		$array = $_SESSION['cart'];
+		
+		if($needle != false) {
+			if(is_array($array)) {
+				$c = count($array);
+				$i=0;
+				foreach($array as $key => $value) {
+					if($needle) {  
+						if(in_array($needle,$array[$i])) {
+							if($array[$i]['product.id'] == $needle) {
+								unset($array[$i]);
+							}
+						}
+					}
+				 $i++;
+				}
+			}
+		}
+		return $array;
+	}
 	
 	/**
 	* Showing session messages.
@@ -118,7 +174,6 @@ class Session {
 		}
 		return $array;
 	} 	
-	
 	
 	/**
 	* Encryption function (requires OpenSSL)
