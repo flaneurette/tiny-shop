@@ -448,3 +448,16 @@ label {
 label {
 	display: block;
 }
+
+#cart-contents {
+	display: block;
+	float: right;
+	width: 15%;
+	margin: 10px;
+	padding: 1.5em;
+	text-align: left;
+	position: top;
+	z-index:4;
+	background-color:#dedede;
+	border:1px solid #000;
+}
