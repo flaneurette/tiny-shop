@@ -7,6 +7,7 @@ class Shop {
 	CONST DOMAIN				= 'https://www.example.com'; 
 	CONST SHOPURI				= 'shop'; // path to the shop, without domain and trailing slash .i.e. : www.example.com/shop/ will be: shop
 	CONST SHOP				= "./inventory/shop.json";
+	CONST SHOPVERSION 			= "?cache-control=1"; // increment if major changes are made to the shop database.
 	CONST CSV				= "./inventory/csv/shop.csv"; 
 	CONST BACKUPEXT				= ".bak"; 
 	CONST PWD				= "Password to encrypt JSON"; // optional.
@@ -20,6 +21,13 @@ class Shop {
 	CONST MAXDESCRIPTION			= 500; // Max length of description.
 	CONST CURRENCY				= "&#163;";   // for a list, see currencies.json.
 
+	const MAXINT  			= 9999999;
+	const PHPENCODING 		= 'UTF-8';		// Characterset of PHP functions: (htmlspecialchars, htmlentities) 
+	const MINHASHBYTES		= 32; 			// Min. of bytes for secure hash.
+	const MAXHASHBYTES		= 64; 			// Max. of bytes for secure hash, more increases cost. Max. recommended: 256 bytes.
+	const MINMERSENNE		= 0xff; 		// Min. value of the Mersenne twister.
+	const MAXMERSENNE		= 0xffffffff; 	// Max. value of the Mersenne twister.
+	
 	public function __construct() {
 		$incomplete = false;
 	}
@@ -37,6 +45,85 @@ class Shop {
 			return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
 		}
 	}
+	
+	/**
+	* Sanitizes user-input
+	* @param string
+	* @return string
+	*/
+	
+	public function sanitize($string,$method='',$buffer=255) 
+	{
+		
+		$data = '';
+		$strbf = '';
+		
+		switch($method) {
+			
+			case 'alpha':
+				$this->data =  preg_replace('/[^a-zA-Z]/','', $string);
+			break;
+			
+			case 'num':
+			
+			if($string > self::MAXINT) {
+				return false;
+				} else {
+				$this->data =  preg_replace('/[^0-9]/','', $string);
+			}
+				
+			break;
+			
+			case 'alphanum':
+				$this->data =  preg_replace('/[^a-zA-Z-0-9]/','', $string);
+			break;
+			
+			case 'field':
+				$this->data =  preg_replace('/[^A-Za-z0-9-_.@]/','', $string);
+			break;
+			
+			case 'query':
+				$search  = ['`','"','\'',';'];
+				$replace = ['','','',''];
+				$this->data = str_replace($search,$replace,$string);
+			break;
+			
+			case 'cols':
+				// comma is allowed for selecting multiple columns.
+				$search  = ['`','"','\'',';'];
+				$replace = ['','','',''];
+				$this->data = str_replace($search,$replace,$string);
+			break;
+			
+			case 'table':
+				$search  = ['`','"',',','\'',';','.','$','%'];
+				$replace = ['','','','','','','',''];
+				$this->data = str_replace($search,$replace,$string);
+			break;
+			
+			case 'unicode':
+				$this->data =  preg_replace("/[^[:alnum:][:space:]]/u", '', $string);
+			break;
+			
+			case 'encode':
+				$this->data =  htmlspecialchars($string,ENT_QUOTES,self::PHPENCODING);
+			break;
+			
+			case 'entities':
+				$this->data =  htmlentities($string, ENT_QUOTES | ENT_HTML5, self::PHPENCODING);
+			break;
+			
+			case 'domain':
+				$this->data =  str_ireplace(array('http://','www.'),array('',''),$string);
+			break;
+			
+			default:
+			return $this->data;
+			
+			}
+		return $this->data;
+	}
+	
 	/**
 	* SEO-ing URL.
 	* @param string
@@ -292,6 +379,10 @@ class Shop {
 	public function getproducts($method,$category,$string=false) 
 	{
 		
+		
+		$token = $this->getToken();
+		$_SESSION['token'] = $token;
+	
 		isset($string) ? $this->$string = $string : $string = false;
 		isset($category) ? $this->$category = $category : $category = false;
 		isset($page_id) ? $this->page_id = (int)$_GET['page_id'] : $this->page_id = 1;
@@ -386,7 +477,7 @@ class Shop {
 						$string .= "<div class=\"ts-list-product-cat\">".$this->cleanInput($ts[$i]['product.category'])."</div>";
 						
 						if($configuration[0]['products.quick.cart'] == 'yes') {
-							$string .= "<div><input type='button' onclick='tinyshop.addtocart(\"".$ts[$i]['product.id']."\");' class='ts-list-cart-button' name='add_cart' value='".$this->cleanInput($configuration[0]['products.cart.button'])."' /></div>";
+							$string .= "<div><input type='text' name='qty' value='1' size='2' id='ts-group-cart-qty-".$i.'-'.$ts[$i]['product.id']."'><input type='button' onclick='tinyshop.addtocart(\"".$ts[$i]['product.id']."\",\"ts-group-cart-qty-".$i.'-'.$ts[$i]['product.id']."\",\"".$token."\");' class='ts-list-cart-button' name='add_cart' value='".$this->cleanInput($configuration[0]['products.cart.button'])."' /></div>";
 							} else {
 							$string .= "<div class='ts-list-view-link'><a href=\"product/".$this->cleanInput($ts[$i]['product.id'])."/\">view</a></div>";
 						}
@@ -404,7 +495,7 @@ class Shop {
 						$string .= "<div class=\"ts-group-product-cat\">".$this->cleanInput($ts[$i]['product.category'])."</div>";
 						
 						if($configuration[0]['products.quick.cart'] == 'yes') {
-							$string .= "<div><input type='button' onclick='tinyshop.addtocart(\"".$ts[$i]['product.id']."\");' class='ts-group-cart-button' name='add_cart' value='".$this->cleanInput($configuration[0]['products.cart.button'])."' /></div>";
+							$string .= "<div><input type='text' name='qty' value='1' size='2' id='ts-group-cart-qty-".$i.'-'.$ts[$i]['product.id']."'><input type='button' onclick='tinyshop.addtocart(\"".$ts[$i]['product.id']."\",\"ts-group-cart-qty-".$i.'-'.$ts[$i]['product.id']."\",\"".$token."\");' class='ts-group-cart-button' name='add_cart' value='".$this->cleanInput($configuration[0]['products.cart.button'])."' /></div>";
 							} else {
 							$string .= "<div class='ts-group-view-link'><a href=\"product/".$this->cleanInput($ts[$i]['product.id'])."/\">view</a></div>";
 						}
@@ -421,6 +512,29 @@ class Shop {
 		$string .= "</div>";		
 		
 		return $string;
+	}
+	
+	
+	public function getproductlist() {
+		
+		$json = "inventory/shop.json";
+		$cart = $this->load_json($json);
+		
+		$products = [];
+		
+		$i=0;
+			foreach($cart as $item)
+			{	
+				$products[$i] = [];
+				
+			foreach($item as $product => $value)
+			{
+				array_push($products[$i],[$product,$value]);
+			}
+		$i++;
+		}
+			
+		return $products;
 	}
 	
 	public function getpagelist($json,$method) {
@@ -492,7 +606,6 @@ class Shop {
 		
 		return $array;
 	} 	
-	
 	
 	public function gatewaylist($json,$keys) 
 	{
@@ -632,6 +745,43 @@ class Shop {
 		};
 	}
 
+	public function getToken()
+	{
+		
+		$bytes = 0;
+		
+		$_SESSION['token'] = "";
+		
+		if (function_exists('random_bytes')) {
+			$len   = mt_rand(self::MINHASHBYTES,self::MAXHASHBYTES);
+        		$bytes .= bin2hex(random_bytes($len));
+    		}
+		if (function_exists('openssl_random_pseudo_bytes')) {
+			$len   = mt_rand(self::MINHASHBYTES,self::MAXHASHBYTES);
+        		$bytes .= bin2hex(openssl_random_pseudo_bytes($len));
+    		}
+		
+		if(strlen($bytes) < 128) {
+			$bytes .= mt_rand(self::MINMERSENNE,self::MAXMERSENNE) . mt_rand(self::MINMERSENNE,self::MAXMERSENNE) . mt_rand(self::MINMERSENNE,self::MAXMERSENNE)
+				. mt_rand(self::MINMERSENNE,self::MAXMERSENNE) . mt_rand(self::MINMERSENNE,self::MAXMERSENNE) . mt_rand(self::MINMERSENNE,self::MAXMERSENNE) 
+				. mt_rand(self::MINMERSENNE,self::MAXMERSENNE) . mt_rand(self::MINMERSENNE,self::MAXMERSENNE) . mt_rand(self::MINMERSENNE,self::MAXMERSENNE) 
+				. mt_rand(self::MINMERSENNE,self::MAXMERSENNE) . mt_rand(self::MINMERSENNE,self::MAXMERSENNE) . mt_rand(self::MINMERSENNE,self::MAXMERSENNE); 
+		}
+		
+		$token = hash('sha512',$bytes);
+		
+		if(isset($_SESSION['token']) && $_SESSION['token'] != false) 
+		{ 
+			if(strlen($_SESSION['token']) < 128) {
+				// $this->sessionmessage('Issue found: session token is too short.'); 
+				} else {
+				return $this->sanitize($_SESSION['token'],'alphanum'); 
+			}
+		} else { 
+		return $token;
+		} 
+	} 
+	
 	/**
 	* Encryption function (requires OpenSSL)
 	* @param string $plaintext
