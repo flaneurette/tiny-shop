@@ -18,6 +18,7 @@
 	?>
 	</head>
 	<body>
+	<div id="cart-contents"><a href="cart.php">View cart</a></div>
 	<div id="result"></div>
 		<h1>Shop product list</h1>
 			<div id="shop">
