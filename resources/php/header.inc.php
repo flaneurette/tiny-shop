@@ -9,6 +9,9 @@
 	ini_set('session.use_only_cookies', 1);
 	ini_set('session.cookie_secure', 1);
 	
+	ini_set("session.gc_maxlifetime", 300);
+	ini_set("session.cookie_lifetime", 300);
+	
 	session_start();
 
 	// error_reporting(E_ALL);
