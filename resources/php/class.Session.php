@@ -8,7 +8,7 @@ class Session {
 
 	public function __construct() {
 		$incomplete = false;
-		session_regenerate_id;
+		session_regenerate_id();
 	}
 	
 	/**
@@ -94,6 +94,18 @@ class Session {
 		}
 	}
 
+	public function sessioncheck() 
+	{ 
+		if(isset($_SESSION['cart'])) {
+			if(isset($_SESSION['cart'][0])) {
+				if($_SESSION['cart'][0] === NULL || $_SESSION['cart'] === NULL ) {
+				$_SESSION['cart'] = [];
+				}
+			}
+		}
+		return true;
+	}
+	
 	public function addtocart($obj) 
 	{ 
 		$c = count($_SESSION['cart']);
@@ -151,8 +163,32 @@ class Session {
 				}
 			}
 		}
+		
+		$array = array_values($array);
+
 		return $array;
 	}
+	
+	
+	function updatecart($id,$qty) {
+		
+		$array = $_SESSION['cart'];
+		
+		$i=0;
+		
+		foreach($array as $key => $value) {
+			
+			if($array[$i]['product.id'] == $id) {
+				$array[$i]['product.qty'] = (int) $qty;
+			}
+			
+			$i++;
+		}
+		
+		return $array;
+	}
+	
+	
 	
 	/**
 	* Showing session messages.

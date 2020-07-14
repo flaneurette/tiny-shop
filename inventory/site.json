@@ -11,7 +11,7 @@
 		"site.icon": "resources/images/favicon.ico",
 		"site.status": "online|offline|closed",
 		"site.updated": "",		
-		"site.currency": "&#163;",		
+		"site.currency": "0",		
 		"site.meta.title": "Tinyshop webshop",
 		"site.meta.description": "Tinyshop webshop is your place to shop!",
 		"site.meta.tags": "",

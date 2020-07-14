@@ -6,7 +6,7 @@ var tinyshop = {
 
 	// vars
 	name: "tinyshop javascript library",
-	version: "1.14",
+	version: "1.13",
 	instanceid: 1e5,
 	messagecode: 1e5,
 	csp: ["Access-Control-Allow-Origin","*"],
@@ -66,11 +66,16 @@ var tinyshop = {
 		return a;
 	},
 	
-	redirect: function(uri) {
-		if(!uri) {
-			document.location = this.htmlspecialchars(location.href,'uri');
-			} else {
-			document.location = this.htmlspecialchars(uri,'uri');
+	redirect: function(uri,dir=0) {
+		
+		if(dir==1) {
+			window.reload();
+		} else {
+			if(!uri) {
+				document.location = this.htmlspecialchars(location.href,'uri');
+				} else {
+				document.location = this.htmlspecialchars(uri,'uri');
+			}
 		}
 	},
 	
@@ -153,12 +158,12 @@ var tinyshop = {
 	dom: function(id,method,value='') {
 
 		try {
-			if((value) && value != null || value != 'null') {
+			if(id) {
 			
 				switch(method) {
 
 					case 'get':
-					return document.getElementById(escape(id)).value;
+					return document.getElementById(id).value;
 					break;	
 					
 					case 'set':
@@ -192,8 +197,7 @@ var tinyshop = {
 		} catch(e) {
 			this.message(this.htmlspecialchars(e,'full'));
 		}
-		
-		return true;
+	
 	},
 	
 	returner: function(data) {
@@ -287,11 +291,6 @@ var tinyshop = {
 			
 			req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
 			req.send(JSON.stringify(data));
-			
-			// req.onload = function (d) {
-			//     callback(d.currentTarget.response);
-			// };
-		
 			} else {
 			req.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 			req.send();
@@ -363,6 +362,7 @@ var tinyshop = {
 
 		req.open("GET", uri, true);
 		req.withCredentials = true;
+		
 		req.setRequestHeader('Access-Control-Allow-Origin', '*');
 		req.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		
@@ -399,7 +399,9 @@ var tinyshop = {
 			req.onreadystatechange = function() {
 				if (req.readyState == 4 && req.status == 200) {
 					this.res = req.responseText;
+					if(id) {
 					tinyshop.dom(id,'html',this.res);
+					}
 				}
 			}
 		
@@ -433,6 +435,36 @@ var tinyshop = {
 		
 		this.fetchHTML('POST','/shop/cart/addtocart/' + this.instanceid + '/', 'action=addtocart&id='+this.id+'&qty='+this.qty+'&token='+token, 'result');
 	},
+	
+	deletefromcart: function(id,token) {
+		
+		if(!token) {
+			this.dom('result','Token was not set.');
+		}
+		
+		this.fetchHTML('POST','/shop/cart/delete/' + this.instanceid + '/', 'action=deletefromcart&id='+this.math('int',id)+'&token='+token);
+		this.redirect();
+	},
+	
+	updatecart: function(id,qtyId,token) {
+		
+		if(!token) {
+			this.dom('result','Token was not set.');
+		}
+		
+		if(qtyId) { 	
+			qty = this.dom(qtyId,'get');	
+			} else {
+			qty = 1;
+		}
+		
+		this.id  = this.math('int',id,1);
+		this.qty = this.math('int',qty, 1);
+		
+		this.fetchHTML('POST','/shop/cart/update/' + this.instanceid + '/', 'action=updatecart&id='+this.id+'&qty='+this.qty+'&token='+token);
+		//this.redirect();		
+	},
+		
 	
 	/*
 	* PayPal functions.

@@ -13,12 +13,21 @@ $session = new Session();
 $secure = new Security();
 
 if(isset($_POST['token']))  {
-	
 	// A token was provided through $_POST data. Check if it is the same as our session token.
 	if($_POST['token'] === $_SESSION['token']) {
 		// token is correct.
 		} else {
 		exit;
+	}
+}
+
+if(isset($_POST['qty'])) {
+	if(is_int($_POST['qty'])) {
+		if($_POST['qty'] > 9999) {
+			$qty = 1;
+		}
+	} else {
+		$qty = (int)$_POST['qty'];
 	}
 }
 			
@@ -40,45 +49,68 @@ if(isset($_POST['action'])) {
 			
 			case 'addtocart':
 			
-			$id  = (int)$secure->sanitize($_POST['id'],'num');
-			$qty = (int)$secure->sanitize($_POST['qty'],'num');
-			
-			$arr = [
-					'product.id' => $id,
-					'product.qty' => $qty
-			];
+				$id  = (int)$secure->sanitize($_POST['id'],'num');
+				$qty = (int)$secure->sanitize($_POST['qty'],'num');
+				
+				$arr = [
+						'product.id' => $id,
+						'product.qty' => $qty
+				];
 
-			$session->addtocart($arr);
-			$_SESSION['cart'] = $session->unique_array($_SESSION['cart'], 'product.id');
-			echo "Product added to cart.";
+				$session->addtocart($arr);
+				$_SESSION['cart'] = $session->unique_array($_SESSION['cart'], 'product.id');
+				
+				echo "Product added to cart.";
 			
 			break;
 			
 			case 'deletefromcart':
 			
-			$id = (int)$secure->sanitize($_POST['id'],'num');
-			
-			if($id) {
-				$_SESSION['cart'] = $session->deletefromcart($id);
-			}
+				$id = (int)$secure->sanitize($_POST['id'],'num');
+				
+				if($id) {
+					$_SESSION['cart'] = $session->deletefromcart($id);
+				}
+				
+				$_SESSION['cart'] = array_values($_SESSION['cart']);
+				
+				echo "Product deleted from cart.";
 			
 			break;
 			
+			case 'updatecart':
+			
+				$id = (int)$secure->sanitize($_POST['id'],'num');
+				$qty = (int)$secure->sanitize($_POST['qty'],'num');
+				
+				if($id) {
+					$_SESSION['cart'] = $session->updatecart($id,$qty);
+				}
+
+				$_SESSION['cart'] = array_values($_SESSION['cart']);
+				echo "Cart has been updated.";
+			
+			break;			
+			
 			case 'emptycart':
-			$cartid = (int)$secure->sanitize($_POST['cartid'],'num');
-			$_SESSION['cart'] = [];
+				
+				$cartid = (int)$secure->sanitize($_POST['cartid'],'num');
+				$_SESSION['cart'] = [];
+				echo "Cart was emptied.";
+				
 			break;			
 			
 			case 'voucher':
-			$code = $secure->sanitize($_POST['code'],'alpha');
+				$code = $secure->sanitize($_POST['code'],'alpha');
 			break;
 			
 			case 'wishlist':
-			$product = $secure->sanitize($_POST['product'],'alpha'); 
-			$tr 	 = $secure->sanitize($_POST['tr'],'alpha'); 
+				$product = $secure->sanitize($_POST['product'],'alpha'); 
+				$tr 	 = $secure->sanitize($_POST['tr'],'alpha'); 
 			break;	
 			
 			case 'query':
+			
 			break;
 		}
 	
@@ -91,4 +123,3 @@ if(isset($_POST['action'])) {
 	echo $default;
 }
 ?>
-1

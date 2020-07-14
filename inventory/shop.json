@@ -1,6 +1,6 @@
 [
    {
-		"product.id": 1000001,
+		"product.id": 1,
 		"product.status": 1,
 		"product.title": "Product 1",
 		"product.description": "A brand new product from our company.",
@@ -9,7 +9,7 @@
 		"product.category.sub": "index 1",
 		"product.category.sub.id": "1",
 		"product.catno": "",
-		"product.stock": "",
+		"product.stock": "3",
 		"product.quantity": "",
 		"product.format": "",
 		"product.type": "",
@@ -64,7 +64,7 @@
 		"payment.payment_array": ""
    },
    {
-		"product.id": 1000001,
+		"product.id": 2,
 		"product.status": 1,
 		"product.title": "Product 2",
 		"product.description": "A brand new product from our company.",
@@ -73,7 +73,7 @@
 		"product.category.sub": "index 1",
 		"product.category.sub.id": "1",
 		"product.catno": "",
-		"product.stock": "",
+		"product.stock": "99",
 		"product.quantity": "",
 		"product.format": "",
 		"product.type": "",

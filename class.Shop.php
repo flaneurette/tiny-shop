@@ -19,7 +19,6 @@ class Shop {
 	CONST MAXWEIGHT				= 10000;
 	CONST MAXTITLE				= 255; // Max length of title.
 	CONST MAXDESCRIPTION			= 500; // Max length of description.
-	CONST CURRENCY				= "&#163;";   // for a list, see currencies.json.
 
 	const MAXINT  			= 9999999;
 	const PHPENCODING 		= 'UTF-8';		// Characterset of PHP functions: (htmlspecialchars, htmlentities) 
@@ -152,12 +151,30 @@ class Shop {
 	*/
 	public function decode() 
 	{
-		return json_decode(file_get_contents(self::SHOP), true, self::DEPTH, JSON_BIGINT_AS_STRING);
+		
+		$file = file_get_contents(self::SHOP);
+		$json = json_decode($file, true, self::DEPTH, JSON_BIGINT_AS_STRING);
+		
+		if($json !== NULL || $json != false) {
+			return $json;
+			} else {
+				$this->message("Error: JSON file could not be loaded.");
+			exit;
+		} 
+		
 	}
 	
 	public function load_json($url) 
 	{
-		return json_decode(file_get_contents($url), true, self::DEPTH, JSON_BIGINT_AS_STRING);
+		$file = file_get_contents($url);
+		$json = json_decode($file, true, self::DEPTH, JSON_BIGINT_AS_STRING);
+		
+		if($json !== NULL || $json != false) {
+			return $json;
+			} else {
+				$this->message("Error: JSON file could not be loaded.");
+			exit;
+		} 
 	}
 
 	public function addshop() 
@@ -282,7 +299,7 @@ class Shop {
 
 			$html .= '<title>'.$this->cleanInput($row['site.title']).'</title>';
 			$html .= '<meta charset="'.$this->cleanInput($row['site.charset']).'">';
-			$html .= '<meta name="viewport" content="'.$this->cleanInput($row['site.viewport']).'">';
+			// $html .= '<meta name="viewport" content="'.$this->cleanInput($row['site.viewport']).'">';
 			$html .= '<meta name="description" content="'.$this->cleanInput($row['site.description']).'">';
 			$html .= '<meta name="author" content="TinyShop">';
 			
@@ -325,7 +342,7 @@ class Shop {
 				$html .= '<script src="'.$this->cleanInput($row['site.ext.javascript']).'" type="text/javascript"></script>';
 			}					
 			
-			$html .= '<img src="'.self::DOMAIN.'/'.self::SHOPURI.'/'.$this->cleanInput($row['site.logo']).'" width="115" id="ts.shop.logo">';
+			// $html .= '<img src="'.self::DOMAIN.'/'.self::SHOPURI.'/'.$this->cleanInput($row['site.logo']).'" width="115" id="ts.shop.logo">';
 		}
 		
 		return $html;
@@ -453,10 +470,10 @@ class Shop {
 			
 				while($i >= 0) {
 					
-					if($ts[$i]['product.stock'] < 1) {
-						$status = 'ts.product.status.red'; // low stock
+					if($ts[$i]['product.stock'] <= 3) {
+						$status = 'ts-product-status-red'; // low stock
 						} else {
-						$status = 'ts.product.status.green';
+						$status = 'ts-product-status-green';
 					}
 					
 					if($ts[$i]['product.image'] != "") {
@@ -469,15 +486,15 @@ class Shop {
 						
 						case 'list':		
 						$string .= "<div class=\"ts-product-list\">";
-						// $string .= $productimage;
-						$string .= "<div class=\"ts-list-product-status\"><div class=\"".$status."\">".$this->cleanInput($ts[$i]['product.status'])."</div>";
-						$string .= "<div class=\"ts-list-product-price\">".self::CURRENCY.' '.$this->cleanInput($ts[$i]['product.price'])."</div>";
+						$string .= $productimage;
 						$string .= "<div class=\"ts-list-product-link\"><a href=\"item/".$this->seoUrl($this->cleanInput($ts[$i]['product.category'])).'/'.$this->seoUrl($this->cleanInput($ts[$i]['product.title'])).'/'.$this->cleanInput($ts[$i]['product.id'])."/".(int)$this->page_id."/\">".$this->cleanInput($ts[$i]['product.title'])."</a> </div>";
 						$string .= "<div class=\"ts-list-product-desc\">".$this->cleanInput($ts[$i]['product.description'])."</div>";
-						$string .= "<div class=\"ts-list-product-cat\">".$this->cleanInput($ts[$i]['product.category'])."</div>";
+					    // $string .= "<div class=\"ts-list-product-cat\">".$this->cleanInput($ts[$i]['product.category'])."</div>";
+						$string .= "<div class=\"ts-list-product-price\">".$this->getsitecurrency().' '.$this->cleanInput($ts[$i]['product.price'])."</div>";
+						$string .= "<div class=\"ts-list-product-status\">left in stock.<div class=\"".$status."\">".$this->cleanInput($ts[$i]['product.stock'])."</div></div>";
 						
 						if($configuration[0]['products.quick.cart'] == 'yes') {
-							$string .= "<div><input type='text' name='qty' value='1' size='2' id='ts-group-cart-qty-".$i.'-'.$ts[$i]['product.id']."'><input type='button' onclick='tinyshop.addtocart(\"".$ts[$i]['product.id']."\",\"ts-group-cart-qty-".$i.'-'.$ts[$i]['product.id']."\",\"".$token."\");' class='ts-list-cart-button' name='add_cart' value='".$this->cleanInput($configuration[0]['products.cart.button'])."' /></div>";
+							$string .= "<div><input type='number' name='qty' size='1' value='1' min='1' max='9999' id='ts-group-cart-qty-".$i.'-'.$ts[$i]['product.id']."'><input type='button' onclick='tinyshop.addtocart(\"".$ts[$i]['product.id']."\",\"ts-group-cart-qty-".$i.'-'.$ts[$i]['product.id']."\",\"".$token."\");' class='ts-list-cart-button' name='add_cart' value='".$this->cleanInput($configuration[0]['products.cart.button'])."' /></div>";
 							} else {
 							$string .= "<div class='ts-list-view-link'><a href=\"product/".$this->cleanInput($ts[$i]['product.id'])."/\">view</a></div>";
 						}
@@ -488,14 +505,15 @@ class Shop {
 						case 'group':		
 						$string .= "<div class=\"ts-product-group\">";
 						$string .= $productimage;
-						$string .= "<div class=\"ts-group-product-status\"><div class=\"".$status."\">".$this->cleanInput($ts[$i]['product.status'])."</div>";
-						$string .= "<div class=\"ts-group-product-price\">".self::CURRENCY.' '.$this->cleanInput($ts[$i]['product.price'])."</div>";
 						$string .= "<div class=\"ts-group-product-link\"><a href=\"item/".$this->seoUrl($this->cleanInput($ts[$i]['product.category'])).'/'.$this->seoUrl($this->cleanInput($ts[$i]['product.title'])).'/'.$this->cleanInput($ts[$i]['product.id'])."/\">".$this->cleanInput($ts[$i]['product.title'])."</a> </div>";
 						$string .= "<div class=\"ts-group-product-desc\">".$this->cleanInput($ts[$i]['product.description'])."</div>";
-						$string .= "<div class=\"ts-group-product-cat\">".$this->cleanInput($ts[$i]['product.category'])."</div>";
+						$string .= "<div class=\"ts-group-product-price\">".$this->getsitecurrency().' '.$this->cleanInput($ts[$i]['product.price'])."</div>";
+						// $string .= "<div class=\"ts-group-product-cat\">".$this->cleanInput($ts[$i]['product.category'])."</div>";
+						$string .= "<div class=\"ts-group-product-status\">left in stock.<div class=\"".$status."\">".$this->cleanInput($ts[$i]['product.stock'])."</div></div>";
 						
 						if($configuration[0]['products.quick.cart'] == 'yes') {
-							$string .= "<div><input type='text' name='qty' value='1' size='2' id='ts-group-cart-qty-".$i.'-'.$ts[$i]['product.id']."'><input type='button' onclick='tinyshop.addtocart(\"".$ts[$i]['product.id']."\",\"ts-group-cart-qty-".$i.'-'.$ts[$i]['product.id']."\",\"".$token."\");' class='ts-group-cart-button' name='add_cart' value='".$this->cleanInput($configuration[0]['products.cart.button'])."' /></div>";
+							
+							$string .= "<div><input type='number' name='qty' size='1' min='1' max='9999' value='1' id='ts-group-cart-qty-".$i.'-'.$ts[$i]['product.id']."'><input type='button' onclick='tinyshop.addtocart(\"".$ts[$i]['product.id']."\",\"ts-group-cart-qty-".$i.'-'.$ts[$i]['product.id']."\",\"".$token."\");' class='ts-group-cart-button' name='add_cart' value='".$this->cleanInput($configuration[0]['products.cart.button'])."' /></div>";
 							} else {
 							$string .= "<div class='ts-group-view-link'><a href=\"product/".$this->cleanInput($ts[$i]['product.id'])."/\">view</a></div>";
 						}
@@ -617,6 +635,28 @@ class Shop {
 				}		
 			}
 		return $html;
+	}
+	
+	/* Get the currency of site.json
+	*  To change the default currency, edit site.json which has a numeric value that corresponds to the values inside currencies.json.
+	*  DO NOT edit currencies.json, unless adding a new currency, as this file is used throughout TinyShop and might break functionality.
+	*/
+	public function getsitecurrency() 
+	{
+		
+		$siteconf = $this->load_json("inventory/site.json");
+		$currencies = $this->load_json("inventory/currencies.json");
+
+		$html = "";
+		
+			if($siteconf !== null) {
+				
+				if($siteconf[0]['site.currency'] >=0) {
+					
+					return $currencies[0][$siteconf[0]['site.currency']]['symbol'];
+		
+				}		
+			}
 	}
 
 	public function generatecart($json,$split,$ignore) 

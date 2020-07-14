@@ -14,6 +14,12 @@ body {
 	text-align: left;
 	background-color: #f8f9fa;
 }
+
+div {
+	/* testing div borders.
+		border:1px solid #000;
+	*/
+}
 h1 {
 	color: #000;
 	margin: 0;
@@ -38,10 +44,10 @@ textarea {
 }
 input[type="button"],
 input[type="submit"] {
-	display: block;
-	width: 100%;
+	display:inline-block;
 	height: calc(1.5em + .75rem + 2px);
 	padding: .375rem .75rem;
+	margin-left:10px;
 	font-size: 1rem;
 	font-weight: 400;
 	line-height: 1.5;
@@ -50,22 +56,25 @@ input[type="submit"] {
 	background-clip: padding-box;
 	border: 1px solid #ced4da;
 	border-radius: .25rem;
+	float:left;
 }
 input[type="number"] {
-	display: block;
-	padding: .75rem .75rem;
+	padding: .30rem .30rem;
 	font-size: 1rem;
 	font-weight: 400;
 	line-height: 1.5;
 	color: #495057;
+	width:35px;
 	background-color: #fff;
 	background-clip: padding-box;
 	border: 1px solid #ced4da;
 	border-radius: .25rem;
+	float:left;
 }
 
 input[name="submit"] {
 	margin: 1em;
+	float:left;
 }
 input[type=radio] {
 	box-sizing: border-box;
@@ -218,36 +227,137 @@ hr {
 .ts-shop-ul-li-item {
 	display: block;
 	float: left;
-	border: 1px solid #ced4da;
 	margin: 2px;
 	padding: 0.2em;
 	text-align: left;
 	position: relative;
 }
 		
+.ts-shop-ul-li-item input[type="number"] {
+	padding:1px;
+	margin:0;
+	width:30px;
+	float:left;
+}
+
+
+.ts-shop-ul-li-item input[type="button"] {
+	padding:0;
+	margin:0;
+	height:20px;
+	width:20px;
+	font-size:10px;
+	color: #495057;
+	background-color: #999;
+	background-clip:none;
+	border: 0px;
+	border-radius: 0px;
+	float:left;
+}
+
 /*
  * Product styling.
 */
 
 
-#ts-product-list {} #ts-product {} .ts-product-status-green {} .ts-product-status-red {} .ts-product-image-icon {
+#ts-product {} 
+
+.ts-product-image-icon {
 	display: block;
 	height: 100px;
 	width: 100px;
-	font-size: 10em;
 	margin: 10px;
+	font-size:4em;
 }
-.ts-product-image-div {} .ts-product-image {}
+
+
+#ts-product-list {
+	display:inline-block;
+}
+
+
+.ts-product-image-div {} 
+
+.ts-product-image {}
+
 /* 
  * tinyshop product list
 */
 
-.ts-product-list {} .ts-list-product-status {} .ts-list-product-price {} .ts-list-product-desc {} .ts-list-product-cat {} .ts-list-product-link {} .ts-list-cart-button {} .ts-list-view-link {}
+.ts-product-list {
+	display:block;
+	border: 1px solid #ced4da;
+	margin:5px;
+}
+
+.ts-list-product-price {
+	display:block;
+}
+.ts-list-product-link {
+	display:block;
+}
+.ts-list-product-desc { 
+	display:block;
+}
+.ts-list-product-cat {
+	display:block;
+}
+.ts-list-product-status {
+	display:block;
+}
+.ts-list-product-link {
+	display:block;
+} 
+.ts-list-cart-button {
+	
+	float:left;	
+} 
+.ts-list-view-link {
+	display:block;
+}
+
 /* 
  * tinyshop product group
 */
 
-.ts-product-group {} .ts-group-product-status {} .ts-group-product-price {} .ts-group-product-desc {} .ts-group-product-cat {} .ts-group-product-link {} .ts-group-cart-button {} .ts-group-view-link {}
+
+.ts-product-group {
+	display:inline-block;
+	border: 1px solid #ced4da;
+	margin:5px;
+}
+.ts-product-list {
+	display:inline-block;
+}
+.ts-group-product-price {
+	display:inline-block;
+}
+.ts-group-product-link {
+	display:inline-block;
+}
+.ts-group-product-desc { 
+	display:inline-block;
+}
+.ts-group-product-cat {
+	display:inline-block;
+}
+.ts-group-product-status {
+	display:block;
+}
+.ts-group-product-link {
+	display:inline-block;
+} 
+
+.ts-group-cart-button {
+	
+	float:left;
+} 
+
+.ts-group-view-link {
+	display:inline-block;
+}
+
+
 /* 
  * tinyshop pagination
 */
@@ -461,3 +571,55 @@ label {
 	background-color:#dedede;
 	border:1px solid #000;
 }
+
+#ts-shop-cart-error {
+	margin: 20px;
+	font-size: 22px;
+}
+
+#ts-shop-delete {
+	float:right;
+}
+
+
+.ts-product-status-red {
+  height: 15px;
+  width: 15px;
+  background-color: red;
+  border-radius: 50%;
+  color:white;
+  font-size:9px;
+  font-weight:bold;
+  border: 1px solid white;
+  display: flex; /* or inline-flex */
+  align-items: center; 
+  justify-content: center;
+  float:left;
+}	
+
+.ts-product-status-green {
+  height: 15px;
+  width: 15px;
+  background-color: green;
+  border-radius: 50%;
+  display: inline-block;
+  color:white;
+  font-size:9px;
+  font-weight:bold;
+  border: 1px solid white;
+  display: flex; /* or inline-flex */
+  align-items: center; 
+  justify-content: center;
+  float:left;
+}		
+	
+.dot-red {
+  height: 25px;
+  width: 25px;
+  background-color: red;
+  border-radius: 50%;
+  color:white;
+  font-size:8px;
+  display: inline-block;
+}
+	

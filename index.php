@@ -18,8 +18,10 @@
 	?>
 	</head>
 	<body>
-	<div id="cart-contents"><a href="cart.php">View cart</a></div>
+	<div id="cart-contents"><a href="/shop/cart/">View Cart</a>
 	<div id="result"></div>
+	</div>
+	
 		<h1>Shop product list</h1>
 			<div id="shop">
 			
@@ -36,6 +38,5 @@
 				</center>
 			</div>
 			<!-- caller: method, opts, uri. -->
-			<button onclick="tinyshop.caller('GET','shipping',['verzendmethode',100,'Afghanistan','result']);">test</button>
 	</body>
 </html>
