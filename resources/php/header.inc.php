@@ -8,9 +8,9 @@
 	ini_set('session.cookie_httponly', 1);
 	ini_set('session.use_only_cookies', 1);
 	ini_set('session.cookie_secure', 1);
-	
-	ini_set("session.gc_maxlifetime", 300);
-	ini_set("session.cookie_lifetime", 300);
+	// if sessions still expire, check if PHP is allowed to modify .ini settings.
+	ini_set('session.gc_maxlifetime',12*60*60);
+	ini_set('session.cookie_lifetime',12*60*60);
 	
 	session_start();
 
