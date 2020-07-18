@@ -14,9 +14,11 @@ Tiny shop will be ideal for clients who make one-time single purchases, handmade
 
 N.B. TinyShop expect the default webshop folder to be /shop/
 
-# administration
+# Administration
 The administration is only used to upload and convert CSV to JSON through the website. (It is not required to use it.)
 - edit: /administration/.htaccess, generate a .htpasswd and add your IP.
+
+For a detailed instruction: https://www.digitalocean.com/community/tutorials/how-to-set-up-password-authentication-with-apache-on-ubuntu-14-04
 
 That should be enough for a barebones demonstration. In future versions, there will be a less complex installation process.
 
