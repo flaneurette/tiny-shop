@@ -1,10 +1,10 @@
 [
    {
 	"paypal.domain": "https://www.shop.com",
-	"paypal.cancel.page": "/pages/cancel",
-	"paypal.return.page": "/pages/payed",
+	"paypal.cancel.page": "/shop/cart/cancel/",
+	"paypal.return.page": "/shop/cart/payed/",
 	"paypal.email": "info@shop.com",
-	"paypal.notify.url": "/pages/ipn/",
+	"paypal.notify.url": "/shop/cart/ipn/",
 	"paypal.currency.code": "USD",
 	"paypal.custom.field" : "",
 	"paypal.image.url": "",

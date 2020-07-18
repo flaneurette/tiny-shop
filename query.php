@@ -34,7 +34,32 @@ if(isset($_POST['qty'])) {
 $default = null;
 
 if(isset($_GET['action'])) {
+	
 	$action = $_GET['action'];
+	
+	if(preg_match("/[a-zA-Z]/i",$action)) {
+			
+		$action = $secure->sanitize($action,'alpha');
+		
+		switch($action) {
+			
+				case 'cancel':
+				echo "Checkout has been cancelled.";
+				// redirect to cart
+				header('Location: /shop/', true, 302);
+				exit;
+				break;
+				
+				case 'payed':
+				echo "Successfully payed.";
+				// update stock here, and redirect to payed page.
+				break;	
+				
+				case 'ipn':
+				echo "Checkout process has been notified.";
+				break;
+		}
+	}	
 }
 
 if(isset($_POST['action'])) {
@@ -53,8 +78,8 @@ if(isset($_POST['action'])) {
 				$qty = (int)$secure->sanitize($_POST['qty'],'num');
 				
 				$arr = [
-						'product.id' => $id,
-						'product.qty' => $qty
+					'product.id' => $id,
+					'product.qty' => $qty
 				];
 
 				$session->addtocart($arr);
@@ -62,7 +87,7 @@ if(isset($_POST['action'])) {
 				
 				echo "Product added to cart.";
 			
-			break;
+			break;			
 			
 			case 'deletefromcart':
 			

@@ -59,16 +59,14 @@ input[type="submit"] {
 	float:left;
 }
 input[type="number"] {
-	padding: .30rem .30rem;
-	font-size: 1rem;
-	font-weight: 400;
-	line-height: 1.5;
+	padding:5px;
+	margin:0px;
 	color: #495057;
 	width:35px;
 	background-color: #fff;
 	background-clip: padding-box;
 	border: 1px solid #ced4da;
-	border-radius: .25rem;
+	border-radius: .15rem;
 	float:left;
 }
 
@@ -103,6 +101,19 @@ input[type="checkbox" i] {
 	padding: initial;
 	border: initial;
 }
+
+option:disabled { 
+	background-color:#dedede;
+	font-family:monospace;
+	font-size:11px;
+}
+
+select option:disabled { 
+	background-color:#dedede;
+	font-family:monospace;
+	font-size:11px;
+}
+
 button,
 input {
 	overflow: visible;
@@ -216,28 +227,100 @@ hr {
 	
 }
 
+
+
+.ts-shop-ul {
+	border-collapse: collapse;
+}
+
+
 		
 /*
  * Custom elements styling.
 */
 
-.ts-shop-ul {}
-.ts-shop-li {}
+.ts-shop-ul-set {
+	display: table;
+    table-layout: fixed;
+    width: 100%;
+	border-collapse: collapse;
+	font-size:12px;
+}	
+	
+.ts-shop-ul {
+	display: table-row;
+    margin: 0;
+    padding: 0;
+	font-size:12px;
+}
 
-.ts-shop-ul-li-item {
-	display: block;
-	float: left;
+.ts-shop-ul li: nth-child(even) {background-color: #f2f2f2;}
+
+.ts-shop-li {
+    list-style: none;
+    display: table-cell;
+    text-align: center;
 	margin: 2px;
 	padding: 0.2em;
-	text-align: left;
-	position: relative;
 }
-		
+
+.ts-shop-ul-li-item {
+    list-style: none;
+    display: table-cell;
+    text-align: center;
+	margin: 2px;
+	padding: 0.2em;
+}
+
+.ts-shop-ul-li-item-product {
+	list-style: none;
+    display: table-cell;
+    text-align: center;
+	margin: 2px;
+	padding: 0.2em;
+	width:30%;
+}
+
+.ts-shop-ul-li-item-qty {
+	list-style: none;
+    display: table-cell;
+    text-align: center;
+	margin: 0px;
+	padding: 2px;
+	width:5%;
+	vertical-align:bottom;
+}
+
+.ts-shop-ul-li-item-delete {
+	list-style: none;
+    display: table-cell;
+    text-align: center;
+	margin: 2px;
+	padding: 0.2em;
+	width:5%;
+}
+.ts-shop-ul-li-item-update {
+	list-style: none;
+    display: table-cell;
+    text-align: center;
+	margin: 2px;
+	padding: 0.2em;
+	width:5%;
+}
+
+.ts-shop-ul-li-item-description {
+	list-style: none;
+    display: table-cell;
+    text-align: center;
+	margin: 2px;
+	padding: 0.2em;
+	width:30%;
+}
+
 .ts-shop-ul-li-item input[type="number"] {
-	padding:1px;
 	margin:0;
-	width:30px;
-	float:left;
+	width: 30px;
+	text-align: center;
 }
 
 
@@ -254,6 +337,7 @@ hr {
 	border-radius: 0px;
 	float:left;
 }
+
 
 /*
  * Product styling.
@@ -405,11 +489,10 @@ label {
 }
 .ts-shop-form-field {
 	display: block;
-	float: left;
+	float: right;
 	border: 1px solid #ced4da;
-	width: 30%;
-	margin: 1em;
-	padding: 1.5em;
+	padding: 10px;
+	margin-top:5px;
 	text-align: left;
 	position: relative;
 }
@@ -582,7 +665,7 @@ label {
 }
 
 #ts-shop-delete {
-	float:right;
+	
 }
 
 
@@ -616,4 +699,14 @@ label {
   justify-content: center;
   float:left;
 }		
+	
+.dot-red {
+  height: 25px;
+  width: 25px;
+  background-color: red;
+  border-radius: 50%;
+  color:white;
+  font-size:8px;
+  display: inline-block;
+}
 	

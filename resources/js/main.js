@@ -72,9 +72,9 @@ var tinyshop = {
 			window.reload();
 		} else {
 			if(!uri) {
-				document.location = this.htmlspecialchars(location.href,'uri');
+				document.location = tinyshop.htmlspecialchars(location.href,'uri');
 				} else {
-				document.location = this.htmlspecialchars(uri,'uri');
+				document.location = tinyshop.htmlspecialchars(uri,'uri');
 			}
 		}
 	},
@@ -314,7 +314,11 @@ var tinyshop = {
 					case 'shipping':
 					tinyshop.getshipping(this.responseText,opts);
 					break;
-					
+
+					case 'shippinglist':
+					tinyshop.getshippinglist(this.responseText);
+					break;
+
 					case 'currencies':
 					tinyshop.getcurrencies(this.responseText,opts);
 					break;	
@@ -374,7 +378,7 @@ var tinyshop = {
 		req.send(null);
 	},
 	
-	fetchHTML: function(method,uri,data=[],id) {
+	fetchHTML: function(method,uri,data=[],id,r=false) {
 
 		var req = this.xhr();
 		var res = '';
@@ -397,10 +401,14 @@ var tinyshop = {
 			req.send(data);
 			
 			req.onreadystatechange = function() {
+				
 				if (req.readyState == 4 && req.status == 200) {
 					this.res = req.responseText;
 					if(id) {
 					tinyshop.dom(id,'html',this.res);
+					}
+					if(r) {
+					tinyshop.redirect(r);
 					}
 				}
 			}
@@ -442,8 +450,8 @@ var tinyshop = {
 			this.dom('result','Token was not set.');
 		}
 		
-		this.fetchHTML('POST','/shop/cart/delete/' + this.instanceid + '/', 'action=deletefromcart&id='+this.math('int',id)+'&token='+token);
-		this.redirect();
+		this.fetchHTML('POST','/shop/cart/delete/' + this.instanceid + '/', 'action=deletefromcart&id='+this.math('int',id)+'&token='+token,false,'/shop/cart/');
+		
 	},
 	
 	updatecart: function(id,qtyId,token) {
@@ -461,11 +469,9 @@ var tinyshop = {
 		this.id  = this.math('int',id,1);
 		this.qty = this.math('int',qty, 1);
 		
-		this.fetchHTML('POST','/shop/cart/update/' + this.instanceid + '/', 'action=updatecart&id='+this.id+'&qty='+this.qty+'&token='+token);
-		//this.redirect();		
-	},
+		this.fetchHTML('POST','/shop/cart/update/' + this.instanceid + '/', 'action=updatecart&id='+this.id+'&qty='+this.qty+'&token='+token,false,'/shop/cart/');
 		
-	
+	},
 	/*
 	* PayPal functions.
 	*/
@@ -492,7 +498,7 @@ var tinyshop = {
 	* Example: tinyshop.caller('GET','settings',[opt1,opt2,opt3],data={},'inventory/site.json'); 
 	* The 3rd and 4th param is optional, as it is constructed from the 1st. the 3rd takes a data object for POST.
 	* This retrieves the site.json file, and prints the object out in html. 
-	*/
+	*/ 
 	
     getsettings: function(jsonData) {
 	
@@ -548,9 +554,35 @@ var tinyshop = {
 		}
     },
 	
+	getshippinglist: function(jsonData) {
+
+			var arr = [];
+			var col = [];
+			var ret = '<select name="shippingcountry">';
+			
+			arr = JSON.parse(jsonData); 
+				
+			for (var i = 0; i < arr.length; i++) {
+					for (var key in arr[i]) {
+						if (col.indexOf(key) === -1) {
+						col.push(key);
+					}
+				}
+			}
+				
+			for (var i = 0; i < arr.length; i++) {
+				for (var j = 0; j < col.length; j++) {
+					ret += '<option value="">' + col[j].replace('shipping.','') + '</option>';
+				}
+			}
+			
+			ret += '</select>';
+		return ret;
+	},
+	
     getshipping: function(jsonData,opts) {
 
-		if(!opts[2]) {
+		if(jsonData=false) {
 			this.message('Shipping country is not set, cannot calculate shipping cost.');
 		} else {
 			

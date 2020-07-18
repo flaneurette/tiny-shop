@@ -9,7 +9,7 @@
 		"site.description": "Tinyshop webshop is your place to shop!",
 		"site.logo":"resources/images/logo.png",
 		"site.icon": "resources/images/favicon.ico",
-		"site.status": "online|offline|closed",
+		"site.status": "online",
 		"site.updated": "",		
 		"site.currency": "0",		
 		"site.meta.title": "Tinyshop webshop",
@@ -42,6 +42,6 @@
 		"site.cookie.value.2": "",
 		"site.cookie.value.3": "",		
 		"site.analytics": "",
-		"site.payment.gateways": ["ACH","Alipay","Apple Pay","Bancontact","BenefitPay","Boleto Bancário","Citrus Pay","EPS","Fawry","Giropay","Google Pay","PayPal","KNET","Klarna","Mada","Multibanco","OXXO","Pago Fácil","Poli","Przelewy24","QPAY","Rapipago","SEPA Direct Debit","Sofort","Stripe","Via Baloto","iDEAL"]
+		"site.payment.gateways": ["PayPal"]
 	}
 ]

@@ -27,6 +27,8 @@ class Shop {
 	const MINMERSENNE		= 0xff; 		// Min. value of the Mersenne twister.
 	const MAXMERSENNE		= 0xffffffff; 	// Max. value of the Mersenne twister.
 	
+	CONST GATEWAYS 			= ["ACH","Alipay","Apple Pay","Bancontact","BenefitPay","Boleto Bancário","Citrus Pay","EPS","Fawry","Giropay","Google Pay","PayPal","KNET","Klarna","Mada","Multibanco","OXXO","Pago Fácil","Poli","Przelewy24","QPAY","Rapipago","SEPA Direct Debit","Sofort","Stripe","Via Baloto","iDEAL"];
+
 	public function __construct() {
 		$incomplete = false;
 	}
@@ -128,6 +130,7 @@ class Shop {
 	* @param string
 	* @return string
 	*/
+	
 	public function seoUrl($string) 
 	{
 		$find 		= [' ','_','=','+','&','.'];
@@ -141,14 +144,17 @@ class Shop {
 	* @param shop
 	* @return void
 	*/
+	
 	public function encode($shop) 
 	{
 		return json_encode($shop, JSON_PRETTY_PRINT);
 	}
+	
 	/**
 	* Loads and decodes JSON object
 	* @return mixed object/array
 	*/
+	
 	public function decode() 
 	{
 		
@@ -636,6 +642,49 @@ class Shop {
 			}
 		return $html;
 	}
+
+	public function shippinglist($json) 
+	{
+		$html = "";
+		$igoreset = ['shipping.Flat.Fee','shipping.Flat.Fee.International'];
+		
+			if($json !== null) {
+				foreach($json[0] as $key => $value)
+				{
+					
+					if(!in_array($key,$igoreset)) {
+						if($value == 0) {
+						$html.= "<option value=\"".$key."\" disabled>".str_replace('shipping.','',$this->cleanInput($key))."</option>";
+						} else {
+						$html.= "<option value=\"".$key."\">".str_replace('shipping.','',$this->cleanInput($key))."</option>";
+						$html.= "<option disabled>⠀⠀> shipping price: ".(float)$value."</option>";
+						}
+					}
+
+				}		
+			}
+		return $html;
+	}
+	
+	
+	public function getcountryprice($json,$country) {
+		
+		$countryprice = 0;
+			if($json !== null) {
+				foreach($json[0] as $key => $value)
+				{
+					if($key == $country) {
+						$countryprice = $value;
+					}
+				}		
+			}
+			
+		if($countryprice > 0) {
+			return $countryprice;
+			} else {
+			return false;
+		}
+	}
 	
 	/* Get the currency of site.json
 	*  To change the default currency, edit site.json which has a numeric value that corresponds to the values inside currencies.json.
@@ -783,6 +832,33 @@ class Shop {
 		return function ($a, $b) use ($key) {
 			return strnatcmp($a[$key], $b[$key]);
 		};
+	}
+	
+	public function uniqueID() {
+		
+		$len_id 	= 0;
+		$bytes_id 	= 0;
+		
+		if (function_exists('random_bytes')) {
+			$len   = mt_rand(self::MINHASHBYTES,self::MAXHASHBYTES);
+        		$bytes_id .= bin2hex(random_bytes($len));
+    		}
+		if (function_exists('openssl_random_pseudo_bytes')) {
+			$len   = mt_rand(self::MINHASHBYTES,self::MAXHASHBYTES);
+        		$bytes_id .= bin2hex(openssl_random_pseudo_bytes($len));
+    		}
+		
+		if(strlen($bytes_id) < 128) {
+			$bytes_id .= mt_rand(self::MINMERSENNE,self::MAXMERSENNE) . mt_rand(self::MINMERSENNE,self::MAXMERSENNE) . mt_rand(self::MINMERSENNE,self::MAXMERSENNE)
+				. mt_rand(self::MINMERSENNE,self::MAXMERSENNE) . mt_rand(self::MINMERSENNE,self::MAXMERSENNE) . mt_rand(self::MINMERSENNE,self::MAXMERSENNE) 
+				. mt_rand(self::MINMERSENNE,self::MAXMERSENNE) . mt_rand(self::MINMERSENNE,self::MAXMERSENNE) . mt_rand(self::MINMERSENNE,self::MAXMERSENNE) 
+				. mt_rand(self::MINMERSENNE,self::MAXMERSENNE) . mt_rand(self::MINMERSENNE,self::MAXMERSENNE) . mt_rand(self::MINMERSENNE,self::MAXMERSENNE); 
+		}
+		
+		$token_id 	= hash('sha512',$bytes_id);
+		$uniqueid  	= substr($token_id,0,12);
+		
+		return $uniqueid;
 	}
 
 	public function getToken()

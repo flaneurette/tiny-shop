@@ -1,8 +1,8 @@
 <?php
 
-	include("resources/php/header.inc.php");
-	include("resources/php/class.Session.php");
-	include("class.Shop.php");
+	include("../resources/php/header.inc.php");
+	include("../resources/php/class.Session.php");
+	include("../class.Shop.php");
 	
 	$shop = new Shop();
 	$session = new Session();
@@ -21,13 +21,16 @@
 	*  DO NOT edit currencies.json, unless adding a new currency, as this file is used throughout TinyShop and might break functionality.
 	*/
 	
-	$sitecurrency = $shop->getsitecurrency();
+	//$sitecurrency = $shop->getsitecurrency();
+	
+	echo $shop->debug($_POST);
+	
 ?>
 <!DOCTYPE html>
 <html>
 	<head>
 	<?php
-	echo $shop->getmeta();				
+	//echo $shop->getmeta();				
 	?>
 	</head>
 	<body>
@@ -45,21 +48,19 @@
 			
 	?>
 		<form name="ts_cart" method="post" action="/shop/cart/checkout/" id="ts-shop-cart-form-data">
-		<input type="hidden" name="token" value="<?=$token;?>">
-		<input type="hidden" name="checkout-post" value="1">
-		<hr />
 		
-		<div class="ts-shop-ul-set">
-		<div class="ts-shop-ul">
-			<li class="ts-shop-ul-li-item-product">Product Name</li>
-			<li class="ts-shop-ul-li-item-description">Description</li>
-			<li class="ts-shop-ul-li-item">Price</li>
-			<li class="ts-shop-ul-li-item-qty">Qty</li>
-			<li class="ts-shop-ul-li-item-update"></li>
-			<li class="ts-shop-ul-li-item">Total</li>			
-			<li class="ts-shop-ul-li-item-delete"></li>
-		</div>
-
+		<hr />
+		<ul class="ts-shop-ul">
+	
+		<li class="ts-shop-li">
+			<div class="ts-shop-ul-li-item" width="60">&#128722;</div>
+			<div class="ts-shop-ul-li-item">Product Name</div>
+			<div class="ts-shop-ul-li-item">Description</div>
+			<div class="ts-shop-ul-li-item">Price</div>
+			<div class="ts-shop-ul-li-item">Quantity</div>
+			<div class="ts-shop-ul-li-item">Delete</div>
+		</li>
+			
 	<?php
 			
 		$products = $shop->getproductlist();
@@ -99,56 +100,40 @@
 						$qtyid = 'tscart-'.$j.$product;
 
 				?>
-			
-			<div class="ts-shop-ul">
-					<li class="ts-shop-ul-li-item-product"><?=$producttitle;?><!-- title --></li>
-					<li class="ts-shop-ul-li-item-description"><?=$productdesc;?><!-- desc --></li>
-					<li class="ts-shop-ul-li-item"><?=$sitecurrency;?> <?=$productprice;?><!-- price --></li>
-					<li class="ts-shop-ul-li-item-qty"><input type="number" name="qty" id="<?=$qtyid;?>" size="1" min="1" max="9999" value="<?=$productqty;?>"></li>
-					<li class="ts-shop-ul-li-item-update"><a href="#" onclick="tinyshop.updatecart('<?=$product;?>','<?=$qtyid;?>','<?=$token;?>');">&#x21bb;</a></li>
-					<li class="ts-shop-ul-li-item"><?=$sitecurrency;?> <?=$productsum;?><!-- sum --></li>
-					<li class="ts-shop-ul-li-item-delete" id="ts-shop-delete"><a href="#" onclick="tinyshop.deletefromcart('<?=$product;?>','<?=$token;?>');">&#x2716;</a>
-					</li>
-			</div>
-			
+				<li class="ts-shop-li">
+					<div class="ts-shop-ul-li-item" width="60">&#128722;</div>
+					<div class="ts-shop-ul-li-item"><?=$producttitle;?><!-- title --></div>
+					<div class="ts-shop-ul-li-item"><?=$productdesc;?><!-- desc --></div>
+					<div class="ts-shop-ul-li-item"><?=$sitecurrency;?> <?=$productprice;?><!-- price --></div>
+					<div class="ts-shop-ul-li-item"><input type="number" id="<?=$qtyid;?>" size="1" min="1" max="9999" value="<?=$productqty;?>"></div>
+					<div class="ts-shop-ul-li-item"><a href="#" onclick="tinyshop.updatecart('<?=$product;?>','<?=$qtyid;?>','<?=$token;?>');">&#x21bb;</a></div>
+					<div class="ts-shop-ul-li-item">Total: <?=$sitecurrency;?> <?=$productsum;?><!-- sum --></div>
+					<div class="ts-shop-ul-li-item" id="ts-shop-delete"><a href="#" onclick="tinyshop.deletefromcart('<?=$product;?>','<?=$token;?>');">&#x2716;</a>
+					</div>
+				</li>
 			<?php
 					}
 					$j++;
 					}
 				}
 			}
+			echo "</ul>";
 		?>
-		
-		</div>
-		
-		
 		<hr />
 		<h1>Checkout</h1>
 		<hr />
-		
-			<select name="shipping_country" id="ts-form-cart-payment-gateway-select">
-			
-			<option value="">Select shipping country...</option>
-			<?php
-				// dynamically generate payment gateways from site.json
-				$siteconf = $shop->load_json("inventory/shipping.json");
-				$keys = false;
-				echo $shop->shippinglist($siteconf,$keys);
-			?>
-			</select>
-			<br />
 			<select name="payment_gateway" id="ts-form-cart-payment-gateway-select">
 			<option value="">Select payment method...</option>
 			<?php
 				// dynamically generate payment gateways from site.json
-				$siteconf = $shop->load_json("inventory/site.json");
-				$keys = 'site.payment.gateways';
-				echo $shop->gatewaylist($siteconf,$keys);
+				//$siteconf = $shop->load_json("../inventory/site.json");
+				//$keys = 'site.payment.gateways';
+				//echo $shop->gatewaylist($siteconf,$keys);
 			?>
 			</select>
 			
-		
 		<div class="ts-shop-form-field">
+		<hr />
 		<input type="submit" name="submit" value="Checkout">
 		</div>
 
