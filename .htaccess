@@ -50,8 +50,19 @@ RewriteRule ^wishlist/(.*)/(.*)/(.*)/(.*)/$ query.php?action=$2&product=$3&tr=$4
 
 # /cart/action/rnd/product/
 # /cart/addtocart/rnd/id/
-RewriteRule ^cart/(.*)/(.*)/(.*)/(.*)/$ query.php?action=$1&id=$3&qty=$4 [NC,L]
-RewriteRule ^shop/cart/(.*)/(.*)/(.*)/(.*)/$ query.php?action=$1&id=$3&qty=$4 [NC,L]
+
+RewriteRule ^cart/$ cart.php [NC,L]
+
+RewriteRule ^cart/checkout/$ checkout.php [NC,L]
+RewriteRule ^shop/cart/checkout/$ checkout.php [NC,L]
+
+RewriteRule ^cart/cancel/$ query.php?action=cancel [NC,L]
+RewriteRule ^cart/payed/$ query.php?action=payed [NC,L]
+RewriteRule ^cart/ipn/$ query.php?action=ipn [NC,L]
+RewriteRule ^shop/cart/delete/(.*)/$ query.php [NC,L]
+RewriteRule ^shop/cart/update/(.*)/$ query.php?action=$1 [NC,L]
+RewriteRule ^cart/(.*)/(.*)/$ query.php?action=$1 [NC,L]
+RewriteRule ^shop/cart/(.*)/(.*)/$ query.php?action=$1 [NC,L]
 
 # Webapplication firewall.
 
