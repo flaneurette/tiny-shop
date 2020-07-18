@@ -1,9 +1,9 @@
 <?php
 
+	session_start();
+
 	include("class.Shop.php");
 	$shop = new Shop();
-				
-	session_start();
 	
 	$versioning = PHP_VERSION_ID;
 	$error = [];
@@ -26,9 +26,13 @@
 		return $tmp_nonce;
 	}
 	
-	$nonce = nonce();
 	
-	$_SESSION['nonce'] = $nonce;
+	if(isset($_SESSION['nonce'])) {
+		$nonce = $shop->sanitize($_SESSION['nonce'],'alphanum');
+		} else {
+		$nonce = nonce();
+		$_SESSION['nonce'] = $shop->sanitize($nonce,'alphanum');
+	}
 
 	if(!defined('PHP_VERSION_ID') || $versioning  < 50400) {
 		array_push($error,'PHP version 5.4 or above is required, cannot install TinyShop.');
@@ -111,6 +115,20 @@
 			exit;
 
 	} elseif($_POST['setup'] == 1) {
+		
+				if(isset($_SESSION['nonce'])) {
+					
+					$nonce = $shop->sanitize($_SESSION['nonce'],'alphanum');
+					
+					if($_SESSION['nonce'] != $shop->sanitize($_POST['nonce'])) {
+						echo 'Security Nonce is expired or missing.';
+						exit;	
+					}
+						
+				} else {
+					echo 'Security Nonce is expired or missing.';
+					exit;					
+				}
 
 				if(!isset($_POST['admin_username'])) {
 					echo 'Username cannot be empty, setup could not continue.';
@@ -147,8 +165,6 @@
 					exit;				
 				}
 				
-				
-				
 				function create_htpasswd($username,$password) {
 
 					$encrypted_password = crypt($password, base64_encode($password));
@@ -163,8 +179,7 @@
 				$password = $shop->sanitize($_POST['admin_password'],'field');
 				
 				create_htpasswd($username,$password);
-				
-				
+			
 				$keys = 'inventory/site.json';
 				$shop->backup($keys);
 				
@@ -175,9 +190,7 @@
 				$json[0]["site.currency"] = $shop->sanitize($_POST['admin_currency'],'num');
 				$json[0]["site.email"] = $shop->sanitize($_POST['admin_email'],'url');
 
-
 				$shop->storedata($keys,$json);	 
-
 		
 		echo '<pre>';
 		echo 'TinyShop was installed and should function correctly! If not, please read the manual on Github: https://github.com/flaneurette/tiny-shop'. PHP_EOL;
@@ -213,6 +226,7 @@
 				<div id="ts-shop-cart-form" style="margin-left:20px;">
 					<form name="" action="" method="post">
 						<input name="setup" value="1" type="hidden">
+						<input name="nonce" value="<?=$shop->sanitize($nonce,'alphanum');?>" type="hidden">
 						Website: <input name="admin_website" value="https://www.example.com" type="text">
 						Website e-mail: <input name="admin_website_email" value="info@website.com" type="text">
 						<hr />
