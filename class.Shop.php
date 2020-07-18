@@ -861,6 +861,11 @@ class Shop {
 		return $uniqueid;
 	}
 
+	public function pseudoNonce($max=0xffffffff) {
+		$tmp_nonce = uniqid().mt_rand(0,$max).mt_rand(0,$max).mt_rand(0,$max).mt_rand(0,$max);
+		return $tmp_nonce;
+	}
+	
 	public function getToken()
 	{
 		
