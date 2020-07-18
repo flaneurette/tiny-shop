@@ -1,9 +1,9 @@
 <?php
 
-	session_start();
-
 	include("class.Shop.php");
 	$shop = new Shop();
+				
+	session_start();
 	
 	$versioning = PHP_VERSION_ID;
 	$error = [];
@@ -20,17 +20,11 @@
 			exit;
 		}
 	} 
-
-	function nonce($max=0xffffffff) {
-		$tmp_nonce = uniqid().mt_rand(0,$max).mt_rand(0,$max).mt_rand(0,$max).mt_rand(0,$max);
-		return $tmp_nonce;
-	}
-	
 	
 	if(isset($_SESSION['nonce'])) {
 		$nonce = $shop->sanitize($_SESSION['nonce'],'alphanum');
 		} else {
-		$nonce = nonce();
+		$nonce = $shop->pseudoNonce();
 		$_SESSION['nonce'] = $shop->sanitize($nonce,'alphanum');
 	}
 
@@ -175,11 +169,30 @@
 					fclose($ht);
 				}
 			
-				$username = $shop->sanitize($_POST['admin_username'],'field');
-				$password = $shop->sanitize($_POST['admin_password'],'field');
+				function create_htaccess($ip,$root) {
+					
+					$htaccess = 'AuthType Basic
+					AuthName "Tinyshop Administration"
+					AuthUserFile '.$root.'/shop/administration/.htpasswd
+					Require valid-user
+					Order Deny,Allow
+					Deny from all
+					Allow from '.$ip.'
+					';
+					
+					$hta = fopen("administration/.htaccess", "w") or die("Unable to open .htaccess");
+					fwrite($hta, $htaccess);
+					fclose($hta);
+				}
+
+				$username = $shop->sanitize($_POST['admin_username'],'table');
+				$password = $shop->sanitize($_POST['admin_password'],'table');
+				$ip 	  = $shop->sanitize($_POST['admin_ip'],'table');
+				$root 	  = $shop->sanitize($_SERVER['DOCUMENT_ROOT'],'table');
 				
 				create_htpasswd($username,$password);
-			
+				create_htaccess($ip,$root);
+				
 				$keys = 'inventory/site.json';
 				$shop->backup($keys);
 				
@@ -189,6 +202,14 @@
 				$json[0]["site.domain"] = $shop->sanitize($_POST['admin_website'],'url');
 				$json[0]["site.currency"] = $shop->sanitize($_POST['admin_currency'],'num');
 				$json[0]["site.email"] = $shop->sanitize($_POST['admin_email'],'url');
+
+				/*
+					if($_POST['admin_encryption'] == '1') {
+						$json[0]["site.email"] = $shop->sanitize($_POST['admin_email'],'url');
+						} else {
+						$json[0]["site.email"] = $shop->sanitize($_POST['admin_email'],'url');
+					}
+				*/
 
 				$shop->storedata($keys,$json);	 
 		
@@ -212,9 +233,8 @@
 		<!DOCTYPE html>
 		<html>
 			<head>
-			<?php
-			echo $shop->getmeta();				
-			?>
+				<link rel="stylesheet" type="text/css" href="resources/reset.css">
+				<link rel="stylesheet" type="text/css" href="resources/style.css">
 			</head>
 			<body>
 			<h1>Setup TinyShop</h1>
@@ -241,10 +261,17 @@
 						Admin Password: <input name="admin_password" value="" type="text">
 						Admin E-mail: <input name="admin_email" value="" type="text">
 						<hr />
-						Admin IP: <input name="admin_ip" value="<?= $shop->sanitize($_SERVER['REMOTE_ADDR'],'field');?>" type="text">
+						Admin IP: <input name="admin_ip" value="<?= $_SERVER['REMOTE_ADDR'];?>" type="text">
 						<hr />
 						PayPal e-mail (to accept payments on): <input name="admin_paypal_email" value="info@website.com" type="text">
 						<hr />
+						<!--
+						Security. Encrypt e-mail address? (if NO, it will be visible to everyone)
+						<select name="admin_encryption">
+							<option value="1">Yes</option>
+							<option value="2">No</option>
+						</select>
+						-->
 						<input type="submit" value="Setup TinyShop >>">
 					</form>
 				</div>
