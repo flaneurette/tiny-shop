@@ -1,8 +1,8 @@
 [
 	{
-		"site.url": "",
-		"site.domain": "",
-		"site.canonical": "",
+		"site.url": "https://www.example.com",
+		"site.domain": "https://www.example.com",
+		"site.canonical": "shop",
 		"site.cdn": "",
 		"site.charset": "utf-8",
 		"site.title": "Tinyshop webshop",
