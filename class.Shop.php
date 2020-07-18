@@ -4,28 +4,25 @@
 
 class Shop {
 
-	CONST DOMAIN				= 'https://www.example.com'; 
-	CONST SHOPURI				= 'shop'; // path to the shop, without domain and trailing slash .i.e. : www.example.com/shop/ will be: shop
 	CONST SHOP				= "./inventory/shop.json";
 	CONST SHOPVERSION 			= "?cache-control=1"; // increment if major changes are made to the shop database.
 	CONST CSV				= "./inventory/csv/shop.csv"; 
 	CONST BACKUPEXT				= ".bak"; 
 	CONST PWD				= "Password to encrypt JSON"; // optional.
 	CONST FILE_ENC				= "UTF-8";
-	CONST FILE_OS				= "WINDOWS-1252"; 
-	CONST MAIN_PAYMENT_METHOD		= 'PayPal'; // Tiny Store uses PayPal as default payment gateway.
-	CONST PAYMENTGATEWAY			= ''; 	// Only required for 3rd party payment processing.
+	CONST FILE_OS				= "WINDOWS-1252"; // only for JSON and CSV, not the server architecture.
+	CONST MAXINT  				= 9999999;
 	CONST DEPTH				= 1024;
 	CONST MAXWEIGHT				= 10000;
 	CONST MAXTITLE				= 255; // Max length of title.
 	CONST MAXDESCRIPTION			= 500; // Max length of description.
 
-	const MAXINT  			= 9999999;
-	const PHPENCODING 		= 'UTF-8';		// Characterset of PHP functions: (htmlspecialchars, htmlentities) 
-	const MINHASHBYTES		= 32; 			// Min. of bytes for secure hash.
-	const MAXHASHBYTES		= 64; 			// Max. of bytes for secure hash, more increases cost. Max. recommended: 256 bytes.
-	const MINMERSENNE		= 0xff; 		// Min. value of the Mersenne twister.
-	const MAXMERSENNE		= 0xffffffff; 	// Max. value of the Mersenne twister.
+	
+	CONST PHPENCODING 		= 'UTF-8';		// Characterset of PHP functions: (htmlspecialchars, htmlentities) 
+	CONST MINHASHBYTES		= 32; 			// Min. of bytes for secure hash.
+	CONST MAXHASHBYTES		= 64; 			// Max. of bytes for secure hash, more increases cost. Max. recommended: 256 bytes.
+	CONST MINMERSENNE		= 0xff; 		// Min. value of the Mersenne twister.
+	CONST MAXMERSENNE		= 0xffffffff; 	// Max. value of the Mersenne twister.
 	
 	CONST GATEWAYS 			= ["ACH","Alipay","Apple Pay","Bancontact","BenefitPay","Boleto Bancário","Citrus Pay","EPS","Fawry","Giropay","Google Pay","PayPal","KNET","Klarna","Mada","Multibanco","OXXO","Pago Fácil","Poli","Przelewy24","QPAY","Rapipago","SEPA Direct Debit","Sofort","Stripe","Via Baloto","iDEAL"];
 
@@ -333,22 +330,21 @@ class Shop {
 				$html .= '<meta name="google-site-verification" content="'.$this->cleanInput($row['site.google.tags']).'">';
 			}
 
-
-			$html .= '<link rel="stylesheet" type="text/css" href="'.self::DOMAIN.'/'.self::SHOPURI.'/'.$this->cleanInput($row['site.stylesheet.reset']).'">';
-			$html .= '<link rel="stylesheet" type="text/css" href="'.self::DOMAIN.'/'.self::SHOPURI.'/'.$this->cleanInput($row['site.stylesheet']).'">';
+			$html .= '<link rel="stylesheet" type="text/css" href="'.$this->cleanInput($row['site.domain']).'/'.$this->cleanInput($row['site.canonical']).'/'.$this->cleanInput($row['site.stylesheet.reset']).'">';
+			$html .= '<link rel="stylesheet" type="text/css" href="'.$this->cleanInput($row['site.domain']).'/'.$this->cleanInput($row['site.canonical']).'/'.$this->cleanInput($row['site.stylesheet']).'">';
 			
 			if(!empty($row['site.ext.stylesheet'])) {
 				$html .= '<link rel="stylesheet" type="text/css" href="'.$this->cleanInput($row['site.ext.stylesheet']).'">';
 			}		
 			
-			$html .= '<link rel="icon" type="image/ico" href="'.self::DOMAIN.'/'.self::SHOPURI.'/'.$this->cleanInput($row['site.icon']).'">';
-			$html .= '<script src="'.self::DOMAIN.'/'.self::SHOPURI.'/'.$this->cleanInput($row['site.javascript']).'" type="text/javascript"></script>';
+			$html .= '<link rel="icon" type="image/ico" href="'.$this->cleanInput($row['site.domain']).'/'.$this->cleanInput($row['site.canonical']).'/'.$this->cleanInput($row['site.icon']).'">';
+			$html .= '<script src="'.$this->cleanInput($row['site.domain']).'/'.$this->cleanInput($row['site.canonical']).'/'.$this->cleanInput($row['site.javascript']).'" type="text/javascript"></script>';
 			
 			if(!empty($row['site.ext.javascript'])) {
 				$html .= '<script src="'.$this->cleanInput($row['site.ext.javascript']).'" type="text/javascript"></script>';
 			}					
 			
-			// $html .= '<img src="'.self::DOMAIN.'/'.self::SHOPURI.'/'.$this->cleanInput($row['site.logo']).'" width="115" id="ts.shop.logo">';
+			// $html .= '<img src="'.$this->cleanInput($row['site.domain']).'/'.$this->cleanInput($row['site.canonical']).'/'.$this->cleanInput($row['site.logo']).'" width="115" id="ts.shop.logo">';
 		}
 		
 		return $html;
@@ -383,7 +379,7 @@ class Shop {
 		$start  = $offset + 1;
 		$end    = min(($offset + $limit), $total);
 		
-		$uri = self::DOMAIN.self::SHOPURI;
+		$uri = '';
 		
 		$prevlink = ($p > 1) ? '<a href="'.$uri.'/1/" title="First page">&laquo;</a> <a href="'.$uri.'/' . ($p - 1) . '/" title="Previous page" class="ts.pagination.link">&lsaquo;</a>' : '<span class="ts.disabled.span">&laquo;</span> <span class="ts.disabled.span">&lsaquo;</span>';
 		$nextlink = ($p < $ps) ? '<a href="'.$uri.'/' . ($p + 1) . '/" title="Next page" class="ts.pagination.link">&rsaquo;</a> <a href="'.$uri.'/' . $ps . '/" title="Last page" class="ts.pagination.link">&raquo;</a>' : '<span class="ts.disabled.span">&rsaquo;</span> <span class="ts.disabled.span">&raquo;</span>';
