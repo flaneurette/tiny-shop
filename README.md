@@ -6,6 +6,15 @@ A tiny shop written in PHP and flat file JSON. Useful for small webshops that do
 
 Tiny shop will be ideal for clients who make one-time single purchases, handmade or boutique items such as: art prints, antiques, music, jewelry, books and stationary. It is not recommended for mass retail and high volume shops.
 
+# Installation
+
+- Download or clone the package and upload it to your server. Unzip it, and run the install.php file to check for requirements. 
+- edit: class.Shop.php and adjust the constants. CONST DOMAIN is required to be changed.
+- edit: inventory/site.json for site configurations.
+- edit: /payment/paypal/paypal.json and edit your paypal information.
+
+That should be enough for a barebones demonstration.
+
 # Payment types:
 
 Long term planned integration:
