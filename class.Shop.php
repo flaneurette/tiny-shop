@@ -17,7 +17,6 @@ class Shop {
 	CONST MAXTITLE				= 255; // Max length of title.
 	CONST MAXDESCRIPTION			= 500; // Max length of description.
 
-	
 	CONST PHPENCODING 		= 'UTF-8';		// Characterset of PHP functions: (htmlspecialchars, htmlentities) 
 	CONST MINHASHBYTES		= 32; 			// Min. of bytes for secure hash.
 	CONST MAXHASHBYTES		= 64; 			// Max. of bytes for secure hash, more increases cost. Max. recommended: 256 bytes.
@@ -30,6 +29,11 @@ class Shop {
 		$incomplete = false;
 	}
 	
+	// Password to encrypt JSON
+	private static function PWD() {
+		return "thepasswordisyesterday";
+	}
+
 	/**
 	* Sanitizes user-input
 	* @param string
@@ -94,8 +98,8 @@ class Shop {
 			break;
 			
 			case 'table':
-				$search  = ['`','"',',','\'',';','.','$','%','>','<'];
-				$replace = ['','','','','','','','','',''];
+				$search  = ['`','"',',','\'',';','$','%','>','<'];
+				$replace = ['','','','','','','','',''];
 				$this->data = str_replace($search,$replace,$string);
 			break;
 			
@@ -937,7 +941,7 @@ class Shop {
 			return false;
     	}
 		
-		$key = self::PWD; // Password is set above at the Constants
+		$key = self::PWD(); // Password is set above at the Constants
 		$ivlen = openssl_cipher_iv_length($cipher="AES-256-CTR");
 		$iv = openssl_random_pseudo_bytes($ivlen);
 		$ciphertext_raw = openssl_encrypt($plaintext, $cipher, $key, $options=OPENSSL_RAW_DATA, $iv);
@@ -960,7 +964,7 @@ class Shop {
 			return false;
     	}
 		
-		$key = self::PWD; // Password is set above at the Constants
+		$key = self::PWD(); // Password is set above at the Constants
 		$ciphertext = hex2bin($ciphertext);
 		$c = base64_decode($ciphertext);
 		$ivlen = openssl_cipher_iv_length($cipher="AES-256-CTR");
