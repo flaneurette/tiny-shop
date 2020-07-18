@@ -2,6 +2,7 @@
 	{
 		"site.url": "https://www.example.com",
 		"site.domain": "https://www.example.com",
+		"site.email": "info@website.com",
 		"site.canonical": "shop",
 		"site.cdn": "",
 		"site.charset": "utf-8",

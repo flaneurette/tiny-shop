@@ -11,7 +11,7 @@ class Shop {
 	CONST PWD				= "Password to encrypt JSON"; // optional.
 	CONST FILE_ENC				= "UTF-8";
 	CONST FILE_OS				= "WINDOWS-1252"; // only for JSON and CSV, not the server architecture.
-	CONST MAXINT  				= 9999999;
+	CONST MAXINT  			= 9999999;
 	CONST DEPTH				= 1024;
 	CONST MAXWEIGHT				= 10000;
 	CONST MAXTITLE				= 255; // Max length of title.
@@ -77,7 +77,7 @@ class Shop {
 			break;
 			
 			case 'field':
-				$this->data =  preg_replace('/[^A-Za-z0-9-_.@]/','', $string);
+				$this->data =  preg_replace('/[^A-Za-z0-9-_.@/]/','', $string);
 			break;
 			
 			case 'query':
@@ -94,8 +94,8 @@ class Shop {
 			break;
 			
 			case 'table':
-				$search  = ['`','"',',','\'',';','.','$','%'];
-				$replace = ['','','','','','','',''];
+				$search  = ['`','"',',','\'',';','.','$','%','>','<'];
+				$replace = ['','','','','','','','','',''];
 				$this->data = str_replace($search,$replace,$string);
 			break;
 			
@@ -109,6 +109,12 @@ class Shop {
 			
 			case 'entities':
 				$this->data =  htmlentities($string, ENT_QUOTES | ENT_HTML5, self::PHPENCODING);
+			break;
+			
+			case 'url':
+				$search  = ['`','"',',','\'',';','$','%','>','<','\/'];
+				$replace = ['','','','','','','','','','/'];
+				$this->data = stripslashes(str_replace($search,$replace,$string));
 			break;
 			
 			case 'domain':
@@ -142,9 +148,9 @@ class Shop {
 	* @return void
 	*/
 	
-	public function encode($shop) 
+	public function encode($json) 
 	{
-		return json_encode($shop, JSON_PRETTY_PRINT);
+		return json_encode($json, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
 	}
 	
 	/**
@@ -224,17 +230,18 @@ class Shop {
 	* @param array $shop
 	* @return boolean, true for success, false for failure.
 	*/
-	public function storeshop($shop) 
+	public function storedata($url,$data) 
 	{
-		// make a backup before doing anything.
-		$file 	= self::SHOP;
-		$copy 	= self::SHOP.self::BACKUPEXT;
-		@copy($file, $copy);
-		// convert encoding
-		$json = mb_convert_encoding($this->encode($shop), self::FILE_ENC, self::FILE_OS);
-		// write file.
-		file_put_contents(self::SHOP,$json, LOCK_EX);
+		$json = mb_convert_encoding($this->encode($data), self::FILE_ENC, self::FILE_OS);
+		file_put_contents($url,$json, LOCK_EX);
 	}
+	
+	public function backup($url) 
+	{	
+		$copy 	= $url.self::BACKUPEXT;
+		@copy($url, $copy);
+	}
+		
 
 	/**
 	* Store shop into SHOP
@@ -662,6 +669,23 @@ class Shop {
 		return $html;
 	}
 	
+	public function currencylist() 
+	{
+		$html = "";
+		
+		$currencies = $this->load_json("inventory/currencies.json");
+		
+			if($currencies !== null) {
+				$i=0;
+				foreach($currencies[0] as $key => $value)
+				{
+					$html .= "<option value=\"".$key."\">".$this->cleanInput($currencies[0][$i]['sign'])."</option>";
+					$i++;
+				}		
+			}
+			
+		return $html;
+	}
 	
 	public function getcountryprice($json,$country) {
 		
