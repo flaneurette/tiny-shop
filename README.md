@@ -13,7 +13,7 @@ Tiny shop will be ideal for clients who make one-time single purchases, handmade
 
 - Download or clone the package and upload it to your server. Unzip it, and run the install.php file to check for requirements. 
 - edit: /inventory/site.json for site configurations. (/shop/ is the default shopfolder.)
-- edit: /payment/paypal/paypal.json and edit your paypal information.
+- edit: /payment/paypal/paypal.json and edit your paypal information. (insert your PayPal e-mail address, other variables are mostly defaults)
 
 Security:
 - edit: /resources/php/header.inc.php, to adjust appropiate (security) headers. By default, it shows all PHP errors.
