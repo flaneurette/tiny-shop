@@ -12,13 +12,13 @@ Tiny shop will be ideal for clients who make one-time single purchases, handmade
 - edit: /inventory/site.json for site configurations.
 - edit: /payment/paypal/paypal.json and edit your paypal information.
 
+N.B. TinyShop expect the default webshop folder to be /shop/
+
 # administration
 The administration is only used to upload and convert CSV to JSON through the website. (It is not required to use it.)
 - edit: /administration/.htaccess, generate a .htpasswd and add your IP.
 
-N.B. TinyShop expect the default webshop folder to be /shop/
-
-That should be enough for a barebones demonstration.
+That should be enough for a barebones demonstration. In future versions, there will be a less complex installation process.
 
 # Payment types:
 
