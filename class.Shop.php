@@ -4,18 +4,17 @@
 
 class Shop {
 
-	CONST SHOP				= "./inventory/shop.json";
-	CONST SHOPVERSION 			= "?cache-control=1"; // increment if major changes are made to the shop database.
-	CONST CSV				= "./inventory/csv/shop.csv"; 
-	CONST BACKUPEXT				= ".bak"; 
-	CONST PWD				= "Password to encrypt JSON"; // optional.
-	CONST FILE_ENC				= "UTF-8";
-	CONST FILE_OS				= "WINDOWS-1252"; // only for JSON and CSV, not the server architecture.
+	CONST SHOP			= "./inventory/shop.json";
+	CONST SHOPVERSION 		= "?cache-control=1"; // increment if major changes are made to the shop database.
+	CONST CSV			= "./inventory/csv/shop.csv"; 
+	CONST BACKUPEXT			= ".bak"; 
+	CONST FILE_ENC			= "UTF-8";
+	CONST FILE_OS			= "WINDOWS-1252"; // only for JSON and CSV, not the server architecture.
 	CONST MAXINT  			= 9999999;
-	CONST DEPTH				= 1024;
-	CONST MAXWEIGHT				= 10000;
-	CONST MAXTITLE				= 255; // Max length of title.
-	CONST MAXDESCRIPTION			= 500; // Max length of description.
+	CONST DEPTH			= 1024;
+	CONST MAXWEIGHT			= 10000;
+	CONST MAXTITLE			= 255; // Max length of title.
+	CONST MAXDESCRIPTION		= 500; // Max length of description.
 
 	CONST PHPENCODING 		= 'UTF-8';		// Characterset of PHP functions: (htmlspecialchars, htmlentities) 
 	CONST MINHASHBYTES		= 32; 			// Min. of bytes for secure hash.
@@ -31,7 +30,7 @@ class Shop {
 	
 	// Password to encrypt JSON
 	private static function PWD() {
-		return "thepasswordisyesterday";
+		return "thepasswordisnotyesterday";
 	}
 
 	/**
