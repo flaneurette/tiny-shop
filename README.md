@@ -4,6 +4,11 @@ A tiny shop written in PHP and flat file JSON. Useful for small webshops that do
 
 Tiny shop will be ideal for clients who make one-time single purchases, handmade or boutique items such as: art prints, antiques, music, jewelry, books and stationary. It is not recommended for mass retail and high volume shops.
 
+# Requirements
+- PHP > 5.4
+- Linux, Apache.
+- PHP extensions: multibyte, allow_url_fopen, JSON, MAIL, OPENSSL.
+
 # Installation
 
 - Download or clone the package and upload it to your server. Unzip it, and run the install.php file to check for requirements. 
