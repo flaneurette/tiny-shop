@@ -1,9 +1,9 @@
 <?php
 
+	session_start();
+
 	include("class.Shop.php");
 	$shop = new Shop();
-				
-	session_start();
 	
 	$versioning = PHP_VERSION_ID;
 	$error = [];
