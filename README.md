@@ -10,8 +10,11 @@ Tiny shop will be ideal for clients who make one-time single purchases, handmade
 
 - Download or clone the package and upload it to your server. Unzip it, and run the install.php file to check for requirements. 
 - edit: class.Shop.php and adjust the constants. CONST DOMAIN is required to be changed.
-- edit: inventory/site.json for site configurations.
+- edit: /resources/php/header.inc.php, to adjust appropiate (security) headers. By default, it shows all PHP errors.
+- edit: /inventory/site.json for site configurations.
 - edit: /payment/paypal/paypal.json and edit your paypal information.
+
+N.B. TinyShop expect the default webshop folder to be /shop/
 
 That should be enough for a barebones demonstration.
 
