@@ -203,13 +203,11 @@
 				$json[0]["site.currency"] = $shop->sanitize($_POST['admin_currency'],'num');
 				$json[0]["site.email"] = $shop->sanitize($_POST['admin_email'],'url');
 
-				/*
-					if($_POST['admin_encryption'] == '1') {
-						$json[0]["site.email"] = $shop->sanitize($_POST['admin_email'],'url');
-						} else {
-						$json[0]["site.email"] = $shop->sanitize($_POST['admin_email'],'url');
-					}
-				*/
+				if($_POST['admin_encryption'] == '1') {
+					$json[0]["site.email"] = $shop->encrypt($shop->sanitize($_POST['admin_email'],'url'));
+					} else {
+					$json[0]["site.email"] = $shop->sanitize($_POST['admin_email'],'url');
+				}
 
 				$shop->storedata($keys,$json);	 
 		
@@ -261,17 +259,18 @@
 						Admin Password: <input name="admin_password" value="" type="text">
 						Admin E-mail: <input name="admin_email" value="" type="text">
 						<hr />
-						Admin IP: <input name="admin_ip" value="<?= $_SERVER['REMOTE_ADDR'];?>" type="text">
+						Admin IP: <input name="admin_ip" value="<?= $shop->sanitize($_SERVER['REMOTE_ADDR'],'table');?>" type="text">
 						<hr />
 						PayPal e-mail (to accept payments on): <input name="admin_paypal_email" value="info@website.com" type="text">
 						<hr />
-						<!--
-						Security. Encrypt e-mail address? (if NO, it will be visible to everyone)
+						
+						Security. Encrypt e-mail address? 
+						
 						<select name="admin_encryption">
-							<option value="1">Yes</option>
 							<option value="2">No</option>
-						</select>
-						-->
+							<option value="1">Yes</option>
+						</select> <sup>(if NO, it will be visible to everyone)</sup>
+						<hr />
 						<input type="submit" value="Setup TinyShop >>">
 					</form>
 				</div>
