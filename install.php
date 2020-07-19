@@ -193,11 +193,10 @@
 				create_htpasswd($username,$password);
 				create_htaccess($ip,$root);
 				
+				// Store Site JSON configuration.
 				$keys = 'inventory/site.json';
 				$shop->backup($keys);
-				
 				$json = $shop->load_json($keys); 
-		
 				$json[0]["site.url"] = $shop->sanitize($_POST['admin_website'],'url');
 				$json[0]["site.domain"] = $shop->sanitize($_POST['admin_website'],'url');
 				$json[0]["site.currency"] = $shop->sanitize($_POST['admin_currency'],'num');
@@ -209,7 +208,16 @@
 					$json[0]["site.email"] = $shop->sanitize($_POST['admin_email'],'url');
 				}
 
-				$shop->storedata($keys,$json);	 
+				$shop->storedata($keys,$json);
+
+				// Store PayPal JSON configuration.
+				$keys_paypal = 'payment/paypal/paypal.json';
+				$shop->backup($keys_paypal);
+				$json_paypal = $shop->load_json($keys_paypal); 		
+				$json_paypal[0]["paypal.domain"] = $shop->sanitize($_POST['admin_website'],'url');		
+				$json_paypal[0]["paypal.email"] = $shop->sanitize($_POST['admin_paypal_email'],'url');
+				
+				$shop->storedata($keys_paypal,$json_paypal);
 		
 		echo '<pre>';
 		echo 'TinyShop was installed and should function correctly! If not, please read the manual on Github: https://github.com/flaneurette/tiny-shop'. PHP_EOL;
@@ -259,17 +267,18 @@
 						Admin Password: <input name="admin_password" value="" type="text">
 						Admin E-mail: <input name="admin_email" value="" type="text">
 						<hr />
-						Admin IP: <input name="admin_ip" value="<?= $shop->sanitize($_SERVER['REMOTE_ADDR'],'table');?>" type="text">
-						<hr />
-						PayPal e-mail (to accept payments on): <input name="admin_paypal_email" value="info@website.com" type="text">
-						<hr />
 						
-						Security. Encrypt e-mail address? 
+						<strong>Security.</strong> Encrypt e-mail address? 
 						
 						<select name="admin_encryption">
 							<option value="2">No</option>
 							<option value="1">Yes</option>
 						</select> <sup>(if NO, it will be visible to everyone)</sup>
+						<hr />
+						Admin IP: <input name="admin_ip" value="<?= $shop->sanitize($_SERVER['REMOTE_ADDR'],'table');?>" type="text">
+						<hr />
+						PayPal e-mail (to accept payments on): <input name="admin_paypal_email" value="info@website.com" type="text">
+
 						<hr />
 						<input type="submit" value="Setup TinyShop >>">
 					</form>
