@@ -37,6 +37,8 @@ Tiny shop uses JSON to store data. The benefit of a flat file database, is that 
 # Encryption
 Tiny shop has a reasonably safe encryption method to encrypt the shop data, namely AES 256. Since it does not store user-details, the encryption is disabled by default. All user details are not stored, but e-mailed to the shop owner. It is possible to store the details and thus encrypt it through Tiny Shop, but that is up to the shop owner.
 
+The encryption function is mostly used for semi-sensitive JSON values, such as e-mail adresses. Upon installation, the option is offered to encrypt the admin e-mail address automatically. Further encryption of JSON values need to be determined.
+
 # Backups
 Tiny Shop makes (real-time) automatic backups of the JSON database each time a product is added, changed or removed.
 
