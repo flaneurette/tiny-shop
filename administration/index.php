@@ -6,7 +6,6 @@
 	session_start(); 
 
 	include("../resources/php/class.ImageSanitize.php");
-
 	include("../class.Shop.php");
 	$shop  = new Shop();
 ?>
@@ -19,14 +18,17 @@
 		background-color:lightgreen;
 		border-color:1px solid green;
 	}
-	
+	.alertmessage {
+		color:#ff0000;
+		font-size:12px;
+	}
 	</style>
 	</head>
 	<body>
 	<h1>Administration</h1>
 <hr />
 
-<span style="color:#ff0000;font-size:12px;">This part of the page should be placed behind a password protected area. </span>
+<span style="alertmessage">This part of the page should be placed behind a password protected area. </span>
 
 <h2>Upload CSV files, and convert to JSON</h2>
 
@@ -45,8 +47,11 @@
 		
 		
 		echo "<hr /><div class=\"message\">";
+		
 		$count = count($_FILES['csv_file']['name']);
+		
 		$j=1;
+		
 		for ($i = 0; $i < $count; $i++) {
 				
 			if($_FILES['csv_file']['error'][$i] == UPLOAD_ERR_OK  && is_uploaded_file($_FILES['csv_file']['tmp_name'][$i])) { 
@@ -55,7 +60,6 @@
 					echo "File is not a CSV.";
 					exit;
 				}
-			
 			
 				$file = file_get_contents($_FILES['csv_file']['tmp_name'][$i]);  
 				$showfile =  $shop->convert($file,'csv_to_json',$file);
@@ -88,21 +92,42 @@
 			
 			if(isset($_POST['destination'])) {
 				
-				if($_POST['destination'] == 'category') {
-					$destination = '../resources/images/category/';
-					} elseif($_POST['destination'] == 'products') {
-					$destination = '../resources/images/products/';
-					} else {
-					$destination = '../resources/images/';
+				if($_POST['destination'] != '') {
+
+						$destination  = '../resources/images/';
+						$catfolder = $shop->sanitize($_POST['destination'],'dir');
+						
+						if(strstr($catfolder,'../') || strstr($catfolder,'./'))  {
+							echo "<div class=\"alertmessage\">Directory travesal is not allowed.</div>".PHP_EOL;
+							exit;
+						} else {
+							
+							$destination .= $shop->sanitize($_POST['destination'],'dir');
+							
+							echo $destination;
+							
+							if (!is_dir($destination)) {
+								mkdir($destination, 0777, true);
+								echo "<div class=\"message\">Directory did not exist, TinyShop created the new directory.</div>".PHP_EOL;
+							}
+						}
 				}
 			}
 			
-			$parameters = array('image' => 'files','path' => $destination,'thumb' => false,'width' => false,'height' => false);
-			// $checkImage = new \security\images\ImageSecurityCheck($parameters);
-			$checkImage = new ImageSecurityCheck($parameters);
-			$checkImage->clearmessages();
-			$upload = $checkImage->fullScan();
-			
+			$count = count($_FILES['upload']['name']);
+				
+			$j = 1;
+				
+				for ($i = 0; $i < $count; $i++) {
+
+					$parameters = array('image' => 'files','path' => $destination,'thumb' => false,'width' => false,'height' => false);
+					// $checkImage = new \security\images\ImageSecurityCheck($parameters);
+					
+					$checkImage = new ImageSecurityCheck($parameters);
+					$checkImage->clearmessages();
+					$upload = $checkImage->fullScan();
+				}
+				
 			echo "<div class=\"message\">Image successfully uploaded.</div>";
 		}		
 	} 
@@ -114,14 +139,23 @@
 <p>Select an image to process...</p>
 
 	<form name="" action="" method="post" enctype="multipart/form-data">
-		Type of image: 
+	
+		Place in category: 
 		<select name="destination">
-			<option value="category">category</option>
-			<option value="products">products</option>
+			<option value="">Select category...</option>
+			<?php
+			$category	 = $shop->load_json("../inventory/categories.json");
+			$subcategory = $shop->load_json("../inventory/subcategories.json");
+			echo $shop->categorylist('all',$category, $subcategory);
+			?>
 		</select>
-		<input type="file" name="files" /> 
+
+		<input type="file" name="files[]" /> 
 		<input type="hidden" name="upload" value="1" /> 
 		<input type="submit" name="submit" value="Upload Image" /> 
+		<hr />
+		<small>N.B. If there are no categories, please create categories through uploading the categories.csv and subcategories.csv first, as this list is dynamically created from these files.</small>
+		<hr />
 	</form>
 	
 	</body>
