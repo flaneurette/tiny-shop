@@ -10,10 +10,13 @@ header("X-XSS-Protection: 1; mode=block");
 header("Strict-Transport-Security: max-age=30");
 header("Referrer-Policy: same-origin");
 
-session_start();
-
+include("../resources/php/header.inc.php");
+include("../resources/php/class.Session.php");
 include("../resources/php/class.SecureMail.php");
-		
+include("../class.Shop.php");
+	
+$shop = new Shop();
+	
 $setup = new \security\forms\SecureMail();
 $token = $setup->getToken();
 
@@ -22,11 +25,22 @@ $_SESSION['token'] = $token;
 
 // Try to detect a Robot on this form. If found, do you want to show a Captcha?
 $robot = $setup->detectrobot();
-	
+
+$siteconf = $shop->load_json("../inventory/site.json");
+$result = $shop->getasetting($siteconf,'site.email');
+
+if($result["site.email"] != '') {
+	$email = $shop->decrypt($result["site.email"]);
+}
+
 ?>
 <!DOCTYPE html>
 <html>
-<head></head>
+	<head>
+	<?php
+	echo $shop->getmeta('../inventory/site.json');				
+	?>
+	</head>
 <body>
 
 <h2>Contact</h2>
@@ -41,7 +55,7 @@ For any inquiry, use the contact form below.
 					// The submitted token appears to be similar as the session token we set. Obtain $_POST data.  
 					
 					$parameters = array( 
-						'to' => 'info@website.com',
+						'to' => $email,
 						'name' => $_POST['name'],
 						'email' => $_POST['email'],				
 						'subject' => $_POST['subject'],
@@ -105,7 +119,7 @@ For any inquiry, use the contact form below.
 <label for="subject">Subject:</label>			
 <input type="text" name="subject" value="">
 <label for="body">Message:</label>
-<textarea name="body" rows="10" cols="40"></textarea>
+<textarea name="body" rows="10" cols="30"></textarea>
 				
 <?php
 				
@@ -117,7 +131,7 @@ if($robot == TRUE) {
 	
 ?>
 <input type="submit" name="submit" value="Send message">
-
+<hr />
 <small><b>Formatting</b>
 Please make sure you enter all your details correctly, and that the message text is no longer than 5000 characters. HTML formatting is not allowed and will result in a form error when submitted. Thank you.</small>
 
