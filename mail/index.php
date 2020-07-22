@@ -30,7 +30,12 @@ $siteconf = $shop->load_json("../inventory/site.json");
 $result = $shop->getasetting($siteconf,'site.email');
 
 if($result["site.email"] != '') {
-	$email = $shop->decrypt($result["site.email"]);
+	
+	if(strlen($result["site.email"]) > 64) {
+		$email = $shop->decrypt($result["site.email"]);
+		} else {
+		$email = $shop->sanitize($result["site.email"],'email');
+	}
 }
 
 ?>
