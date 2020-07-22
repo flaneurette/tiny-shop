@@ -4,6 +4,8 @@ A tiny shop written in PHP and flat file JSON. Useful for small webshops that do
 
 Tiny shop will be ideal for clients who make one-time single purchases, handmade or boutique items such as: art prints, antiques, music, jewelry, books and stationary. It is not recommended for mass retail and high volume shops, even though it might actually be faster and using less resource consumption than most other webshop software given the lean codebase.
 
+TinyShop works with CSV files that are converted to JSON in the administration screen. Everything is updated with CSV files.
+
 # Requirements
 - PHP > 5.4
 - Linux, Apache.
@@ -17,6 +19,8 @@ Optional:
 - edit: /inventory/site.json for site configurations. 
 - edit: /payment/paypal/paypal.json and edit your paypal information. (mostly defaults and need no change)
 - edit: /resources/php/header.inc.php, to adjust appropiate (security) headers. By default, it shows all PHP errors.
+
+Edit categories.csv and subcategories.csv and upload it in the administration screen. Then it is possible to upload images as well, as everything is dynamically created. Tinyshop has a folder with demo files in the /inventory/csv/ folder, which can be used as a start. Download the CSV files and upload them when required. 
 
 # Administration
 The administration is only used to upload and convert CSV to JSON through the website. (It is not required to use it.)
