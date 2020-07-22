@@ -13,7 +13,9 @@ TinyShop works with CSV files that are converted to JSON in the administration s
 
 # Installation
 
-- Download or clone the package and upload it to your server. Unzip it, and run the install.php file to check for requirements.
+1. Download or clone the package and upload it to your server. Unzip it.
+2. Edit: class.Shop.php and a master password at function: PWD(); this password is required to encrypt JSON fields. If you do not want encryption, leave it as is.
+3. Run the install.php file to check for requirements, and follow the installation process.
 
 Optional:
 - edit: /inventory/site.json for site configurations. 
