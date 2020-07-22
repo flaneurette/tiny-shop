@@ -4,17 +4,17 @@
 
 class Shop {
 
-	CONST SHOP			= "./inventory/shop.json";
-	CONST SHOPVERSION 		= "?cache-control=1"; // increment if major changes are made to the shop database.
-	CONST CSV			= "./inventory/csv/shop.csv"; 
-	CONST BACKUPEXT			= ".bak"; 
-	CONST FILE_ENC			= "UTF-8";
-	CONST FILE_OS			= "WINDOWS-1252"; // only for JSON and CSV, not the server architecture.
-	CONST MAXINT  			= 9999999;
-	CONST DEPTH			= 1024;
-	CONST MAXWEIGHT			= 10000;
-	CONST MAXTITLE			= 255; // Max length of title.
-	CONST MAXDESCRIPTION		= 500; // Max length of description.
+	CONST SHOP				= "./inventory/shop.json";
+	CONST SHOPVERSION 			= "?cache-control=1"; // increment if major changes are made to the shop database.
+	CONST CSV				= "./inventory/csv/shop.csv"; 
+	CONST BACKUPEXT				= ".bak"; 
+	CONST FILE_ENC				= "UTF-8";
+	CONST FILE_OS				= "WINDOWS-1252"; // only for JSON and CSV, not the server architecture.
+	CONST MAXINT  				= 9999999;
+	CONST DEPTH				= 1024;
+	CONST MAXWEIGHT				= 10000;
+	CONST MAXTITLE				= 255; // Max length of title.
+	CONST MAXDESCRIPTION			= 500; // Max length of description.
 
 	CONST PHPENCODING 		= 'UTF-8';		// Characterset of PHP functions: (htmlspecialchars, htmlentities) 
 	CONST MINHASHBYTES		= 32; 			// Min. of bytes for secure hash.
@@ -30,7 +30,7 @@ class Shop {
 	
 	// Password to encrypt JSON
 	private static function PWD() {
-		return "thepasswordisnotyesterday";
+		return "thepasswordisyesterday";
 	}
 
 	/**
@@ -74,6 +74,10 @@ class Shop {
 			}
 				
 			break;
+			
+			case 'dir':
+				$this->data =  preg_replace('/[^a-zA-Z-0-9\.\/]/','', $string);
+			break;			
 			
 			case 'alphanum':
 				$this->data =  preg_replace('/[^a-zA-Z-0-9]/','', $string);
@@ -196,7 +200,7 @@ class Shop {
 		$i = count($lijst);
 		$lijst = array($newshop);
 
-		$this->storeshop($lijst);
+		$this->storedata($lijst);
 	}
 
 	public function message($value) 
@@ -233,10 +237,14 @@ class Shop {
 	* @param array $shop
 	* @return boolean, true for success, false for failure.
 	*/
-	public function storedata($url,$data) 
+	public function storedata($url,$data,$method='json') 
 	{
-		$json = mb_convert_encoding($this->encode($data), self::FILE_ENC, self::FILE_OS);
-		file_put_contents($url,$json, LOCK_EX);
+		if($method == 'json') {
+			$json = mb_convert_encoding($this->encode($data), self::FILE_ENC, self::FILE_OS);
+			file_put_contents($url,$json, LOCK_EX);			
+			} else {
+			file_put_contents($url,$data, LOCK_EX);			
+		}
 	}
 	
 	public function backup($url) 
@@ -281,7 +289,7 @@ class Shop {
 				}
 			}
 		}
-		$this->storeshop($shops);
+		$this->storedata($shops);
 	}
 	
 	/**
@@ -637,6 +645,104 @@ class Shop {
 		return $array;
 	} 	
 	
+	public function categorylist($method,$category=null,$subcategory=null) 
+	{
+		
+		$html = "";
+		$igoreset = [];
+		
+		switch($method) {
+			
+			case 'all':
+		
+				if($category !== null) {
+
+					$i = 0;
+					$html = "";
+					
+					foreach($category as $row)
+					{
+						foreach($row as $key => $value)
+						{
+							if($key == 'category.id') {
+								$subcatid = $value;
+							}
+							
+							if($key == 'category.title') {
+								
+								if($value !='' || $value != null) {
+								$html .= "<option value=\"".$this->sanitize($value,'dir')."\">".$this->sanitize($value,'unicode')."</option>";
+									foreach($subcategory as $subrow)
+									{
+										foreach($subrow as $subkey => $subvalue)
+										{
+											if($subkey == 'sub.category.title') {
+												$subkeytitle = $subvalue;
+											}
+											
+											if($subkey == 'sub.category.cat.id') {
+												if($subcatid == $subvalue) {
+													if($subvalue !='' || $subvalue != null) {
+														$html .= "<option value=\"".$this->sanitize($value,'dir').'/'.$this->sanitize($subkeytitle,'dir')."\"> - ".$this->sanitize($subkeytitle,'unicode')."</option>";
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}		
+				}		
+			
+			break;
+			
+			case 'category':
+			
+				if($category !== null) {
+
+					$i = 0;
+					$html = "";
+					
+					foreach($category as $row)
+					{
+						foreach($row as $key => $value)
+						{
+							if($key == 'category.title') {
+								$html .= "<option value=\"".$value."\">".$value."</option>";
+							}
+						}
+					}		
+				}	
+			
+			break;
+			
+			case 'subcategory':
+			
+				if($category !== null) {
+
+					$i = 0;
+					$html = "";
+					
+					foreach($category as $row)
+					{
+						foreach($row as $key => $value)
+						{
+							if($key == 'sub.category.title') {
+								$html .= "<option value=\"".$value."\">".$value."</option>";
+							}
+						}
+					}		
+				}		
+			
+			break;	
+
+		}			
+			
+		return $html;
+	}
+	
+	
 	public function gatewaylist($json,$keys) 
 	{
 		$html = "";
@@ -767,8 +873,7 @@ class Shop {
 			}
 			return $html;
 	}
-	
-	
+
 	/**
 	* Converter for data, types and strings.
 	* @param string $string
@@ -796,7 +901,16 @@ class Shop {
 						$label = $columns[$column_index];
 						$data[$row_index][$label] = $column_value;       
 					}
-				}	
+					
+					unset($data[0]);
+				}
+				
+				$c = count($data);
+				if($c > 1) {
+					unset($data[$c]);
+				}
+				
+				$data = array_values($data);
 				
 			break;
 			
@@ -1053,7 +1167,7 @@ class Shop {
 		
 		$list[$i] = $product;
 		# var_dump($list); // debugging, to show list.
-		$this->storeshop($list);
+		$this->storedata($list);
 	}
 
 	public function checkForm() 
