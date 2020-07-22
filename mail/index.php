@@ -1,15 +1,5 @@
 <?php
 
-// Error reporting (for testing only).
-ini_set('display_errors', 1); 
-error_reporting(E_ALL);
-
-// Optional headers to consider.
-header("X-Frame-Options: DENY"); 
-header("X-XSS-Protection: 1; mode=block"); 
-header("Strict-Transport-Security: max-age=30");
-header("Referrer-Policy: same-origin");
-
 include("../resources/php/header.inc.php");
 include("../resources/php/class.Session.php");
 include("../resources/php/class.SecureMail.php");
