@@ -95,6 +95,10 @@ class Shop {
 			case 'dir':
 				$this->data =  preg_replace('/[^a-zA-Z-0-9\.\/]/','', $string);
 			break;			
+
+			case 'email':
+				$this->data =  preg_replace('/[^a-zA-Z-0-9\.@\-_]/','', $string);
+			break;	
 			
 			case 'alphanum':
 				$this->data =  preg_replace('/[^a-zA-Z-0-9]/','', $string);
