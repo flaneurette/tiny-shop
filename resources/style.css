@@ -490,11 +490,13 @@ label {
 .ts-shop-form-field {
 	display: block;
 	float: right;
-	border: 1px solid #ced4da;
-	padding: 10px;
+	border: 1px solid #ded4da;
+	border-radius: .25rem;
+	padding: 1px;
 	margin-top:5px;
 	text-align: left;
 	position: relative;
+	background-color:#ced4da;
 }
 #ts-shop-cart-form-data {
 	display: block;
@@ -655,8 +657,11 @@ label {
 	text-align: left;
 	position: top;
 	z-index:4;
-	background-color:#dedede;
-	border:1px solid #000;
+
+	border: 1px solid #ded4da;
+	border-radius: .25rem;
+	background-color:#ced4da;
+	
 }
 
 #ts-shop-cart-error {
@@ -667,7 +672,6 @@ label {
 #ts-shop-delete {
 	
 }
-
 
 .ts-product-status-red {
   height: 15px;
@@ -709,4 +713,13 @@ label {
   font-size:8px;
   display: inline-block;
 }
-	
+
+.ts-shop-upload-message {
+	background-color:lightgreen;
+	border-color:1px solid green;
+}
+
+.ts-shop-upload-message-red {
+	color:#ff0000;
+	font-size:12px;
+}
