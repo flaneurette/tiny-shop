@@ -2,6 +2,26 @@
 
 // if possible, store this class below the www or html folder for more security.
 
+###########################################################################
+##                                                                       ##
+##  Copyright 2020 Alexandra van den Heetkamp.                           ##
+##                                                                       ##
+##  Secure Mail Class. This class processes e-mails coming from a        ##
+##  contact form.                                                        ##
+##                                                                       ##
+##  This class is free software: you can redistribute it and/or modify it##
+##  under the terms of the GNU General Public License as published       ##
+##  by the Free Software Foundation, either version 3 of the             ##
+##  License, or any later version.                                       ##
+##                                                                       ##
+##  This class is distributed in the hope that it will be useful, but    ##
+##  WITHOUT ANY WARRANTY; without even the implied warranty of           ##
+##  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        ##
+##  GNU General Public License for more details.                         ##
+##  <http://www.gnu.org/licenses/>.                                      ##
+##                                                                       ##
+###########################################################################
+
 class Shop {
 
 	CONST SHOP				= "./inventory/shop.json";
@@ -741,7 +761,20 @@ class Shop {
 			
 		return $html;
 	}
-	
+
+	public function getasetting($json,$akey) 
+	{
+			if($json !== null) {
+			
+				foreach($json as $key => $value)
+				{
+					 
+					if($key == $akey) {
+						return $value;	
+					}		
+				}		
+			}
+	}
 	
 	public function gatewaylist($json,$keys) 
 	{
