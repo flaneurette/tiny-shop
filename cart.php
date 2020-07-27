@@ -17,8 +17,8 @@
 	}
 		
 	/* Get the currency of site.json
-	*  To change the default currency, edit site.json which has a numeric value that corresponds to the values inside currencies.json.
-	*  DO NOT edit currencies.json, unless adding a new currency, as this file is used throughout TinyShop and might break functionality.
+	 * To change the default currency, edit site.json which has a numeric value that corresponds to the values inside currencies.json.
+	 * DO NOT edit currencies.json, unless adding a new currency, as this file is used throughout TinyShop and might break functionality.
 	*/
 	
 	$sitecurrency = $shop->getsitecurrency();
@@ -30,9 +30,18 @@
 	echo $shop->getmeta();				
 	?>
 	</head>
-	<body>
-		<h1>Shopping Cart</h1>
-		
+<body>
+
+<?php
+include("../../header.php");
+?>
+
+<div id="bio-wrapper">
+<h1>Shopping Cart</h1>
+
+<br clear="left" />
+
+
 		<div id="result"></div>
 		<div id="ts-shop-cart-form">
 
@@ -56,7 +65,7 @@
 			<li class="ts-shop-ul-li-item">Price</li>
 			<li class="ts-shop-ul-li-item-qty">Qty</li>
 			<li class="ts-shop-ul-li-item-update"></li>
-			<li class="ts-shop-ul-li-item">Total</li>			
+			<li class="ts-shop-ul-li-item-total">Total</li>			
 			<li class="ts-shop-ul-li-item-delete"></li>
 		</div>
 
@@ -103,10 +112,10 @@
 			<div class="ts-shop-ul">
 					<li class="ts-shop-ul-li-item-product"><?=$producttitle;?><!-- title --></li>
 					<li class="ts-shop-ul-li-item-description"><?=$productdesc;?><!-- desc --></li>
-					<li class="ts-shop-ul-li-item"><?=$sitecurrency;?> <?=$productprice;?><!-- price --></li>
+					<li class="ts-shop-ul-li-item-price"><?=$sitecurrency;?> <?=$productprice;?><!-- price --></li>
 					<li class="ts-shop-ul-li-item-qty"><input type="number" name="qty" id="<?=$qtyid;?>" size="1" min="1" max="9999" value="<?=$productqty;?>"></li>
 					<li class="ts-shop-ul-li-item-update"><a href="#" onclick="tinyshop.updatecart('<?=$product;?>','<?=$qtyid;?>','<?=$token;?>');">&#x21bb;</a></li>
-					<li class="ts-shop-ul-li-item"><?=$sitecurrency;?> <?=$productsum;?><!-- sum --></li>
+					<li class="ts-shop-ul-li-item-total"><?=$sitecurrency;?> <?=$productsum;?><!-- sum --></li>
 					<li class="ts-shop-ul-li-item-delete" id="ts-shop-delete"><a href="#" onclick="tinyshop.deletefromcart('<?=$product;?>','<?=$token;?>');">&#x2716;</a>
 					</li>
 			</div>
@@ -163,5 +172,10 @@
 	
 	?>
 		</div>
-	</body>
+</div>
+
+<?php
+include("../../footer.php");
+?>
+</body>
 </html>

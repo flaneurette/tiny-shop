@@ -32,13 +32,11 @@
 		exit;
 	}
 		
-
 	if(!isset($_POST['checkout-post'])) {	
 		$shop->message('Checkout page could not be loaded from resource and cannot be accessed this way.');
 		$shop->showmessage();
 		exit;
 	}
-	
 	
 	/* Get the currency of site.json
 	*  To change the default currency, edit site.json which has a numeric value that corresponds to the values inside currencies.json.
@@ -89,12 +87,12 @@
 		<hr />
 		<div class="ts-shop-ul-set">
 		<div class="ts-shop-ul">
-				<li class="ts-shop-ul-li-item" width="11%">&#128722;</li>
+				<li class="ts-shop-ul-li-item-icon" width="11%">&#128722;</li>
 				<li class="ts-shop-ul-li-item-product" width="30%">Product Name</li>
 				<li class="ts-shop-ul-li-item-description" width="30%">Description</li>
-				<li class="ts-shop-ul-li-item" width="10%">Price</li>
+				<li class="ts-shop-ul-li-item-price" width="10%">Price</li>
 				<li class="ts-shop-ul-li-item-qty" width="5%">Qty</li>
-				<li class="ts-shop-ul-li-item" width="14%">Total</li>
+				<li class="ts-shop-ul-li-item-total" width="14%">Total</li>
 		</div>
 			
 	<?php
@@ -138,12 +136,12 @@
 
 				?>
 				<div class="ts-shop-ul">
-						<li class="ts-shop-ul-li-item" width="11%">&#128722;</li>
+						<li class="ts-shop-ul-li-item-icon" width="11%">&#128722;</li>
 						<li class="ts-shop-ul-li-item-product" width="30%"><?=$producttitle;?><!-- title --></li>
 						<li class="ts-shop-ul-li-item-description" width="30%"><?=$productdesc;?><!-- desc --></li>
-						<li class="ts-shop-ul-li-item" width="10%"><?=$sitecurrency;?> <?=$productprice;?><!-- price --></li>
+						<li class="ts-shop-ul-li-item-price" width="10%"><?=$sitecurrency;?> <?=$productprice;?><!-- price --></li>
 						<li class="ts-shop-ul-li-item-qty" width="5%"><?=$productqty;?></li>
-						<li class="ts-shop-ul-li-item" width="14%"><?=$sitecurrency;?> <?=$productsum;?><!-- sum --></li>
+						<li class="ts-shop-ul-li-item-total" width="14%"><?=$sitecurrency;?> <?=$productsum;?><!-- sum --></li>
 				</div>
 			<?php
 					}
@@ -154,7 +152,7 @@
 			
 			?>
 			</div>
-			<hr />
+			<br />
 			<div class="ts-shop-ul-set">
 			
 			<div class="ts-shop-ul">
