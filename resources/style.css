@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap');
+
 /*
  * Tiny Shop default styling.
 */
@@ -22,8 +25,11 @@ div {
 }
 h1 {
 	color: #000;
-	margin: 0;
-	padding: 0;
+	font-family: 'Playfair Display', Georgia, Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", serif;
+	font-size: 14px;
+	margin:0px;
+	margin-top: 10px;
+	margin-left:10px;
 }
 fieldset {
 	width: 50%;
@@ -119,7 +125,7 @@ input {
 	overflow: visible;
 }
 textarea {
-	width: 100%;
+	width: 80%;
 }
 label {
 	font-weight: bold;
@@ -272,6 +278,15 @@ hr {
 	padding: 0.2em;
 }
 
+.ts-shop-ul-li-item-icon {
+    list-style: none;
+    display: table-cell;
+    text-align: center;
+	margin: 2px;
+	padding: 0.2em;
+	vertical-align:middle;
+}
+
 .ts-shop-ul-li-item-product {
 	list-style: none;
     display: table-cell;
@@ -279,6 +294,7 @@ hr {
 	margin: 2px;
 	padding: 0.2em;
 	width:30%;
+	vertical-align:middle;
 }
 
 .ts-shop-ul-li-item-qty {
@@ -287,8 +303,8 @@ hr {
     text-align: center;
 	margin: 0px;
 	padding: 2px;
-	width:5%;
-	vertical-align:bottom;
+	width:7%;
+	vertical-align:middle;
 }
 
 .ts-shop-ul-li-item-delete {
@@ -298,7 +314,19 @@ hr {
 	margin: 2px;
 	padding: 0.2em;
 	width:5%;
+	vertical-align:middle;
 }
+
+.ts-shop-ul-li-item-price {
+	list-style: none;
+    display: table-cell;
+    text-align: center;
+	margin: 2px;
+	padding: 0.2em;
+	width:5%;
+	vertical-align:middle;
+}
+
 .ts-shop-ul-li-item-update {
 	list-style: none;
     display: table-cell;
@@ -306,6 +334,17 @@ hr {
 	margin: 2px;
 	padding: 0.2em;
 	width:5%;
+	vertical-align:middle;
+}
+.ts-shop-ul-li-item-total {
+	list-style: none;
+    display: table-cell;
+    text-align: center;
+	margin: 2px;
+	padding: 0.2em;
+	padding-top:5px;
+	width:5%;
+	vertical-align:middle;
 }
 
 .ts-shop-ul-li-item-description {
@@ -315,6 +354,7 @@ hr {
 	margin: 2px;
 	padding: 0.2em;
 	width:30%;
+		vertical-align:middle;
 }
 
 .ts-shop-ul-li-item input[type="number"] {
@@ -480,10 +520,6 @@ label {
 	width: 100%;
 	margin: 5px;
 	text-align: left;
-	display: -ms-flexbox;
-	display: flex;
-	-ms-flex-wrap: wrap;
-	flex-wrap: wrap;
 	margin-right: -15px;
 	margin-left: -15px;
 }
@@ -631,7 +667,6 @@ label {
 	display: flex;
 	-ms-flex-wrap: wrap;
 	flex-wrap: wrap;
-	border:1px solid #ced4da;
 }
 
 .ts-shop-form-section {
