@@ -63,6 +63,35 @@ class Shop {
 			return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
 		}
 	}
+
+	/**
+	* Max string of user-input
+	* @param string, length and dots.
+	* @return string
+	*/
+	
+	public function maxstring($string,$len,$dots) 
+	{
+		$wordarray = explode(' ',$string);
+		
+		$returnstring = '';
+		
+		$c = count($wordarray);
+		
+		for($i = 0; $i < $c; $i++) {
+			
+			if(strlen($returnstring) >= $len) {
+				break;
+			} else {
+				$returnstring .= $wordarray[$i] . ' ';
+			}
+		}
+		
+		if($dots == true) {
+			$returnstring .= '...';
+		}
+		return $returnstring;
+	}	
 	
 	/**
 	* Sanitizes user-input
@@ -528,8 +557,8 @@ class Shop {
 						case 'list':		
 						$string .= "<div class=\"ts-product-list\">";
 						$string .= $productimage;
-						$string .= "<div class=\"ts-list-product-link\"><a href=\"item/".$this->seoUrl($this->cleanInput($ts[$i]['product.category'])).'/'.$this->seoUrl($this->cleanInput($ts[$i]['product.title'])).'/'.$this->cleanInput($ts[$i]['product.id'])."/".(int)$this->page_id."/\">".$this->cleanInput($ts[$i]['product.title'])."</a> </div>";
-						$string .= "<div class=\"ts-list-product-desc\">".$this->cleanInput($ts[$i]['product.description'])."</div>";
+						$string .= "<div class=\"ts-list-product-link\"><a href=\"item/".$this->seoUrl($this->cleanInput($ts[$i]['product.category'])).'/'.$this->seoUrl($this->cleanInput($ts[$i]['product.title'])).'/'.$this->cleanInput($ts[$i]['product.id'])."/".(int)$this->page_id."/\">".$this->maxstring($this->cleanInput($ts[$i]['product.title']),10,false)."</a> </div>";
+						$string .= "<div class=\"ts-list-product-desc\">".$this->maxstring($this->cleanInput($ts[$i]['product.description']),50,true)."</div>";
 					    // $string .= "<div class=\"ts-list-product-cat\">".$this->cleanInput($ts[$i]['product.category'])."</div>";
 						$string .= "<div class=\"ts-list-product-price\">".$this->getsitecurrency().' '.$this->cleanInput($ts[$i]['product.price'])."</div>";
 						$string .= "<div class=\"ts-list-product-status\">left in stock.<div class=\"".$status."\">".$this->cleanInput($ts[$i]['product.stock'])."</div></div>";
@@ -947,6 +976,39 @@ class Shop {
 				$data = array_values($data);
 				
 			break;
+
+			case 'json_to_csv_admin':
+				
+				$json_data = $this->convert($string,'json_decode');
+
+				$shop->storedata('../inventory/csv/'.$shop->sanitize($file,'dir'),$showfile,'csv'); 
+				
+				$f = str_replace('.json','.csv',$_FILES['json_file']['name'][$i]);
+				
+				$csv_file = '../inventory/csv/'.$shop->sanitize($f,'dir');
+				
+				
+				$header = false;
+				
+				foreach ($json_data as $line){
+
+					if (empty($header)) {
+						$header = array_keys($line);
+						fputcsv($f, $header);
+						$header = array_flip($header);
+					}
+					
+					$data = array($line['type']);
+					
+					foreach ($line as $value) {
+						array_push($data,$value);
+					}
+					
+					array_push($data,$line['stream_type']);
+					fputcsv($csv_file, $data);
+				}
+				
+			break;
 			
 			case 'json_to_csv':
 
@@ -962,6 +1024,7 @@ class Shop {
 				
 				$json_data = $this->convert(self::SHOP,'json_decode');
 				$csv_file = fopen(self::CSV, 'w');
+				
 				$header = false;
 				
 				foreach ($json_data as $line){
@@ -980,6 +1043,7 @@ class Shop {
 					array_push($data,$line['stream_type']);
 					fputcsv($csv_file, $data);
 				}
+				
 			break;
 			
 			case 'json_decode':
