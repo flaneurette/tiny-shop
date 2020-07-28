@@ -87,12 +87,12 @@
 		<hr />
 		<div class="ts-shop-ul-set">
 		<div class="ts-shop-ul">
-				<li class="ts-shop-ul-li-item-icon" width="11%">&#128722;</li>
-				<li class="ts-shop-ul-li-item-product" width="30%">Product Name</li>
-				<li class="ts-shop-ul-li-item-description" width="30%">Description</li>
-				<li class="ts-shop-ul-li-item-price" width="10%">Price</li>
+				<li class="ts-shop-ul-li-item-icon" width="2%">&#128722;</li>
+				<li class="ts-shop-ul-li-item-product" width="35%">Product Name</li>
+				<li class="ts-shop-ul-li-item-description" width="35%">Description</li>
+				<li class="ts-shop-ul-li-item-price" width="5%">Price</li>
 				<li class="ts-shop-ul-li-item-qty" width="5%">Qty</li>
-				<li class="ts-shop-ul-li-item-total" width="14%">Total</li>
+				<li class="ts-shop-ul-li-item-total" width="16%">Total</li>
 		</div>
 			
 	<?php
@@ -136,12 +136,12 @@
 
 				?>
 				<div class="ts-shop-ul">
-						<li class="ts-shop-ul-li-item-icon" width="11%">&#128722;</li>
-						<li class="ts-shop-ul-li-item-product" width="30%"><?=$producttitle;?><!-- title --></li>
-						<li class="ts-shop-ul-li-item-description" width="30%"><?=$productdesc;?><!-- desc --></li>
-						<li class="ts-shop-ul-li-item-price" width="10%"><?=$sitecurrency;?> <?=$productprice;?><!-- price --></li>
+						<li class="ts-shop-ul-li-item-icon" width="2%">&#128722;</li>
+						<li class="ts-shop-ul-li-item-product" width="35%"><?=$producttitle;?><!-- title --></li>
+						<li class="ts-shop-ul-li-item-description" width="35%"><?=$productdesc;?><!-- desc --></li>
+						<li class="ts-shop-ul-li-item-price" width="5%"><?=$sitecurrency;?> <?=$productprice;?><!-- price --></li>
 						<li class="ts-shop-ul-li-item-qty" width="5%"><?=$productqty;?></li>
-						<li class="ts-shop-ul-li-item-total" width="14%"><?=$sitecurrency;?> <?=$productsum;?><!-- sum --></li>
+						<li class="ts-shop-ul-li-item-total" width="16%"><?=$sitecurrency;?> <?=$productsum;?><!-- sum --></li>
 				</div>
 			<?php
 					}
