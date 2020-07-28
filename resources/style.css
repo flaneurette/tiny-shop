@@ -1,9 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap');
-
 /*
  * Tiny Shop default styling.
 */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap');
 
 body {
 	padding: 15px;
@@ -53,7 +53,6 @@ input[type="submit"] {
 	display:inline-block;
 	height: calc(1.5em + .75rem + 2px);
 	padding: .375rem .75rem;
-	margin-left:10px;
 	font-size: 1rem;
 	font-weight: 400;
 	line-height: 1.5;
@@ -293,7 +292,7 @@ hr {
     text-align: center;
 	margin: 2px;
 	padding: 0.2em;
-	width:30%;
+	width:35%;
 	vertical-align:middle;
 }
 
@@ -343,7 +342,7 @@ hr {
 	margin: 2px;
 	padding: 0.2em;
 	padding-top:5px;
-	width:5%;
+	width:7%;
 	vertical-align:middle;
 }
 
@@ -353,8 +352,8 @@ hr {
     text-align: center;
 	margin: 2px;
 	padding: 0.2em;
-	width:30%;
-		vertical-align:middle;
+	width:35%;
+	vertical-align:middle;
 }
 
 .ts-shop-ul-li-item input[type="number"] {
@@ -402,7 +401,9 @@ hr {
 
 .ts-product-image-div {} 
 
-.ts-product-image {}
+.ts-product-image {
+	width:100%;
+}
 
 /* 
  * tinyshop product list
@@ -456,6 +457,7 @@ hr {
 }
 .ts-product-list {
 	display:inline-block;
+	width:20%;
 }
 .ts-group-product-price {
 	display:inline-block;
@@ -684,7 +686,6 @@ label {
 }
 
 #cart-contents {
-	display: block;
 	float: right;
 	width: 15%;
 	margin: 10px;
@@ -692,7 +693,6 @@ label {
 	text-align: left;
 	position: top;
 	z-index:4;
-
 	border: 1px solid #ded4da;
 	border-radius: .25rem;
 	background-color:#ced4da;
@@ -702,6 +702,8 @@ label {
 #ts-shop-cart-error {
 	margin: 20px;
 	font-size: 22px;
+	float:left;
+	display: block;
 }
 
 #ts-shop-delete {
