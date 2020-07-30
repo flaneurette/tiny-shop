@@ -90,6 +90,7 @@ class Shop {
 		if($dots == true) {
 			$returnstring .= '...';
 		}
+		
 		return $returnstring;
 	}	
 	
@@ -232,6 +233,11 @@ class Shop {
 	
 	public function load_json($url) 
 	{
+		
+		if(!$url) {
+			$url = 'inventory/site.json';
+		}
+		
 		$file = file_get_contents($url);
 		$json = json_decode($file, true, self::DEPTH, JSON_BIGINT_AS_STRING);
 		
@@ -302,7 +308,6 @@ class Shop {
 		$copy 	= $url.self::BACKUPEXT;
 		@copy($url, $copy);
 	}
-		
 
 	/**
 	* Store shop into SHOP
@@ -465,8 +470,6 @@ class Shop {
 	*/		
 	public function getproducts($method,$category,$string=false) 
 	{
-		
-		
 		$token = $this->getToken();
 		$_SESSION['token'] = $token;
 	
@@ -560,7 +563,7 @@ class Shop {
 						$string .= "<div class=\"ts-list-product-link\"><a href=\"item/".$this->seoUrl($this->cleanInput($ts[$i]['product.category'])).'/'.$this->seoUrl($this->cleanInput($ts[$i]['product.title'])).'/'.$this->cleanInput($ts[$i]['product.id'])."/".(int)$this->page_id."/\">".$this->maxstring($this->cleanInput($ts[$i]['product.title']),10,false)."</a> </div>";
 						$string .= "<div class=\"ts-list-product-desc\">".$this->maxstring($this->cleanInput($ts[$i]['product.description']),50,true)."</div>";
 					    // $string .= "<div class=\"ts-list-product-cat\">".$this->cleanInput($ts[$i]['product.category'])."</div>";
-						$string .= "<div class=\"ts-list-product-price\">".$this->getsitecurrency().' '.$this->cleanInput($ts[$i]['product.price'])."</div>";
+						$string .= "<div class=\"ts-list-product-price\">".$this->getsitecurrency('inventory/site.json','inventory/currencies.json').' '.$this->cleanInput($ts[$i]['product.price'])."</div>";
 						$string .= "<div class=\"ts-list-product-status\">left in stock.<div class=\"".$status."\">".$this->cleanInput($ts[$i]['product.stock'])."</div></div>";
 						
 						if($configuration[0]['products.quick.cart'] == 'yes') {
@@ -577,7 +580,7 @@ class Shop {
 						$string .= $productimage;
 						$string .= "<div class=\"ts-group-product-link\"><a href=\"item/".$this->seoUrl($this->cleanInput($ts[$i]['product.category'])).'/'.$this->seoUrl($this->cleanInput($ts[$i]['product.title'])).'/'.$this->cleanInput($ts[$i]['product.id'])."/\">".$this->cleanInput($ts[$i]['product.title'])."</a> </div>";
 						$string .= "<div class=\"ts-group-product-desc\">".$this->cleanInput($ts[$i]['product.description'])."</div>";
-						$string .= "<div class=\"ts-group-product-price\">".$this->getsitecurrency().' '.$this->cleanInput($ts[$i]['product.price'])."</div>";
+						$string .= "<div class=\"ts-group-product-price\">".$this->getsitecurrency('inventory/site.json','inventory/currencies.json').' '.$this->cleanInput($ts[$i]['product.price'])."</div>";
 						// $string .= "<div class=\"ts-group-product-cat\">".$this->cleanInput($ts[$i]['product.category'])."</div>";
 						$string .= "<div class=\"ts-group-product-status\">left in stock.<div class=\"".$status."\">".$this->cleanInput($ts[$i]['product.stock'])."</div></div>";
 						
@@ -603,9 +606,12 @@ class Shop {
 	}
 	
 	
-	public function getproductlist() {
+	public function getproductlist($json) {
 		
-		$json = "inventory/shop.json";
+		if(!isset($json)) {
+			$json = "inventory/shop.json";
+		} 
+		
 		$cart = $this->load_json($json);
 		
 		$products = [];
@@ -619,7 +625,7 @@ class Shop {
 			{
 				array_push($products[$i],[$product,$value]);
 			}
-		$i++;
+			$i++;
 		}
 			
 		return $products;
@@ -882,12 +888,21 @@ class Shop {
 	*  To change the default currency, edit site.json which has a numeric value that corresponds to the values inside currencies.json.
 	*  DO NOT edit currencies.json, unless adding a new currency, as this file is used throughout TinyShop and might break functionality.
 	*/
-	public function getsitecurrency() 
+	public function getsitecurrency($conf=false,$currency=false) 
 	{
 		
-		$siteconf = $this->load_json("inventory/site.json");
-		$currencies = $this->load_json("inventory/currencies.json");
-
+		if(!isset($conf)) {
+			$siteconf = $this->load_json("inventory/site.json");
+			} else {
+			$siteconf = $this->load_json($conf);
+		}
+		
+		if(!isset($currency)) {
+			$currencies = $this->load_json("inventory/currencies.json");
+			} else {
+			$currencies = $this->load_json($currency);
+		}
+		
 		$html = "";
 		
 			if($siteconf !== null) {
