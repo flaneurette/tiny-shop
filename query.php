@@ -51,8 +51,10 @@ if(isset($_GET['action'])) {
 				break;
 				
 				case 'payed':
-				echo "Successfully payed.";
-				// update stock here, and redirect to payed page.
+				case 'paid':
+				// update stock here.
+				header('Location: /shop/payment/paid/index.php?token='.$secure->sanitize($_SESSION['token'],'alphanum'), true, 302);
+				exit;
 				break;	
 				
 				case 'ipn':
