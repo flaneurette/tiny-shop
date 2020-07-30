@@ -1,5 +1,4 @@
 <?php
-
 	include("../../resources/php/header.inc.php");
 	include("../../resources/php/class.Session.php");
 	include("../../class.Shop.php");
@@ -110,23 +109,89 @@
 	</head>
 	<body>
 	<h1>Payment with PayPal.</h1>
-	<form action="https://www.paypal.com/us/cgi-bin/webscr" method="post">	
+		
+<form action="https://www.paypal.com/us/cgi-bin/webscr" method="post">	
 
-						<input type="hidden" name="item_name" maxlength="127" size="20" value="A product" title="cart item, 127 chars">
-						<input type="hidden" name="item_number" maxlength="127" size="20" value="123456" title="track payments, 127 chars">
-						<input type="hidden" name="item_price" maxlength="127" size="20" id="item_price" value="<?=$item_price;?>" title="" disabled>
-						
-						<!-- required -->
-						<input type="hidden" name="amount" maxlength="127" size="20" id="item_price" value="<?=$productsum_total;?>" title="">
-						<input type="hidden" name="quantity" value="1">
+<?php
 
-						<input type="hidden" name="no_note" maxlength="1" min="0" max="1" value="1" title="0 or 1. 1 = no prompt">
-						<input type="hidden" name="no_shipping" maxlength="1" min="0" max="1" value="1" title="0 or 1. 0 = to add shipping address">
-						<input type="hidden" name="shipping" id="shipping" size="5" title="The item's shipping cost" value="<?=$shipping_price;?>">
-						<input type="hidden" name="handling" id="handling" size="5" title="handling cost" value="<?=$handling_price;?>">
-						<input type="hidden" name="amount" size="5" id="total_amount" title="total amount" value="<?=$total_price;?>" disabled>	
+		$c = count($_SESSION['cart']);
+		
+		$shipping_item = number_format(($shipping_price / $c),2); 
+		
+		$products = $shop->getproductlist('../../inventory/shop.json');
+		$productsum_total = 0;
+		$productsum = 0;
+		
+		for($i=0; $i < $c; $i++) {
+			
+			if($_SESSION['cart'][$i]) {
+				
+				$product = (int) $_SESSION['cart'][$i]['product.id'];
+				
+				if($_SESSION['cart'][$i]['product.qty'] == 0) {
+					$_SESSION['cart'][$i]['product.qty'] = 1;
+				}
+				
+				$productqty = $_SESSION['cart'][$i]['product.qty'];
+			}
+			
+			$j = 0;
+
+			if(isset($product)) {
+			
+				foreach($products as $key => $value) {
+					
+					
+					if($products[$j][0][1] == $product) {
+
+					
+							$producttitle = $products[$j][2][1];
+							$productdesc  = $products[$j][3][1];
+							$productprice = $products[$j][18][1];
+							
+							if($productprice == null || $productprice == 0 ) {
+								$productprice = 1;
+							}
+							
+							if($productqty == null || $productqty == 0 ) {
+								$productqty = 1;
+							}					
+							
+							$productsum = round(($productprice * (int)$productqty),2);
+							$productsum_total = ($productsum_total + $productsum);
+							$qtyid = 'tscart-'.$j.$product;
+
+
+?>
+							<input type="hidden" name="item_name_<?=($i+1);?>" maxlength="127" size="20" value="<?=$producttitle;?>" title="cart item, 127 chars">
+							<input type="hidden" name="item_number_<?=($i+1);?>" maxlength="127" size="20" value="<?=$product;?>" title="track payments, 127 chars">
+							<input type="hidden" name="item_price_<?=($i+1);?>" maxlength="127" size="20" id="item_price" value="<?=$productprice;?>" title="">
+
+							<!-- required -->
+							<input type="hidden" name="amount_<?=($i+1);?>" maxlength="127" size="20" id="item_price" value="<?=$productprice;?>" title=""> 
+							<input type="hidden" name="quantity_<?=($i+1);?>" value="<?=$productqty;?>">
+							<input type="hidden" name="shipping_<?=($i+1);?>" maxlength="127" size="20" id="shipping_x" value="<?=$shipping_item;?>" title="">
+
+<?php
+					
+					}
+					
+					
+					$j++;
+				}
+			}
+			
+		}
+
+?>
+			<input type="hidden" name="no_note" maxlength="1" min="0" max="1" value="1" title="0">
+			<!-- <input type="hidden" name="no_shipping" maxlength="1" min="0" max="1" value="1" title="0 or 1. 0 = to add shipping address"> -->
+			<input type="hidden" name="shipping" id="shipping" size="5" title="The item's shipping cost" value="<?=$shipping_price;?>"> 
+			<input type="hidden" name="handling" id="handling" size="5" title="handling cost" value="<?=$handling_price;?>">
+			<input type="hidden" name="amount" size="5" id="total_amount" title="total amount" value="<?=$total_price;?>" disabled>	
 
 			<div id="ts-shop-form">
+			
 				<div class="ts-shop-form-section">	
 					<input type="hidden" name="image_url" value="<?=$paypal_image_url;?>">
 					<input type="hidden" name="currency_code" value="<?=$paypal_currency_code;?>">		
@@ -151,8 +216,11 @@
 					?>
 					<input type="hidden" name="return" value="<?=$paypal_domain.''.$paypal_return_page;?>">
 					<!-- optional -->			
-					<input type="hidden" name="cmd" value="_ext-enter">
-					<input type="hidden" name="redirect_cmd" value="_xclick">
+					<!-- <input type="hidden" name="cmd" value="_ext-enter"> -->
+					<!-- <input type="hidden" name="redirect_cmd" value="_xclick"> -->
+					
+					<input type="hidden" name="cmd" value="_cart">
+					<input type="hidden" name="upload" value="1">
 					
 					<label for="address1">Address</label>
 					<input type="text" name="address1" id="address1" maxlength="100" value="" title="The first line of the customer's address (100-alphanumeric character limit).">
