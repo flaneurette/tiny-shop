@@ -21,7 +21,7 @@
 	 * DO NOT edit currencies.json, unless adding a new currency, as this file is used throughout TinyShop and might break functionality.
 	*/
 	
-	$sitecurrency = $shop->getsitecurrency();
+	$sitecurrency = $shop->getsitecurrency('inventory/site.json','inventory/currencies.json');
 ?>
 <!DOCTYPE html>
 <html>
@@ -71,7 +71,7 @@ include("../../header.php");
 
 	<?php
 			
-		$products = $shop->getproductlist();
+		$products = $shop->getproductlist('inventory/shop.json');
 			
 		for($i=0; $i < $c; $i++) {
 			if($_SESSION['cart'][$i]) {
