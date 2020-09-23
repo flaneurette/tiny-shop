@@ -21,7 +21,7 @@ if(filesize('./log.log') > 3000000) {
 }
 ?>
 <header>
-<h1 id="logo"><span id="logo-left">Mystryl Art</span></h1>
+<h1 id="logo"><span id="logo-left">Webshop Name</span></h1>
 <br><br>
 <nav>
 	<a href="index.php" target="_self">home</a> 
