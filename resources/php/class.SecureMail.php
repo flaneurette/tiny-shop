@@ -25,9 +25,9 @@ namespace security\forms;
 class SecureMail
 {
 	### REQUIRED CONFIGURATION
-	const DOMAIN			= 'yourserver.tld'; // Domain this script is hosted on.
-	const SERVERADDR		= 'server <server@yourserver.tld>'; // Server e-mail address.
-	const DEFAULTTO			= 'info@yourserver.tld'; // default "to" e-mail address when address has not been provided.
+	const DOMAIN			= 'mystryl.art'; // Domain this script is hosted on.
+	const SERVERADDR		= 'server <info@mystryl.art>'; // Server e-mail address.
+	const DEFAULTTO			= 'mystryl@protonmail.com'; // default "to" e-mail address when address has not been provided.
 	
 	### OPTIONAL CONFIGURATION (DEFAULT)
 	const XMAILER			= 'Secure Mail'; // Name class mailer.
@@ -62,7 +62,7 @@ class SecureMail
 
 	### PRIVATE VARIABLES.
 	private $sieve 			= 0;    // Empty sieve 
-	private $slots 			= 10;	// Maximum number of mail slots per user, per browse session incuding refresh and errors. Increase for testing purposes.                      
+	private $slots 			= 100;	// Maximum number of mail slots per user, per browse session incuding refresh and errors. Increase for testing purposes.                      
 		
 	### ARRAYS
 	// Detect proxy ports.

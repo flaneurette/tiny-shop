@@ -1,4 +1,5 @@
 <?php
+
 	include("../../resources/php/header.inc.php");
 	include("../../resources/php/class.Session.php");
 	include("../../class.Shop.php");
@@ -51,10 +52,25 @@
 	}
 	
 	$cartid 			= $shop->sanitize($_SESSION['cartid'],'alphanum');
-	$productsum_total 	= (int)$_SESSION['subtotal'];
-	$country_price 		= (int)$_SESSION['shipping'];
-	$total_price 		= (int)$_SESSION['totalprice'];
-			
+	
+	$productsum_total 	= (int) $_SESSION['subtotal'];
+	$country_price 		= (int) $_SESSION['shipping'];
+	$total_price 		= (int) $_SESSION['totalprice'];
+	
+	$dir = 	'../../inventory/orders.conf.json';
+	
+	$invoiceid = $shop->invoiceid($dir,'get');
+	
+	if($invoiceid > 0) {
+		$invoiceid = ($invoiceid +1);
+		$_SESSION['invoiceid'] = $invoiceid;
+		} else {
+		$invoiceid = 1;
+		$_SESSION['invoiceid'] = $invoiceid;
+	}
+	
+	echo $_SESSION['invoiceid'];
+	
 	/* No need to edit this below. 
 	*  Start of PayPal code 
 	*/
@@ -73,7 +89,7 @@
 	$paypal_email 				= $shop->cleanInput($shopconf[0]['paypal.email']);
 	$paypal_notify_url 			= $shop->cleanInput($shopconf[0]['paypal.notify.url']);
 	$paypal_currency_code 		= $shop->cleanInput($shopconf[0]['paypal.currency.code']);
-	$paypal_invoice_number 		= $shop->cleanInput($shopconf[0]['paypal.custom.field']);
+	$paypal_invoice_number 		= $invoiceid;
 	
 	if(empty($paypal_invoice_number)) {
 		// should not be empty.
@@ -107,8 +123,17 @@
 	echo $shop->getmeta("../../inventory/site.json");				
 	?>
 	</head>
-	<body>
-	<h1>Payment with PayPal.</h1>
+
+<body>
+
+<?php
+include("../../../header.php");
+?>
+
+<div id="wrapper">
+
+		<div id="result"></div>
+		<div id="ts-shop-cart-form">
 		
 <form action="https://www.paypal.com/us/cgi-bin/webscr" method="post">	
 
@@ -160,8 +185,6 @@
 							$productsum = round(($productprice * (int)$productqty),2);
 							$productsum_total = ($productsum_total + $productsum);
 							$qtyid = 'tscart-'.$j.$product;
-
-
 ?>
 							<input type="hidden" name="item_name_<?=($i+1);?>" maxlength="127" size="20" value="<?=$producttitle;?>" title="cart item, 127 chars">
 							<input type="hidden" name="item_number_<?=($i+1);?>" maxlength="127" size="20" value="<?=$product;?>" title="track payments, 127 chars">
@@ -175,14 +198,11 @@
 <?php
 					
 					}
-					
-					
 					$j++;
 				}
 			}
 			
 		}
-
 ?>
 			<input type="hidden" name="no_note" maxlength="1" min="0" max="1" value="1" title="0">
 			<!-- <input type="hidden" name="no_shipping" maxlength="1" min="0" max="1" value="1" title="0 or 1. 0 = to add shipping address"> -->
@@ -221,6 +241,7 @@
 					
 					<input type="hidden" name="cmd" value="_cart">
 					<input type="hidden" name="upload" value="1">
+					<input type="hidden" name="rm" value="2">
 					
 					<label for="address1">Address</label>
 					<input type="text" name="address1" id="address1" maxlength="100" value="" title="The first line of the customer's address (100-alphanumeric character limit).">
@@ -251,8 +272,11 @@
 				</div>
 			</div>
 			</form>
-			
 			<hr />
-			
-	</body>
+</div>
+
+<?php
+include("../../../footer.php");
+?>
+</body>
 </html>

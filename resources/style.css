@@ -29,7 +29,7 @@ h1 {
 	font-size: 14px;
 	margin:0px;
 	margin-top: 10px;
-	margin-left:10px;
+	margin-left:0px;
 }
 fieldset {
 	width: 50%;
@@ -459,7 +459,8 @@ hr {
 }
 .ts-product-list {
 	display:inline-block;
-	width:20%;
+	width:15%;
+	vertical-align:top;
 }
 .ts-group-product-price {
 	display:inline-block;
@@ -689,14 +690,15 @@ label {
 
 #cart-contents {
 	float: right;
-	width: 15%;
-	margin: 10px;
-	padding: 1.5em;
-	text-align: left;
-	position: top;
+	width: 10%;
+	margin: 0px;
+	padding: 5px;
+	top:0;
+	right:0;
+	text-align:center;
+	position:absolute;
 	z-index:4;
 	border: 1px solid #ded4da;
-	border-radius: .25rem;
 	background-color:#ced4da;
 	
 }
@@ -761,4 +763,159 @@ label {
 .ts-shop-upload-message-red {
 	color:#ff0000;
 	font-size:12px;
+}
+
+
+/*
+* Navigation left side
+*/
+
+#ts-shop-left-navigation {
+	list-style:none;
+	margin:0px;
+	padding:0px;
+	display:block;
+	height:100%;
+}
+
+.ts-shop-left-navigation-cat {
+	display:block;
+	list-style:none;
+	border:0px;
+	cursor:pointer;
+	margin:0px;
+	padding:0px;
+}
+
+.ts-shop-left-navigation-cat-selected {
+	display:block;
+	list-style:none;
+	border:0px;
+	cursor:pointer;
+	margin:0px;
+	padding:0px;
+	font-weight:100;
+}
+
+
+.ts-shop-left-navigation-subcat {
+	margin:0px;
+	padding:0px;
+	list-style:none;
+	border:0px;
+    display:none;
+	margin-top:5px;
+	margin-left:7px;
+	margin-bottom:5px;
+}
+
+.ts-shop-left-navigation-subcat-selected {
+	margin:0px;
+	padding:0px;
+	list-style:none;
+	border:0px;
+    display:none;
+	margin-top:5px;
+	margin-left:7px;
+	margin-bottom:5px;
+	font-weight:100;
+}
+
+.ts-shop-left-navigation-subcat-item {
+	margin:0px;
+	padding:0px;
+	display:block;
+	list-style:none;
+	border:0px;
+	margin-left:7px;
+	text-decoration:none;
+}
+
+.ts-shop-left-navigation-subcat-item-selected {
+	margin:0px;
+	padding:0px;
+	display:block;
+	list-style:none;
+	border:0px;
+	margin-left:7px;
+	text-decoration:none;
+	font-weight:100;
+}
+
+.ts-shop-left-navigation-subcat-item a:link {
+	text-decoration:none;
+}
+
+/*
+* Navigation right side
+*/
+
+#ts-shop-right-navigation {
+	float:right;
+	list-style:none;
+}
+
+.ts-shop-right-navigation-cat {
+	float:right;
+	list-style:none;
+	border:0px;
+}
+
+.ts-shop-right-navigation-subcat {
+	float:right;
+	list-style:none;
+	border:0px;
+	/* display:none; */
+}
+
+.ts-shop-right-navigation-subcat-item {
+	float:right;
+	list-style:none;
+	border:0px;
+	/* display:none; */
+}
+
+
+/*
+* Navigation top side
+*/
+
+#ts-shop-top-navigation {
+	float:top;
+	list-style:none;
+}
+
+.ts-shop-top-navigation-cat {
+	float:left;
+	list-style:none;
+	border:0px;
+}
+
+.ts-shop-top-navigation-subcat {
+	float:left;
+	list-style:none;
+	border:0px;
+	/* display:none; */
+}
+
+.ts-shop-top-navigation-subcat-item {
+	float:left;
+	list-style:none;
+	border:0px;
+	/* display:none; */
+}
+
+#ts-shop-nav-left {
+	width:100px;
+	float: left;
+	margin:0px;
+	display:inline-block;
+	height:450px;
+}
+
+#ts-shop-nav-right {
+	float: right;
+	margin:0px;
+	display:inline-block;
+	height:100%;
 }

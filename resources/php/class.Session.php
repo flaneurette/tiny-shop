@@ -1,5 +1,7 @@
 <?php
 
+error_reporting(0);
+
 class Session {
 
 	CONST PWD 		= "Password to encrypt session data";
@@ -7,8 +9,24 @@ class Session {
 	CONST MAXQTY    = 9999; // Max quantity per product, a fixed constant to prevent buffer overflows.
 
 	public function __construct() {
+		
 		$incomplete = false;
-		session_regenerate_id();
+		$space = $this->diskcheck();
+		if($space == true) {
+			session_regenerate_id();
+		}
+	}
+	
+	public function diskcheck() {
+		
+		$size = disk_free_space(realpath(dirname($_SERVER['DOCUMENT_ROOT'])));
+		if($size <= 100000000) {
+			echo "Could not generate a session because of low diskspace. Cart has not been saved. Please contact the shop owner and provide the mentioned details.";
+			return false;
+			exit;
+		} else {
+			return true;
+		}
 	}
 	
 	/**
@@ -108,7 +126,16 @@ class Session {
 	
 	public function addtocart($obj) 
 	{ 
-		$c = count($_SESSION['cart']);
+	
+		if(isset($_SESSION['cart'])) {
+				if($_SESSION['cart'][0] === NULL || $_SESSION['cart'] === NULL ) {
+					$c = 0;
+					} else {
+					$c = count($_SESSION['cart']);
+				}
+			} else {
+			$c = 0;
+		}
 		
 		if($obj['product.qty'] > self::MAXQTY) {
 			$obj['product.qty'] = 1;

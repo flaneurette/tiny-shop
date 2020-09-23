@@ -146,9 +146,11 @@ var tinyshop = {
 		for (i = 0; i < counter; i++) {
 			
 			try {
-				this.dom('toggle' + id,'display','none');
-				this.dom('cat' + id,'fontWeight','100');
-			} catch (e) {}
+				this.dom('toggle' + i,'display','none');
+				this.dom('cat' + i,'fontWeight','100');
+			} catch (e) {
+				continue;
+			}
 		}
 		
 		this.dom('toggle' + id,'display','block');
@@ -179,11 +181,11 @@ var tinyshop = {
 					break;	
 					
 					case 'display':
-					document.getElementById(escape(id)).style.display = this.htmlspecialchars(value,'full');
+					document.getElementById(id).style.display = value;
 					break;	
 					
 					case 'fontWeight':
-					document.getElementById(escape(id)).style.fontWeight = this.htmlspecialchars(value,'full');
+					document.getElementById(id).style.fontWeight = value;
 					break;	
 					
 					case 'className':
@@ -195,7 +197,7 @@ var tinyshop = {
 				this.message('DOM constructor could not populate the requested action.');
 			}
 		} catch(e) {
-			this.message(this.htmlspecialchars(e,'full'));
+			//this.message(this.htmlspecialchars(e,'full'));
 		}
 	
 	},

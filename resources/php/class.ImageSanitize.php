@@ -1,7 +1,5 @@
 <?php
 
-namespace security\images;
-
 ###########################################################################
 ##                                                                       ##
 ##  Copyright 2008-2019 Alexandra van den Heetkamp.                      ##
@@ -29,7 +27,7 @@ class ImageSecurityCheck
 	const MAXFILESIZE 	= 1000000;
 
 	private $sieve 		= 0;  // Empty sieve 
-	private $slots 		= 50; // Maximum number of upload slots.
+	private $slots 		= 250; // Maximum number of upload slots.
 
 	public function __construct($params = array()) 
 	{ 
@@ -110,7 +108,7 @@ class ImageSecurityCheck
 	{ 
 		if(isset($_SESSION['upload_message'])) { 
 			array_push($_SESSION['upload_message'],$value);  
-		} else { 
+			} else { 
 			$_SESSION['upload_message'] = array(); 
 		} 
 	} 
@@ -121,14 +119,23 @@ class ImageSecurityCheck
 	*/	
 	private function showmessage() 
 	{ 
-		if(isset($_SESSION['upload_message'])) { 
-			echo "<pre>"; 
-			echo "<strong>Message:</strong>\r\n"; 
-			foreach($_SESSION['upload_message'] as $message) { 
-				echo $message . "\r\n" ; 
-			} echo "</pre>"; 
-		} 
+	
+		if(!empty($_SESSION['upload_message'])) {
+		
+			if(isset($_SESSION['upload_message'])) {
+
+				echo "<pre>"; 
+				echo "<strong>Message:</strong>\r\n"; 
+				
+				foreach($_SESSION['upload_message'] as $message) { 
+					echo $message . "\r\n" ; 
+				} 
+				
+				echo "</pre>"; 
+			} 
+		}
 	} 
+	
 	/**
 	* Clears session messages
 	* @return void
@@ -155,11 +162,14 @@ class ImageSecurityCheck
 	*/	
 	public function sanitizeImage()
 	{
+		
+		$safefile = '';
+		
 		// Remove extensions 
-		$safefile = str_replace($this->mimes('mimes'),'',trim(basename($this->temporaryFileName))); 
-
+		// $safefile = str_replace($this->temporaryFileName,'',str_replace($this->mimes('mimes'),'',trim(basename($this->temporaryFileName)))); 
+		
 		// Sanitize file name 
-		$safefile = preg_replace('/[^a-zA-Z0-9]/','',$safefile) . '-'; 
+		// $safefile = preg_replace('/[^a-zA-Z0-9]/','',$safefile) . '-'; 
 
 		// Generate entropy 
 		$entropy = array(mt_rand(0,0xffff), 
@@ -174,7 +184,9 @@ class ImageSecurityCheck
 		// Create pseudo UUID 
 		$safefile .= $entropy[0].'-'; 
 		$safefile .= $entropy[1].'-'; 
-		$safefile .= $entropy[2]; 
+		$safefile .= $entropy[2].'-';
+		$safefile .= $entropy[3].'-';
+		$safefile .= $entropy[4]; 
 
 		return $safefile;
 	}
@@ -213,11 +225,14 @@ class ImageSecurityCheck
 							return FALSE; 
 							// preg_match('/[{0001}-{0022}]/u', $chunk);
 					} 
-					// JFIF footer 
+					
+					/* JFIF footer 
 					if(!preg_match("/ffd9/",substr($chunk,strlen($chunk)-32,32)) && $this->mime == 'image/jpeg') { 
 							$this->sessionmessage('JFIF footer incomplete!'); 
 							return FALSE; 
 					} 
+					*/
+					
 					// Proceed to read EXIF data, if available. 
 					if (function_exists('exif_read_data')) { 
 						$exif = exif_read_data($this->temporaryFile, 0, true); 
@@ -272,6 +287,7 @@ class ImageSecurityCheck
 	* @param string 
 	* @return boolean
 	*/	
+	
 	public function scanSource($string)
 	{  
 			if(is_array($string)) { 
@@ -823,7 +839,6 @@ class ImageSecurityCheck
 				'646972',
 				'6f625f'
 				);
-
 }
 
 ?>

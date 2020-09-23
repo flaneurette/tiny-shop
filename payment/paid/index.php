@@ -17,16 +17,55 @@
 			if($token != $_GET['token']) {
 				$shop->message('Transaction completed, however token is incorrect. Please contact the shop owner if issues arrive through either e-mail or the contact form. N.B. The shopowner has not been notified of this error.');
 				$shop->showmessage();
-				exit;
+				//exit;
 			}
 	
 		} else {
 			
 		$shop->message('Transaction completed, however token is incomplete. Please contact the shop owner if issues arrive through either e-mail or the contact form. N.B. The shopowner has not been notified of this error.');
 		$shop->showmessage();
-		exit;
+		//exit;
 	}
 
+
+	/*
+		$item_name = $_POST['item_name'];
+		$item_number = $_POST['item_number'];
+		$payment_status = $_POST['payment_status'];
+		$payment_amount = $_POST['mc_gross'];
+		$payment_currency = $_POST['mc_currency'];
+		$txn_id = $_POST['txn_id'];
+		$receiver_email = $_POST['receiver_email'];
+		$payer_email = $_POST['payer_email'];
+	*/
+
+	$paypalinvoice = (int)$_REQUEST['invoice'];
+	
+	$dir = 	'../../inventory/orders.conf.json';
+	
+	$invoiceid = $shop->invoiceid($dir,'get');
+	
+	if($paypalinvoice != $invoiceid) {
+
+		// different invoice ID, check for race condition.
+				// probable race condition.
+				$invoicediff = ($invoiceid - $_SESSION['invoiceid']);
+
+				if($invoicediff == 1) {
+					$shop->invoiceid($dir,'set',$invoiceid+1);
+					} elseif($invoicediff > 1) {
+					// certainly race condition.
+					// mail shop owner here
+					} else {
+					$shop->invoiceid($dir,'set',$invoiceid+1);
+				}
+	
+	} else {
+
+		$shop->invoiceid('set',$invoiceid+1);
+	}
+
+	
 	$sitecurrency = $shop->getsitecurrency('../../inventory/site.json','../../inventory/currencies.json');
 	$shippingcountry = $shop->sanitize($_SESSION['shipping_country'],'encode');
 	$siteconf = $shop->load_json("../../inventory/shipping.json");
