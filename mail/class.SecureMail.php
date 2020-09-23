@@ -25,9 +25,9 @@ namespace security\forms;
 class SecureMail
 {
 	### REQUIRED CONFIGURATION
-	const DOMAIN			= 'mystryl.art'; // Domain this script is hosted on.
-	const SERVERADDR		= 'server <info@mystryl.art>'; // Server e-mail address.
-	const DEFAULTTO			= 'mystryl@protonmail.com'; // default "to" e-mail address when address has not been provided.
+	const DOMAIN			= 'example.com'; // Domain this script is hosted on.
+	const SERVERADDR		= 'server <info@example.com>'; // Server e-mail address.
+	const DEFAULTTO			= 'info@protonmail.com'; // default "to" e-mail address when address has not been provided.
 	
 	### OPTIONAL CONFIGURATION (DEFAULT)
 	const XMAILER			= 'Secure Mail'; // Name class mailer.
