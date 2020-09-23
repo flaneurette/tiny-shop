@@ -2,6 +2,7 @@
 	{
 		"shipping.Flat.Fee": "12.00",
 		"shipping.Flat.Fee.International": "12.00",
+		"shipping.Test": "0.10",
 		"shipping.Afghanistan": "22.00",
 		"shipping.Albania": "10.00",
 		"shipping.Algeria": "11.00",

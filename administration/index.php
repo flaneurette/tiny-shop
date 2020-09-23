@@ -38,10 +38,56 @@
 	<input type="submit" name="submit" value="Upload & Convert">
 </form>
 
+<h2>Upload JSON files, and convert to CSV</h2>
+
+<form name="" action="" method="post" enctype="multipart/form-data">
+	<input type="hidden" name="upload_json" value="1">
+	<input type="file" name="json_file[]" multiple>
+	<input type="submit" name="submit" value="Upload & Convert">
+</form>
+
 <hr />
 <small>N.B. your current PHP configuration allows only: <?=ini_get('max_file_uploads');?> simultaneous files to uploaded. To change it, edit PHP.ini max_file_uploads = number.</small>
 
 <?php
+
+
+	if(isset($_POST['upload_json'])) {
+		
+		echo "<hr /><div class=\"message\">";
+		
+		$count = count($_FILES['json_file']['name']);
+		
+		$j=1;
+		
+		for ($i = 0; $i < $count; $i++) {
+				
+			if($_FILES['json_file']['error'][$i] == UPLOAD_ERR_OK  && is_uploaded_file($_FILES['json_file']['tmp_name'][$i])) { 
+			
+				if($_FILES['json_file']['type'][$i] != 'application/json') {
+					echo "File is not a JSON file.";
+					exit;
+				}
+			
+					$f = str_replace('.json','.csv',$_FILES['json_file']['name'][$i]);
+					$file = file_get_contents($_FILES['json_file']['tmp_name'][$i]);  
+					$showfile = $shop->convert($file,'json_to_csv',$f);
+
+					$shop->storedata('../inventory/csv/'.$shop->sanitize($f,'dir'),$showfile,'csv'); 
+					
+					echo $j .":<em>Successfully upload ".$shop->sanitize($_FILES['json_file']['name'][$i],'table')." JSON and converted to CSV.</em><br />";
+				
+				} else {
+					
+				echo $shop->sanitize($_FILES['json_file']['error'][$i],'table');
+			}
+			$j++;
+		}
+		
+		echo '</div>';
+	
+	}
+
 
 	if(isset($_POST['upload_csv'])) {
 		

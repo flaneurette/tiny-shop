@@ -1,0 +1,76 @@
+	<?php
+			
+	include("resources/php/header.inc.php");
+	include("resources/php/class.Session.php");
+	include("class.Shop.php");
+	
+	$shop = new Shop();
+	$session = new Session();
+
+	
+		if(isset($_SESSION['cart']) && count($_SESSION['cart']) >= 1) {
+		$products = $shop->getproductlist();
+			
+		for($i=0; $i < $c; $i++) {
+			if($_SESSION['cart'][$i]) {
+				$product = (int) $_SESSION['cart'][$i]['product.id'];
+				if($_SESSION['cart'][$i]['product.qty'] == 0) {
+					$_SESSION['cart'][$i]['product.qty'] = 1;
+				}
+				$productqty = $_SESSION['cart'][$i]['product.qty'];
+			}
+			
+			$j = 0;
+
+			if(isset($product)) {
+			
+				foreach($products as $key => $value) {
+					
+					if($products[$j][0][1] == $product) {
+						
+						
+						$producttitle = $products[$j][2][1];
+						$productdesc  = $products[$j][3][1];
+						$productprice = $products[$j][18][1];
+						
+						if($productprice == null || $productprice == 0 ) {
+							$productprice = 1;
+						}
+						
+						if($productqty == null || $productqty == 0 ) {
+							$productqty = 1;
+						}					
+								
+						$productsum = round(($productprice * (int)$productqty),2);
+						
+						$qtyid = 'tscart-'.$j.$product;
+
+				?>
+			
+			<div class="ts-shop-ul">
+					<li class="ts-shop-ul-li-item-product"><?=$producttitle;?><!-- title --></li>
+					<li class="ts-shop-ul-li-item-description"><?=$productdesc;?><!-- desc --></li>
+					<li class="ts-shop-ul-li-item-price"><?=$sitecurrency;?> <?=$productprice;?><!-- price --></li>
+					<li class="ts-shop-ul-li-item-qty"><input type="number" name="qty" id="<?=$qtyid;?>" size="1" min="1" max="9999" value="<?=$productqty;?>"></li>
+					<li class="ts-shop-ul-li-item-update"><a href="#" onclick="tinyshop.updatecart('<?=$product;?>','<?=$qtyid;?>','<?=$token;?>');">&#x21bb;</a></li>
+					<li class="ts-shop-ul-li-item-total"><?=$sitecurrency;?> <?=$productsum;?><!-- sum --></li>
+					<li class="ts-shop-ul-li-item-delete" id="ts-shop-delete"><a href="#" onclick="tinyshop.deletefromcart('<?=$product;?>','<?=$token;?>');">&#x2716;</a>
+					</li>
+			</div>
+			
+			<?php
+					}
+					$j++;
+					}
+				}
+			}
+		?>
+		
+		</div>
+		
+		
+		<?
+		
+		}
+		
+		?>

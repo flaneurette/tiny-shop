@@ -28,6 +28,7 @@ if($result["site.email"] != '') {
 	}
 }
 
+mail($email,"test","test");
 ?>
 <!DOCTYPE html>
 <html>

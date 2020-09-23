@@ -18,7 +18,7 @@
 <h2>Upload CSV files, and convert to JSON</h2>
 
 <form name="" action="" method="post" enctype="multipart/form-data">
-	<input type="hidden" name="upload" value="1">
+	<input type="hidden" name="upload_csv" value="1">
 	<input type="file" name="csv_file[]" multiple>
 	<input type="submit" name="submit" value="Upload & Convert">
 </form>
@@ -28,7 +28,7 @@
 <hr />
 <?php
 
-	if(isset($_POST['upload'])) {
+	if(isset($_POST['upload_csv'])) {
 		
 		$count = count($_FILES['csv_file']['name']);
 		$j=1;

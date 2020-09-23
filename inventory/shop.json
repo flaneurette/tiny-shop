@@ -1,9 +1,9 @@
 [
    {
-		"product.id": 1,
+		"product.id": 15342,
 		"product.status": 1,
-		"product.title": "Product 1",
-		"product.description": "A brand new product from our company.",
+		"product.title": "Test item",
+		"product.description": "A brand new product from our company. 15342",
 		"product.category": "index",
 		"product.category.id": "1",
 		"product.category.sub": "index 1",
@@ -18,7 +18,7 @@
 		"product.ean": "",
 		"product.sku": "",
 		"product.vendor": "",
-		"product.price": "11",
+		"product.price": "0.10",
 		"product.margin": "",
 		"product.price_min": "",
 		"product.price_max": "",
