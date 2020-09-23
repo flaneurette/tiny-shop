@@ -33,22 +33,18 @@
 <body>
 
 <?php
-include("../../header.php");
+include("../header.php");
 ?>
-
+<div id="result"></div>
 <div id="bio-wrapper">
+
+<div id="ts-shop-cart-form">
 <h1>Shopping Cart</h1>
-
-<br clear="left" />
-
-
-		<div id="result"></div>
-		<div id="ts-shop-cart-form">
-
 	<?php 
 		
 		if(isset($_SESSION['cart']) && count($_SESSION['cart']) >= 1) {
 		$c = count($_SESSION['cart']);
+		
 		
 		if(($c > 0) && ($c < 9999) ) {
 			
@@ -73,7 +69,10 @@ include("../../header.php");
 			
 		$products = $shop->getproductlist('inventory/shop.json');
 			
+		//var_dump($products);
+		
 		for($i=0; $i < $c; $i++) {
+			
 			if($_SESSION['cart'][$i]) {
 				$product = (int) $_SESSION['cart'][$i]['product.id'];
 				if($_SESSION['cart'][$i]['product.qty'] == 0) {
@@ -89,7 +88,6 @@ include("../../header.php");
 				foreach($products as $key => $value) {
 					
 					if($products[$j][0][1] == $product) {
-						
 						
 						$producttitle = $products[$j][2][1];
 						$productdesc  = $products[$j][3][1];
@@ -175,7 +173,7 @@ include("../../header.php");
 </div>
 
 <?php
-include("../../footer.php");
+include("../footer.php");
 ?>
 </body>
 </html>

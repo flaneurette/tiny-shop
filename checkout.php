@@ -32,18 +32,20 @@
 		exit;
 	}
 		
+
 	if(!isset($_POST['checkout-post'])) {	
 		$shop->message('Checkout page could not be loaded from resource and cannot be accessed this way.');
 		$shop->showmessage();
 		exit;
 	}
 	
+	
 	/* Get the currency of site.json
 	*  To change the default currency, edit site.json which has a numeric value that corresponds to the values inside currencies.json.
 	*  DO NOT edit currencies.json, unless adding a new currency, as this file is used throughout TinyShop and might break functionality.
 	*/
 	
-	$sitecurrency = $shop->getsitecurrency();
+	$sitecurrency = $shop->getsitecurrency('inventory/site.json','inventory/currencies.json');
 	
 	// echo $shop->debug($_POST);
 	
@@ -67,11 +69,17 @@
 	echo $shop->getmeta();				
 	?>
 	</head>
-	<body>
-		<h1>Checkout</h1>
-		
+<body>
+
+<?php
+include("../header.php");
+?>
+
+<div id="wrapper">
+
 		<div id="result"></div>
 		<div id="ts-shop-cart-form">
+<h1>Checkout</h1>
 
 	<?php 
 		
@@ -97,7 +105,7 @@
 			
 	<?php
 			
-		$products = $shop->getproductlist();
+		$products = $shop->getproductlist('inventory/shop.json');
 		$productsum_total = 0;
 		$productsum = 0;
 		
@@ -163,7 +171,6 @@
 					<li class="ts-shop-ul-li-item" width="15%">Total</li>
 			</div>
 			
-		
 			<li class="ts-shop-ul-li-item">
 			</li>
 			<li class="ts-shop-ul-li-item">
@@ -196,7 +203,7 @@
 			$_SESSION['subtotal']   = (int) $productsum_total;
 			$_SESSION['shipping']   = (int) $country_price;
 			$_SESSION['totalprice'] = (int) ($country_price + $productsum_total);
-			
+			$_SESSION['shipping_country'] = $shop->sanitize(str_replace('shipping.','',$shippingcountry));
 		}
 		} else {
 		echo "<div id='ts-shop-cart-error'>Cart is empty.</div>";
@@ -204,5 +211,10 @@
 	
 	?>
 		</div>
-	</body>
+</div>
+
+<?php
+include("../footer.php");
+?>
+</body>
 </html>

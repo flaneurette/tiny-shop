@@ -1,31 +1,10 @@
 # Tiny Shop
 
+*under construction: not for production!*
+
 A tiny shop written in PHP and flat file JSON. Useful for small webshops that do not receive much web traffic, and for those who do not want to install unwieldy and large pieces of software that have too many features. A shop owner wants to sell a product, and that does not have to be complex.
 
-Tiny shop will be ideal for clients who make one-time single purchases, handmade or boutique items such as: art prints, antiques, music, jewelry, books and stationary. It is not recommended for mass retail and high volume shops, even though it might actually be faster and using less resource consumption than most other webshop software given the lean codebase.
-
-TinyShop works with CSV files that are converted to JSON in the administration screen. Everything is updated with CSV files.
-
-# Requirements
-- PHP > 5.4
-- Linux, Apache.
-- PHP extensions: multibyte, allow_url_fopen, JSON, MAIL, OPENSSL.
-
-# Installation
-
-1. Download or clone the package and upload it to your server. Unzip it.
-2. Edit: class.Shop.php and a master password at function: PWD(); this password is required to encrypt JSON fields. If you do not want encryption, leave it as is.
-3. Run the install.php file to check for requirements, and follow the installation process.
-
-Optional:
-- edit: /inventory/site.json for site configurations. 
-- edit: /payment/paypal/paypal.json and edit your paypal information. (mostly defaults and need no change)
-- edit: /resources/php/header.inc.php, to adjust appropiate (security) headers. By default, it shows all PHP errors.
-
-Edit categories.csv and subcategories.csv and upload it in the administration screen. Then it is possible to upload images as well, as everything is dynamically created. Tinyshop has a folder with demo files in the /inventory/csv/ folder, which can be used as a start. Download the CSV files and upload them when required. 
-
-# Administration
-The administration is only used to upload and convert CSV to JSON through the website. (It is not required to use it.)
+Tiny shop will be ideal for clients who make one-time single purchases, handmade or boutique items such as: art prints, antiques, music, jewelry, books and stationary. It is not recommended for mass retail and high volume shops.
 
 # Payment types:
 
@@ -42,8 +21,6 @@ Tiny shop uses JSON to store data. The benefit of a flat file database, is that 
 
 # Encryption
 Tiny shop has a reasonably safe encryption method to encrypt the shop data, namely AES 256. Since it does not store user-details, the encryption is disabled by default. All user details are not stored, but e-mailed to the shop owner. It is possible to store the details and thus encrypt it through Tiny Shop, but that is up to the shop owner.
-
-The encryption function is mostly used for semi-sensitive JSON values, such as e-mail adresses. Upon installation, the option is offered to encrypt the admin e-mail address automatically. Further encryption of JSON values need to be determined.
 
 # Backups
 Tiny Shop makes (real-time) automatic backups of the JSON database each time a product is added, changed or removed.
@@ -98,12 +75,12 @@ site.url
 site.domain 
 site.canonical 
 site.cdn 
-site.charset utf-8|utf-16
+site.charset utf-8
 site.title 
 site.description 
 site.logo
 site.icon 
-site.status vacation|offline|closed
+site.status 
 site.updated 
 site.meta.title 
 site.meta.description 

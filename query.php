@@ -1,10 +1,10 @@
 <?php
 
-session_start();
+include("resources/php/header.inc.php");
 
-/* 
- * TinyShop PHP Query script that handles all XHR queries.
-*/
+// debugging:
+// echo $_SESSION['token'];
+// var_dump($_SESSION);
 
 include("resources/php/class.Session.php");
 include("resources/php/class.Security.php");
@@ -14,9 +14,11 @@ $secure = new Security();
 
 if(isset($_POST['token']))  {
 	// A token was provided through $_POST data. Check if it is the same as our session token.
-	if($_POST['token'] === $_SESSION['token']) {
+	if($_POST['token'] == $_SESSION['token']) {
 		// token is correct.
 		} else {
+			echo 'token is incorrect';
+			// echo $_SESSION['token'];
 		exit;
 	}
 }
@@ -52,9 +54,11 @@ if(isset($_GET['action'])) {
 				
 				case 'payed':
 				case 'paid':
+				
 				// update stock here.
 				header('Location: /shop/payment/paid/index.php?token='.$secure->sanitize($_SESSION['token'],'alphanum'), true, 302);
 				exit;
+				
 				break;	
 				
 				case 'ipn':
@@ -80,13 +84,14 @@ if(isset($_POST['action'])) {
 				$qty = (int)$secure->sanitize($_POST['qty'],'num');
 				
 				$arr = [
-					'product.id' => $id,
-					'product.qty' => $qty
+						'product.id' => $id,
+						'product.qty' => $qty
 				];
 
 				$session->addtocart($arr);
+
 				$_SESSION['cart'] = $session->unique_array($_SESSION['cart'], 'product.id');
-				
+
 				echo "Product added to cart.";
 			
 			break;			
