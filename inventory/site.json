@@ -33,7 +33,7 @@
         "site.ext.javascript": "",
         "site.stylesheet.reset": "resources/reset.css",
         "site.stylesheet": "resources/style.css",
-        "site.ext.stylesheet": "css.css",
+        "site.ext.stylesheet": "resources/css.css",
         "site.google.tags": "",
         "site.cookie.name.1": "shop",
         "site.cookie.name.2": "",
