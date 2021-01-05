@@ -6,7 +6,7 @@ TinyShop's installer will create a .htpasswd automatically, plus it restricts th
 
 It uses a .htaccess and Apache basic authentication to access the folder. It is restricted by IP.
 
-A htpasswd needs to be generated and placed below the /www/ folder.
+A .htpasswd needs to be generated and placed below the /www/ folder. (However, be aware that this is not always possible due various server security settings.) By default, TinyShop writes it directly into the /administration/ folder for fail-safe reasons. The installer is not able to write below the /www/ folder, if you require better security, the .htpasswd needs to be created or moved manually.
 
 Example: /home/path/.htpasswd
 
