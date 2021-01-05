@@ -20,7 +20,7 @@ TinyShop checks all requirements and if satisfied, the package should be install
 
 # Payment types:
 
-By default, the free version, only accepts PayPal payments. 
+By default, the free version, only accepts PayPal payments (including credit cards). 
 
 Long term planned integration (with a future paid plan) will support more Payment Gateways:
 
