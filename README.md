@@ -1,11 +1,11 @@
 # Tiny Shop
 
 N.B. Under construction. 
-*december 2020: a beta demo version is ready. The Shop is workable and accepts PayPal payments. Blog, Articles and Themes are not fully functioning yet. Now accepting help or funding to complete the entire software package.*
+*december 2020: a beta demo version is ready. The Shop is workable and accepts PayPal payments. Blog, Articles and Themes are not fully functioning yet.*
 
 A tiny shop written in PHP and flat file JSON. Useful for small webshops that do not receive much web traffic, and for those who do not want to install unwieldy and large pieces of software that have too many features. A shop owner wants to sell a product, and that does not have to be complex.
 
-Tiny shop will be ideal for clients who make one-time single purchases, handmade or boutique items such as: art prints, antiques, music, jewelry, books and stationary. It is not recommended for mass retail and high volume shops.
+Tiny shop will be ideal for clients who make one-time single purchases, handmade or boutique items such as: art prints, antiques, music, jewelry, books and stationary. It is not recommended for mass retail and high volume shops, eventhough it compete with regards to speed and delivery.
 
 # Payment types:
 
