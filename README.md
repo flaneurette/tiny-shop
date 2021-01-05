@@ -13,9 +13,16 @@ Tiny shop will be ideal for clients who make one-time single purchases, handmade
 
 TinyShop checks all requirements and if satisfied, the package should be installed seamlessly. If not, it will prompt for further action.
 
+# Requirements
+- PHP 5.4+ (the higher the better)
+- PHP extensions (the installer will check on them and prompt for missing extensions)
+- The /shop/ folder needs to be writeable by the server (In Apache for example, the owner should be www-data. If not, it needs to be manually chowned through a terminal.)
+
 # Payment types:
 
-Long term planned integration:
+By default, the free version, only accepts PayPal payments. 
+
+Long term planned integration (with a future paid plan) will support more Payment Gateways:
 
 Bancontact, KNET, CitrusPay, Mada, QPAY, EPS, Giropay, iDEAL, Bitcoin: Coingate, Poli, Przelewy24, Sofort, Boleto Bancário, Fawry, Multibanco, OXXO, Pago Fácil, Rapipago, Via Baloto, ACH, SEPA Direct Debit, Klarna, Bancontact, KNET, Mada, QPAY, Stripe, Alipay, Apple Pay, BenefitPay, Google Pay and PayPal.
 
