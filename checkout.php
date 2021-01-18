@@ -32,13 +32,11 @@
 		exit;
 	}
 		
-
 	if(!isset($_POST['checkout-post'])) {	
 		$shop->message('Checkout page could not be loaded from resource and cannot be accessed this way.');
 		$shop->showmessage();
 		exit;
 	}
-	
 	
 	/* Get the currency of site.json
 	*  To change the default currency, edit site.json which has a numeric value that corresponds to the values inside currencies.json.
@@ -49,10 +47,24 @@
 	
 	// echo $shop->debug($_POST);
 	
-	$payment_gateway = $shop->sanitize($_POST['payment_gateway'],'encode');
+	if(isset($_POST['payment_gateway'])) {
+		$payment_gateway = $shop->sanitize($_POST['payment_gateway'],'encode');
+		} else {
+		$payment_gateway = 'PayPal';
+		$shop->message('Payment Gateway not selected, assuming and defaulting to PayPal');
+		$shop->showmessage();
+	}
+	
+	if(isset($_POST['shipping_country'])) {
+		$shippingcountry = $shop->sanitize($_POST['shipping_country'],'encode');
+		} else {
+		$shop->message('Country not selected, cannot continue to checkout!');
+		$shop->showmessage();
+		exit;
+	}
+	
 	$gateway = $shop->sanitize($payment_gateway,'alphanum');
 	
-	$shippingcountry = $shop->sanitize($_POST['shipping_country'],'encode');
 	$siteconf = $shop->load_json("inventory/shipping.json");
 	$countryprice = $shop->getcountryprice($siteconf,$shippingcountry);
 	
@@ -72,12 +84,12 @@
 <body>
 
 <?php
-include("../header.php");
+include("header.php");
 ?>
 
 <div id="wrapper">
 
-		<div id="result"></div>
+		<div id="ts-shop-result-message" onclick="tinyshop.togglecartmsg('close');"></div>
 		<div id="ts-shop-cart-form">
 <h1>Checkout</h1>
 
@@ -87,7 +99,6 @@ include("../header.php");
 		$c = count($_SESSION['cart']);
 		
 		if(($c > 0) && ($c < 9999) ) {
-			
 	?>
 		<form name="ts_cart" method="post" action="/shop/payment/paypal/checkout.php" id="ts-shop-cart-form-data">
 		<input type="hidden" name="token" value="<?=$token;?>">
@@ -210,11 +221,11 @@ include("../header.php");
 	} 
 	
 	?>
-		</div>
+	</div>
 </div>
 
 <?php
-include("../footer.php");
+include("footer.php");
 ?>
 </body>
 </html>

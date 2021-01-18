@@ -33,23 +33,23 @@
 <body>
 
 <?php
-include("../header.php");
+include("header.php");
 ?>
-<div id="result"></div>
+<div id="ts-shop-result-message" onclick="tinyshop.togglecartmsg('close');"></div>
 <div id="bio-wrapper">
 
 <div id="ts-shop-cart-form">
 <h1>Shopping Cart</h1>
+
 	<?php 
 		
 		if(isset($_SESSION['cart']) && count($_SESSION['cart']) >= 1) {
 		$c = count($_SESSION['cart']);
 		
-		
 		if(($c > 0) && ($c < 9999) ) {
 			
 	?>
-		<form name="ts_cart" method="post" action="/shop/cart/checkout/" id="ts-shop-cart-form-data">
+		<form name="ts_cart" method="post" action="/shop/cart/checkout/" id="ts-shop-cart-form-data" onSubmit="javascript:return tinyshop.checkform();">
 		<input type="hidden" name="token" value="<?=$token;?>">
 		<input type="hidden" name="checkout-post" value="1">
 		<hr />
@@ -105,35 +105,30 @@ include("../header.php");
 						
 						$qtyid = 'tscart-'.$j.$product;
 
-				?>
-			
-			<div class="ts-shop-ul">
-					<li class="ts-shop-ul-li-item-product"><?=$producttitle;?><!-- title --></li>
-					<li class="ts-shop-ul-li-item-description"><?=$productdesc;?><!-- desc --></li>
-					<li class="ts-shop-ul-li-item-price"><?=$sitecurrency;?> <?=$productprice;?><!-- price --></li>
-					<li class="ts-shop-ul-li-item-qty"><input type="number" name="qty" id="<?=$qtyid;?>" size="1" min="1" max="9999" value="<?=$productqty;?>"></li>
-					<li class="ts-shop-ul-li-item-update"><a href="#" onclick="tinyshop.updatecart('<?=$product;?>','<?=$qtyid;?>','<?=$token;?>');">&#x21bb;</a></li>
-					<li class="ts-shop-ul-li-item-total"><?=$sitecurrency;?> <?=$productsum;?><!-- sum --></li>
-					<li class="ts-shop-ul-li-item-delete" id="ts-shop-delete"><a href="#" onclick="tinyshop.deletefromcart('<?=$product;?>','<?=$token;?>');">&#x2716;</a>
-					</li>
-			</div>
-			
-			<?php
+		?>
+		<div class="ts-shop-ul">
+			<li class="ts-shop-ul-li-item-product"><?=$producttitle;?><!-- title --></li>
+			<li class="ts-shop-ul-li-item-description"><?=$productdesc;?><!-- desc --></li>
+			<li class="ts-shop-ul-li-item-price"><?=$sitecurrency;?> <?=$productprice;?><!-- price --></li>
+			<li class="ts-shop-ul-li-item-qty"><input type="number" name="qty" id="<?=$qtyid;?>" size="1" min="1" max="9999" value="<?=$productqty;?>"></li>
+			<li class="ts-shop-ul-li-item-update"><a href="#" onclick="tinyshop.updatecart('<?=$product;?>','<?=$qtyid;?>','<?=$token;?>');">&#x21bb;</a></li>
+			<li class="ts-shop-ul-li-item-total"><?=$sitecurrency;?> <?=$productsum;?><!-- sum --></li>
+			<li class="ts-shop-ul-li-item-delete" id="ts-shop-delete"><a href="#" onclick="tinyshop.deletefromcart('<?=$product;?>','<?=$token;?>');">&#x2716;</a>
+			</li>
+		</div>
+		<?php
 					}
 					$j++;
 					}
 				}
 			}
 		?>
-		
 		</div>
-		
-		
 		<hr />
 		<h1>Checkout</h1>
 		<hr />
 		
-			<select name="shipping_country" id="ts-form-cart-payment-gateway-select">
+			<select name="shipping_country" id="ts-form-cart-shipping-country-select">
 			
 			<option value="">Select shipping country...</option>
 			<?php
@@ -153,13 +148,9 @@ include("../header.php");
 				echo $shop->gatewaylist($siteconf,$keys);
 			?>
 			</select>
-			
-		
 		<div class="ts-shop-form-field">
-		<input type="submit" name="submit" value="Checkout">
+			<input type="submit" name="submit" value="Checkout">
 		</div>
-
-		
 		</form>
 		
 		<?php
@@ -169,11 +160,11 @@ include("../header.php");
 	} 
 	
 	?>
-		</div>
+	</div>
 </div>
 
 <?php
-include("../footer.php");
+include("footer.php");
 ?>
 </body>
 </html>

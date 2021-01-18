@@ -69,7 +69,7 @@
 		$_SESSION['invoiceid'] = $invoiceid;
 	}
 	
-	echo $_SESSION['invoiceid'];
+	// echo $_SESSION['invoiceid'];
 	
 	/* No need to edit this below. 
 	*  Start of PayPal code 
@@ -127,15 +127,15 @@
 <body>
 
 <?php
-include("../../../header.php");
+include("../../header.php");
 ?>
 
 <div id="wrapper">
 
-		<div id="result"></div>
+		<div id="ts-shop-result-message"></div>
 		<div id="ts-shop-cart-form">
 		
-<form action="https://www.paypal.com/us/cgi-bin/webscr" method="post">	
+<form action="https://www.paypal.com/us/cgi-bin/webscr" method="post" onSubmit="javascript:return tinyshop.checkPayPalform();" autocomplete="false">	
 
 <?php
 
@@ -242,7 +242,10 @@ include("../../../header.php");
 					<input type="hidden" name="cmd" value="_cart">
 					<input type="hidden" name="upload" value="1">
 					<input type="hidden" name="rm" value="2">
-					
+					<label for="first_name">First name</label>
+					<input type="text" name="first_name" id="first_name" size="15" maxlength="32" value="" title="The customer's first name (32-alphanumeric character limit).">
+					<label for="last_name">Last name</label>
+					<input type="text" name="last_name" id="last_name" size="15" maxlength="64" value="" title="The customer's last name (64-alphanumeric character limit).">
 					<label for="address1">Address</label>
 					<input type="text" name="address1" id="address1" maxlength="100" value="" title="The first line of the customer's address (100-alphanumeric character limit).">
 					<label for="city">City</label>
@@ -250,25 +253,25 @@ include("../../../header.php");
 					<label for="day_phone_a">Area code</label>
 					<input type="text" name="day_phone_a" id="day_phone_a" size="5" value="">
 					
+				</div>
+				<div class="ts-shop-form-section">
+
+
 					<label for="state">State</label>
 					<input type="text" name="state" id="state" size="2" maxlength="2" value="" title="The state noted in the customer's address (the official two-letter abbreviation).">
 					<label for="zip">Zip</label>
 					<input type="text" name="zip" id="zip" size="5"  maxlength="32" value="" title="The postal code noted in the customer's address.">
-				</div>
-				<div class="ts-shop-form-section">	
+				
 					<label for="email">E-mail</label>
 					<input type="text" name="email" id="email" size="15" value="" title="The customer's email address.">
 					<label for="day_phone_b">Phone</label>
 					<input type="text" name="day_phone_b" id="day_phone_b" size="7" value="" value="">
-					<label for="first_name">First name</label>
-					<input type="text" name="first_name" id="first_name" size="15" maxlength="32" value="" title="The customer's first name (32-alphanumeric character limit).">
-					<label for="last_name">Last name</label>
-					<input type="text" name="last_name" id="last_name" size="15" maxlength="64" value="" title="The customer's last name (64-alphanumeric character limit).">
+
 					<!-- 
 						input type="text" name="night_phone_a" id="night_phone_a" value="The area code of the customer's evening telephone number.">
 						<input type="text" name="night_phone_b" id="night_phone_b" value="The first three digits of the customer's evening telephone number.">
 					-->
-					<input type="image" src="http://www.paypal.com/en_US/i/btn/x-click-but01.gif" name="submit" title="Make payments with PayPal - it's fast, free and secure!">
+					<input type="submit" title="Make payments with PayPal - it's fast, free and secure!" value="Pay with PayPal"/>
 				</div>
 			</div>
 			</form>
@@ -276,7 +279,7 @@ include("../../../header.php");
 </div>
 
 <?php
-include("../../../footer.php");
+include("../../footer.php");
 ?>
 </body>
 </html>

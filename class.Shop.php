@@ -405,8 +405,10 @@ class Shop {
 			}
 
 			$html .= '<link rel="stylesheet" type="text/css" href="'.$this->cleanInput($row['site.domain']).'/'.$this->cleanInput($row['site.canonical']).'/'.$this->cleanInput($row['site.stylesheet.reset']).'">';
-			$html .= '<link rel="stylesheet" type="text/css" href="'.$this->cleanInput($row['site.domain']).'/'.$this->cleanInput($row['site.canonical']).'/'.$this->cleanInput($row['site.stylesheet']).'">';
-			
+			$html .= '<link rel="stylesheet" type="text/css" href="'.$this->cleanInput($row['site.domain']).'/'.$this->cleanInput($row['site.canonical']).'/'.$this->cleanInput($row['site.stylesheet1']).'">';
+			$html .= '<link rel="stylesheet" type="text/css" href="'.$this->cleanInput($row['site.domain']).'/'.$this->cleanInput($row['site.canonical']).'/'.$this->cleanInput($row['site.stylesheet2']).'">';
+
+
 			if(!empty($row['site.ext.stylesheet'])) {
 				$html .= '<link rel="stylesheet" type="text/css" href="'.$this->cleanInput($row['site.ext.stylesheet']).'">';
 			}		
@@ -1002,6 +1004,24 @@ class Shop {
 			
 		return $html;
 	}
+	
+	public function getcountries() 
+	{
+		$html = "";
+		
+		$shipping = $this->load_json("inventory/shipping.json");
+		
+			if($shipping !== null) {
+				$i=0;
+				foreach($shipping[0] as $key => $value)
+				{
+					$html .= '<div class=\"ts-country-list-option\">' . $this->cleanInput($key) .": <input type=\"text\" name=\"".$key."\" value=\"".$value."\" size=\"20\" /></div>";
+					$i++;
+				}		
+			}
+			
+		return $html;
+	}	
 	
 	public function getcountryprice($json,$country) {
 		

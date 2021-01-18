@@ -6,7 +6,7 @@ var tinyshop = {
 
 	// vars
 	name: "tinyshop javascript library",
-	version: "1.13",
+	version: "1.15",
 	instanceid: 1e5,
 	messagecode: 1e5,
 	csp: ["Access-Control-Allow-Origin","*"],
@@ -139,6 +139,18 @@ var tinyshop = {
 			break;			
 		}
 		return this.r;
+	},
+	
+	togglecartmsg: function(method) {
+		
+		if(method == 'open') {
+			this.dom('ts-shop-result-message','display','block');
+			} else if(method =='close') {
+			this.dom('ts-shop-result-message','display','none');
+		} else {
+			this.dom('ts-shop-result-message','display','inline-block');
+		}
+		
 	},
 	
 	toggle: function(id, counter) {
@@ -443,13 +455,14 @@ var tinyshop = {
 		this.id  = this.math('int',productId,1);
 		this.qty = this.math('int',quantity, 1);
 		
-		this.fetchHTML('POST','/shop/cart/addtocart/' + this.instanceid + '/', 'action=addtocart&id='+this.id+'&qty='+this.qty+'&token='+token, 'result');
+		this.fetchHTML('POST','/shop/cart/addtocart/' + this.instanceid + '/', 'action=addtocart&id='+this.id+'&qty='+this.qty+'&token='+token, 'ts-shop-result-message');
+		this.togglecartmsg('open');
 	},
 	
 	deletefromcart: function(id,token) {
 		
 		if(!token) {
-			this.dom('result','Token was not set.');
+			this.dom('ts-shop-result-message','Token was not set.');
 		}
 		
 		this.fetchHTML('POST','/shop/cart/delete/' + this.instanceid + '/', 'action=deletefromcart&id='+this.math('int',id)+'&token='+token,false,'/shop/cart/');
@@ -459,7 +472,7 @@ var tinyshop = {
 	updatecart: function(id,qtyId,token) {
 		
 		if(!token) {
-			this.dom('result','Token was not set.');
+			this.dom('ts-shop-result-message','Token was not set.');
 		}
 		
 		if(qtyId) { 	
@@ -474,6 +487,67 @@ var tinyshop = {
 		this.fetchHTML('POST','/shop/cart/update/' + this.instanceid + '/', 'action=updatecart&id='+this.id+'&qty='+this.qty+'&token='+token,false,'/shop/cart/');
 		
 	},
+	
+	checkform: function() {
+		
+		var shipping_country = this.dom('ts-form-cart-shipping-country-select','get');
+		var payment_gateway = this.dom('ts-form-cart-payment-gateway-select','get');
+		
+		if(shipping_country == '') {
+			this.message('Shipping country cannot be empty. Please select a shipping country.');
+			return false;
+		}
+		
+		if(payment_gateway == '') {
+			this.message('Payment Gateway cannot be empty. Please select a payment method.');
+			return false;
+		}
+		
+	return;
+	},
+	
+	checkPayPalform: function() {
+		
+		var  first_name = this.dom('first_name','get');
+		var  last_name = this.dom('last_name','get');
+		var  address1 = this.dom('address1','get');
+		var  city = this.dom('city','get');
+		var  state = this.dom('state','get');
+		var  zip = this.dom('zip','get');
+		var  email = this.dom('email','get');
+		
+		if(first_name == '') {
+			this.message('First name cannot be empty.');
+			return false;
+		}
+		if(last_name == '') {
+			this.message('Last name cannot be empty.');
+			return false;
+		}
+		if(address1 == '') {
+			this.message('Address cannot be empty.');
+			return false;
+		}	
+		if(city == '') {
+			this.message('City cannot be empty.');
+			return false;
+		}	
+		if(state == '') {
+			this.message('State cannot be empty.');
+			return false;
+		}	
+		if(zip == '') {
+			this.message('Zip cannot be empty.');
+			return false;
+		}
+		if(email == '') {
+			this.message('Email cannot be empty.');
+			return false;
+		}
+	
+	return;
+	},
+	
 	/*
 	* PayPal functions.
 	*/

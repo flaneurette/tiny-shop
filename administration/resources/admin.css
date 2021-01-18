@@ -1,0 +1,345 @@
+/* http://meyerweb.com/eric/tools/css/reset/ v2.0 | 20110126 License: none (public domain) */
+ html, body, div, span, applet, object, iframe, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+     margin: 0;
+     padding: 0;
+     border: 0;
+     font-size: 100%;
+     font: inherit;
+     vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+     display: block;
+}
+
+ body {
+     line-height: 1;
+}
+
+ ol, ul {
+     list-style: none;
+}
+
+ blockquote, q {
+     quotes: none;
+}
+
+ blockquote:before, blockquote:after, q:before, q:after {
+     content: '';
+     content: none;
+}
+
+ table {
+     border-collapse: collapse;
+     border-spacing: 0;
+}
+
+/***
+/** Tiny Shop default styling.
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap');
+
+body {
+	/* padding: 15px; */
+	font-size: 1em;
+	margin: 0;
+	font-family: "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+	font-size: 1rem;
+	font-weight: 400;
+	line-height: 1.5;
+	color: #212529;
+	text-align: left;
+	/* background-color: #f8f9fa; */
+}
+
+#ts-shop-result-message {
+	
+	margin:auto;
+	width: 30%;
+	position:absolute;
+	top:200;
+	left:30%;
+	float:center;
+	z-index:11;
+	padding: 25px;
+	font-size: 1rem;
+	font-weight: 400;
+	line-height: 1.5;
+	color: #495057;
+	background-color: #ded4da;
+	border: 1px solid #666;
+	border-radius: .15rem;
+	display:none;
+	cursor:pointer;
+}
+
+#ts-shop-msg-close {
+ text-align:right;
+}
+
+#ts-critical-error-box {
+	display: block;
+	width:100%;
+	padding: .375rem .75rem;
+	margin:5px;
+	font-size: 1rem;
+	font-weight: 400;
+	line-height: 1.5;
+	color: #495057;
+	background-color: #ced4da;
+	border: 1px solid #dddddd;
+	border-radius: .15rem;
+	z-index:10;
+}
+
+div {
+	/* 
+	testing div borders.
+	border:1px solid #000;
+	*/
+}
+
+h1 {
+	color: #000;
+	font-family: 'Playfair Display', Georgia, Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", serif;
+	font-size: 14px;
+	margin:0px;
+	margin-top: 10px;
+	margin-left:0px;
+}
+
+fieldset {
+	width: 50%;
+	background-color: #efefef;
+	padding: 15px;
+}
+
+input[type="text"],
+textarea {
+	display: block;
+	padding: .375rem .75rem;
+	font-size: 1rem;
+	font-weight: 400;
+	line-height: 1.5;
+	color: #495057;
+	background-color: #fff;
+	border: 1px solid #ced4da;
+	border-radius: .15rem;
+}
+input[type="button"],
+input[type="submit"] {
+	display:inline-block;
+	height: calc(1.5em + .75rem + 2px);
+	padding: .375rem .75rem;
+	font-size: 1rem;
+	font-weight: 400;
+	line-height: 1.5;
+	color: #495057;
+	background-color: #fff;
+	background-clip: padding-box;
+	border: 1px solid #ced4da;
+	border-radius: .25rem;
+	float:left;
+	margin-top: 3px;
+}
+input[type="number"] {
+	padding:5px;
+	margin:0px;
+	margin-right:5px;
+	margin-top: 3px;
+	color: #495057;
+	width:35px;
+	background-color: #fff;
+	background-clip: padding-box;
+	border: 1px solid #ced4da;
+	border-radius: .15rem;
+	float:left;
+}
+
+input[name="submit"] {
+	margin: 1em;
+	float:left;
+}
+input[type=radio] {
+	box-sizing: border-box;
+	padding: 0;
+}
+input[type="radio" i] {
+	background-color: initial;
+	cursor: default;
+	-webkit-appearance: radio;
+	box-sizing: border-box;
+	margin: 3px 3px 0px 5px;
+	padding: initial;
+	border: initial;
+}
+input[type=checkbox],
+input[type=radio] {
+	box-sizing: border-box;
+	padding: 0;
+}
+input[type="checkbox" i] {
+	background-color: initial;
+	cursor: default;
+	-webkit-appearance: checkbox;
+	box-sizing: border-box;
+	margin: 3px 3px 3px 4px;
+	padding: initial;
+	border: initial;
+}
+
+option:disabled { 
+	background-color:#dedede;
+	font-family:monospace;
+	font-size:11px;
+}
+
+select option:disabled { 
+	background-color:#dedede;
+	font-family:monospace;
+	font-size:11px;
+}
+
+button,
+input {
+	overflow: visible;
+}
+textarea {
+	width: 80%;
+}
+label {
+	font-weight: bold;
+}
+div {
+	/* padding: 3px; */
+}
+table td {
+	color: #000;
+	padding: 0px;
+	margin: 0px;
+	vertical-align: bottom;
+	font-size: 1em;
+}
+th {
+	text-align: left;
+	font-weight: bold;
+}
+
+ul {
+    display: -ms-flexbox;
+    display: flex;
+    list-style-type: disc;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    padding-inline-start: 40px;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    padding-left: 0;
+    margin-bottom: 0;
+    border-radius: .25rem;
+}
+
+li {
+    position: relative;
+    display: block;
+    padding: .75rem 1.25rem;
+    background-color: #fff;
+    border: 1px solid rgba(0,0,0,.125);
+}
+
+li:first-child {
+    border-top-left-radius: inherit;
+    border-top-right-radius: inherit;
+}
+
+.status-red {
+	color: #ff3300;
+}
+
+.status-green {} 
+
+a:link, a:visited {
+	color: #663399;
+	text-decoration: none;
+}
+
+div.red {
+	font-family: monospace;
+	width: 200px;
+	height: 20px;
+	color: #000;
+}
+div.blue {
+	font-family: monospace;
+	width: 200px;
+	height: 20px;
+	color: #000;
+}
+div.blank {
+	font-family: monospace;
+	width: 190px;
+	height: 20px;
+	margin: 0px;
+	clear: both;
+}
+
+p {
+	color: #000;
+	font-family: monospace;
+	font-size: 28px;
+	text-align: center;
+	font-weight: bold;
+}
+hr {
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+	border: 0;
+	border-top: 1px solid rgba(0, 0, 0, .1);
+}
+
+label {
+	display: block;
+}
+	
+.dot-red {
+  height: 25px;
+  width: 25px;
+  background-color: red;
+  border-radius: 50%;
+  color:white;
+  font-size:8px;
+  display: inline-block;
+}
+
+.ts-shop-upload-message {
+	background-color:lightgreen;
+	border-color:1px solid green;
+}
+
+.ts-shop-upload-message-red {
+	color:#ff0000;
+	font-size:12px;
+}
+
+/***
+/** div ts shop input styling
+*/
+
+.ts-country-list-option {
+	display: block;
+	float:left;
+	width: 90%;
+	padding: .375rem .75rem;
+	font-size: 1rem;
+	font-weight: 400;
+	line-height: 1.5;
+	color: #495057;
+	background-color: #fff;
+	border: 1px solid #ced4da;
+	border-radius: .15rem;
+}

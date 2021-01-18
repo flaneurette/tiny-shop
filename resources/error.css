@@ -1,0 +1,14 @@
+#ts-critical-error-box {
+	display: block;
+	width:100%;
+	padding: .375rem .75rem;
+	margin:5px;
+	font-size: 1rem;
+	font-weight: 400;
+	line-height: 1.5;
+	color: #495057;
+	background-color: #ced4da;
+	border: 1px solid #dddddd;
+	border-radius: .15rem;
+	z-index:10;
+}

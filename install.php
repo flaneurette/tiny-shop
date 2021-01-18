@@ -2,13 +2,24 @@
 
 	session_start();
 
+	/***
+	/* There is no need in editing this file.
+	*/
+	
 	include("class.Shop.php");
+	include("resources/php/class.Security.php");
+	
 	$shop = new Shop();
+	$security = new Security();
 	
 	$versioning = PHP_VERSION_ID;
 	$error = [];
+
+	/***
+	/* Installer deletion.
+	*/
 	
-	if($_GET['delete']) {
+	if(isset($_GET['delete'])) {
 		if($_SESSION['nonce'] == $_GET['delete']) {
 			header("Location: index.php",302);
 			@unlink("install.php");
@@ -20,6 +31,10 @@
 			exit;
 		}
 	} 
+
+	/***
+	/* Create security nonce, against CSRF.
+	*/
 	
 	if(isset($_SESSION['nonce'])) {
 		$nonce = $shop->sanitize($_SESSION['nonce'],'alphanum');
@@ -28,10 +43,57 @@
 		$_SESSION['nonce'] = $shop->sanitize($nonce,'alphanum');
 	}
 
+	/***
+	/* Check if required PHP version is present.
+	*/
+	
 	if(!defined('PHP_VERSION_ID') || $versioning  < 50400) {
 		array_push($error,'PHP version 5.4 or above is required, cannot install TinyShop.');
 	}
 
+	/***
+	/* Check if fopen is enabled in PHP, required for installation.
+	*/
+	
+	if(function_exists('ini_get')) {
+		if(!ini_get('allow_url_fopen') ) {
+			die('Please set "allow_url_fopen" to "On" in PHP.ini, for adequate stream support. Tinyshop does NOT work without it.');
+		} 
+	}
+	
+	/***
+	/* Check if required files are missing.
+	*/
+	
+	if(!file_exists('inventory/site.json')) {
+		array_push($error, "TinyShop software package is incomplete or has missing files: inventory/site.json. Please clone or download again.");
+	}
+	
+	if(!file_exists('payment/paypal/paypal.json')) {
+		array_push($error, "TinyShop software package is incomplete or has missing files: payment/paypal/paypal.json. Please clone or download again.");
+	}	
+	
+	if(!file_exists('administration/.htpasswd')) {
+		
+		if(chmod("administration/",0755) == FALSE) {
+			array_push($error, "Could not chmod the administration directory. Please chmod the /administration/ folder manually to 0755, to write files to it.");
+		}
+		
+		if(chmod("administration/.htpasswd",0755) == FALSE) {
+			array_push($error, "Could not chmod the .htpasswd file. Please chmod the file manually to 0755, to write files to it.");
+		}
+	}		
+						
+	$httest = fopen("administration/.htpasswd", "w");
+	
+	if($httest == FALSE || $httest == false) {
+		array_push($error, "Could not open .htpassword for writing. Please make sure that the server is allowed to write to the administration folder. For example: In Apache, the folder should be chowned to www-data:www-data.");
+	}
+
+	/***
+	/* Check if required functions and extensions are missing.
+	*/
+	
 	if(!function_exists('file_get_contents')) {
 		
 		array_push($error,'file_get_contents function does not work, please "allow_url_fopen" for stream support. Tinyshop does NOT work without it.');
@@ -44,12 +106,6 @@
 				} else {
 				array_push($error,'There appears to be no support for streamwrappers, please "allow_url_fopen" for stream support.');
 			}
-		}
-	}
-
-	if(function_exists('ini_get')) {
-		if(!ini_get('allow_url_fopen') ) {
-			array_push($error,'Please set "allow_url_fopen" to "On" in PHP.ini, for adequate stream support. Tinyshop does NOT work without it.');
 		}
 	}
 	
@@ -80,6 +136,10 @@
 	if(!function_exists('openssl_decrypt')) {
 		array_push($error,'Openssl_decrypt function does not exist.');
     }
+
+	/***
+	/* Error reporting.
+	*/
 	
 	if(count($error) > 0) {
 		
@@ -108,8 +168,29 @@
 			
 			exit;
 
-	} elseif($_POST['setup'] == 1) {
+	} elseif(isset($_POST['setup']) == 1) {
 		
+			/***
+			/* Check if the installer already has been run before, or is running by another user. If so, exit the installer and warn user.
+			*/
+			$session = fopen("administration/session.ses", "rw+") or die("Unable to open administration/session.ses. Cannot continue installation.");
+			$tmp_nonce = $security->getToken();
+			
+			$ip = $security->sanitize($_SERVER['REMOTE_ADDR'],'field');
+			$install_nonce = sha1($ip . PHP_VERSION_ID . $tmp_nonce);
+			
+			$sdata 	 = fread($session,1);
+			
+			if(strlen($sdata) >= 1) {
+				fclose($session);
+				die("Unable to continue installation. Reason: installer has been run before, or is in use by another user. For security reasons, we cannot have more than one installer running at once or an installation that has already been completed. If this is in error, delete <a href=\"administration/session.ses\">session.ses</a> manually and run the installer again.");
+				} else {
+				$tmp_nonce = $security->getToken();
+				$install_nonce = 'TINYSHOP-INSTALL-ID:' . sha1($_SERVER['REMOTE_ADDR'] . PHP_VERSION_ID . $tmp_nonce) . '-IP:' . $ip;
+				fwrite($session, $install_nonce);
+				fclose($session);
+			}
+			
 				if(isset($_SESSION['nonce'])) {
 					
 					$nonce = $shop->sanitize($_SESSION['nonce'],'alphanum');
@@ -159,16 +240,25 @@
 					exit;				
 				}
 				
+				/***
+				/* Create a .htpasswd programatically.
+				/* For better security, it would be good to create it manually. Consider it.
+				*/
+	
 				function create_htpasswd($username,$password) {
 
 					$encrypted_password = crypt($password, base64_encode($password));
 					$data = $username.":".$encrypted_password;
 					
-					$ht = fopen("administration/.htpasswd", "w") or die("Unable to open .htpasswd");
+					$ht = fopen("administration/.htpasswd", "w") or die("Could not open .htpassword for writing. Please make sure that the server is allowed to write to the administration folder. In Apache, the folder should be chowned to www-data. ");
 					fwrite($ht, $data);
 					fclose($ht);
 				}
-			
+				
+				/***
+				/* Create a .htaccess programatically.
+				*/	
+				
 				function create_htaccess($ip,$root) {
 					
 					$htaccess = 'AuthType Basic
@@ -192,8 +282,11 @@
 				
 				create_htpasswd($username,$password);
 				create_htaccess($ip,$root);
+
+				/***
+				/* Store Site JSON configuration.
+				*/	
 				
-				// Store Site JSON configuration.
 				$keys = 'inventory/site.json';
 				$shop->backup($keys);
 				$json = $shop->load_json($keys); 
@@ -210,7 +303,10 @@
 
 				$shop->storedata($keys,$json);
 
-				// Store PayPal JSON configuration.
+				/***
+				/* Store PayPal JSON configuration.
+				*/
+				
 				$keys_paypal = 'payment/paypal/paypal.json';
 				$shop->backup($keys_paypal);
 				$json_paypal = $shop->load_json($keys_paypal); 		
@@ -218,13 +314,17 @@
 				$json_paypal[0]["paypal.email"] = $shop->sanitize($_POST['admin_paypal_email'],'url');
 				
 				$shop->storedata($keys_paypal,$json_paypal);
-		
+
+		/***
+		/* If successful, show the following message.
+		*/
+				
 		echo '<pre>';
 		echo 'TinyShop was installed and should function correctly! If not, please read the manual on Github: https://github.com/flaneurette/tiny-shop'. PHP_EOL;
 		echo 'Please delete the install.php file, or <a href="install.php?delete='.$shop->sanitize($nonce,'alphanum').'">click here.</a> to let Tinyshop do it for you'. PHP_EOL;
 		echo '</pre>';	
 		
-	} elseif($_POST['setup-complete'] == 1) {
+	} elseif(isset($_POST['setup-complete']) == 1) {
 		
 		echo '<pre>';
 		echo 'TinyShop was installed and should function correctly! If not, please read the manual on Github: https://github.com/flaneurette/tiny-shop'. PHP_EOL;
@@ -233,23 +333,22 @@
 	
 	} else {
 		
-		// Installer
-		
-		?>
+// End of Installer
+?>
 		<!DOCTYPE html>
 		<html>
+		
 			<head>
-				<link rel="stylesheet" type="text/css" href="resources/reset.css">
-				<link rel="stylesheet" type="text/css" href="resources/style.css">
+				<link rel="stylesheet" type="text/css" href="resources/admin.css">
 			</head>
+			
 			<body>
 			<h1>Setup TinyShop</h1>
 			<div>
 			<?php echo 'All requirements were met. Continue to configure TinyShop';?>
 			</div>
-			
 			<hr />
-				<div id="ts-shop-cart-form" style="margin-left:20px;">
+				<div id="ts-shop-cart-form">
 					<form name="" action="" method="post">
 						<input name="setup" value="1" type="hidden">
 						<input name="nonce" value="<?=$shop->sanitize($nonce,'alphanum');?>" type="hidden">
@@ -267,9 +366,7 @@
 						Admin Password: <input name="admin_password" value="" type="text">
 						Admin E-mail: <input name="admin_email" value="" type="text">
 						<hr />
-						
 						<strong>Security.</strong> Encrypt e-mail address? 
-						
 						<select name="admin_encryption">
 							<option value="2">No</option>
 							<option value="1">Yes</option>
@@ -278,9 +375,10 @@
 						Admin IP: <input name="admin_ip" value="<?= $shop->sanitize($_SERVER['REMOTE_ADDR'],'table');?>" type="text">
 						<hr />
 						PayPal e-mail (to accept payments on): <input name="admin_paypal_email" value="info@website.com" type="text">
-
 						<hr />
-						<input type="submit" value="Setup TinyShop >>">
+						<input type="submit" value="Setup TinyShop &raquo;">
+						<br />
+						<hr />
 					</form>
 				</div>
 			</body>

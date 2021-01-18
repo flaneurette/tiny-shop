@@ -4,7 +4,7 @@
 	include("class.Shop.php");
 	
 	$shop  = new Shop();
-
+	
 	$token = $shop->getToken();
 	$_SESSION['token'] = $token;
 
@@ -27,8 +27,8 @@ include("header.php");
 <div id="cart-contents"><a href="/shop/cart/">View Cart</a></div>
 <div id="wrapper">
 <h2>Store</h2>
-	<div id="result"></div>
-		<h1>Shop product list</h1>
+	<div id="ts-shop-result-message" onclick="tinyshop.togglecartmsg('close');"></div>
+		<!-- <h1>Shop product list</h1> -->
 			<div id="shop">
 			
 			<div id="ts-shop-nav-left">
@@ -63,12 +63,10 @@ include("header.php");
 			</div>
 			
 			</div>
-			<div id="ts.paginate">
-				<center>
+			<div id="ts-paginate">
 				<?php 
 					echo $shop->paginate(1);
 				?>
-				</center>
 			</div>
 			<!-- caller: method, opts, uri. -->
 </div>

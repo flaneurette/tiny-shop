@@ -92,7 +92,9 @@ if(isset($_POST['action'])) {
 
 				$_SESSION['cart'] = $session->unique_array($_SESSION['cart'], 'product.id');
 
-				echo "Product added to cart.";
+				echo "Product added to cart. ";
+				echo PHP_EOL;
+				echo "X";
 			
 			break;			
 			

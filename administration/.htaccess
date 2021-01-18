@@ -1,7 +1,8 @@
 AuthType Basic
-AuthName "Tinyshop Administration"
-AuthUserFile /var/www/public_html/shop/administration/.htpasswd
-Require valid-user
-Order Deny,Allow
-Deny from all
-Allow from 111.222.333.444
+					AuthName "Tinyshop Administration"
+					AuthUserFile C:/xampp/htdocs/shop/administration/.htpasswd
+					Require valid-user
+					Order Deny,Allow
+					Deny from all
+					Allow from 127.0.0.1
+					
