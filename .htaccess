@@ -90,6 +90,7 @@ Header set X-Frame-Options SAMEORIGIN env=!allow_framing
 </IfModule>
 
 <FilesMatch "(\.(bak|config|dist|fla|inc|ini|log|psd|sh|sql|swp)|~)$">
+    # session|ses|htaccess|htpasswd <- check if this works server-side
     # Apache 2.2
     Order allow,deny
     Deny from all
