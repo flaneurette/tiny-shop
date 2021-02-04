@@ -25,16 +25,21 @@
 	header("Strict-Transport-Security: max-age=30");
 	header("Referrer-Policy: same-origin");
 	
-	/* Logging
-	* Uncomment to enable logging of traffic.
-	
+	function encode($string) {
+		return htmlspecialchars($string,ENT_QUOTES,'UTF-8');
+	}
+
+	//$handle = fopen('./log.log', "r");
 	if(filesize('./log.log') > 3000000) {
 		//empty log
 		@file_put_contents('./log.log', "");
 		} else {
-		$log = date("F j, Y, g:i a") . ' - '. $_SERVER['REMOTE_ADDR'].' - '.$_SERVER['HTTP_USER_AGENT'].' - '. $_SERVER['HTTP_REFERER'].' - '.$_SERVER['SCRIPT_NAME']. ' - '.$_SERVER['QUERY_STRING']. PHP_EOL;
-		@file_put_contents('./log.log', htmlspecialchars($log,ENT_QUOTES,'UTF-8'), FILE_APPEND);
+			if(isset($_SERVER['HTTP_REFERER'])) {
+				$referer = $_SERVER['HTTP_REFERER'];
+				} else {
+				$referer = 'no-referer';
+			}
+		$log = date("F j, Y, g:i a") . ' - '. $_SERVER['REMOTE_ADDR'].' - '.$_SERVER['HTTP_USER_AGENT'].' - '. $referer.' - '.$_SERVER['SCRIPT_NAME']. ' - '.$_SERVER['QUERY_STRING']. PHP_EOL;
+		@file_put_contents('./log.log', encode($log), FILE_APPEND);
 	}
-	
-	*/
 ?>

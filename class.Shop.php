@@ -801,16 +801,7 @@ class Shop {
 		
 		$shopconf = $this->load_json($json);
 
-		foreach($shopconf as $row)
-		{	
-			$html .= '<div class="ts-shop-'.$css.'-item">';
-			foreach($row as $key => $value)
-			{
-				$html .='<b>'.$key.'</b>:'.$value.'<br>';
-			}
-			$html .= '</div>';
-		}
-		return $html;
+		return $shopconf;
 	}
 
 	/**
@@ -938,6 +929,20 @@ class Shop {
 		return $html;
 	}
 
+	public function gethost($json) 
+	{
+		$siteconf 	= $this->load_json($json);
+		$result 	= $this->getasetting($siteconf,'site.url');
+		
+		$find 		= ['http://','https://','www.','/'];
+		$replace 	= ['','','',''];
+		
+		$home  		= 'https://';
+		$home 	   .= str_replace($find,$replace,$result['site.url']);
+		
+		return $home;
+	}
+
 	public function getasetting($json,$akey) 
 	{
 			if($json !== null) {
@@ -972,7 +977,6 @@ class Shop {
 			if($json !== null) {
 				foreach($json[0] as $key => $value)
 				{
-					
 					if(!in_array($key,$igoreset)) {
 						if($value == 0) {
 						$html.= "<option value=\"".$key."\" disabled>".str_replace('shipping.','',$this->cleanInput($key))."</option>";
