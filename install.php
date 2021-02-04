@@ -14,6 +14,8 @@
 	
 	$versioning = PHP_VERSION_ID;
 	$error = [];
+	
+	$host = $_SERVER['HTTP_HOST'];
 
 	/***
 	/* Installer deletion.
@@ -58,6 +60,12 @@
 	if(function_exists('ini_get')) {
 		if(!ini_get('allow_url_fopen') ) {
 			die('Please set "allow_url_fopen" to "On" in PHP.ini, for adequate stream support. Tinyshop does NOT work without it.');
+		} 
+	}
+
+	if(function_exists('ini_get')) {
+		if(ini_get('short_open_tag') == "Off" or  ini_get('short_open_tag') == 0) {
+			die('Please set "short_open_tag" to "1" or "On" in PHP.ini. Tinyshop does NOT work without it.');
 		} 
 	}
 	
@@ -239,41 +247,182 @@
 					echo 'Currency cannot be empty, setup could not continue.';
 					exit;				
 				}
-				
-				/***
-				/* Create a .htpasswd programatically.
-				/* For better security, it would be good to create it manually. Consider it.
-				*/
-	
-				function create_htpasswd($username,$password) {
 
-					$encrypted_password = crypt($password, base64_encode($password));
-					$data = $username.":".$encrypted_password;
-					
-					$ht = fopen("administration/.htpasswd", "w") or die("Could not open .htpassword for writing. Please make sure that the server is allowed to write to the administration folder. In Apache, the folder should be chowned to www-data. ");
-					fwrite($ht, $data);
-					fclose($ht);
+				if(!isset($_POST['shop_folder'])) {
+					echo 'Shop folder cannot be empty, setup could not continue.';
+					exit;				
+					} else {
+					$ts_shop_folder = $shop->sanitize($_POST['shop_folder'],'alpha');
 				}
 				
-				/***
-				/* Create a .htaccess programatically.
-				*/	
+/***
+/* Create a .htpasswd programatically.
+/* For better security, it would be good to create it manually. Consider it.
+*/
+	
+function create_htpasswd($username,$password) {
+
+	$encrypted_password = crypt($password, base64_encode($password));
+	$data = $username.":".$encrypted_password;
+					
+	$ht = fopen("administration/.htpasswd", "w") or die("Could not open .htpassword for writing. Please make sure that the server is allowed to write to the administration folder. In Apache, the folder should be chowned to www-data. ");
+	fwrite($ht, $data);
+	fclose($ht);
+}
+
+function create_htaccess_root($ts_shop_folder) {
+	
+$htaccess_mod = '
+RewriteEngine On
+
+Options All -Indexes
+Options +FollowSymLinks
+ServerSignature Off
+
+IndexIgnore *
+
+# PHP 5.
+# <IfModule mod_php5.c>
+#   php_value include_path ".:/usr/local/lib/php"
+#   php_flag mail.add_x_header Off
+#   php_value memory_limit 64M
+#   php_value post_max_size 10M
+#   php_value upload_max_filesize 10M
+#   php_value display_errors 0
+# </IfModule>
+
+# PHP 7.
+# <IfModule mod_php7.c>
+#   php_value include_path ".:/usr/local/lib/php"
+#   php_flag mail.add_x_header Off
+#   php_value memory_limit 64M
+#   php_value post_max_size 10M
+#   php_value upload_max_filesize 10M
+#   php_value display_errors 0
+# </IfModule>
+
+# Rewrite URI\'s
+RewriteCond %{HTTPS} !on
+RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI}
+
+RewriteRule ^catalog/(.*)/(.*)/(.*)/(.*)/$ /'.$ts_shop_folder.'/product-list.php?cat=$1&product=$2&productid=$3&page=$4  [NC,L]
+RewriteRule ^item/(.*)/(.*)/(.*)/(.*)/$ /'.$ts_shop_folder.'/product.php?cat=$1&product=$2&productid=$3&page=$4  [NC,L]
+RewriteRule ^category/(.*)$ /'.$ts_shop_folder.'/pages.php?id=$1&page=$2 [NC,L]
+
+RewriteRule ^blog/(.*)/(.*)/(.*)/(.*)/$ /'.$ts_shop_folder.'/pages/blog.php?cat=$1&blogid=$2&blogtitle=$3&page=$4  [NC,L]
+RewriteRule ^pages/(.*)/(.*)/(.*)/(.*)/$ /'.$ts_shop_folder.'/pages/page.php?cat=$1&pageid=$2&pagetitle=$3&page=$4  [NC,L]
+RewriteRule ^articles/(.*)/(.*)/(.*)/(.*)/$ /'.$ts_shop_folder.'/pages/article.php?cat=$1&articleid=$2&articletitle=$3&page=$4  [NC,L]
+
+RewriteRule ^vacation/(.*)$ /'.$ts_shop_folder.'/pages/shop-error.php?reason=1 [NC,L]
+RewriteRule ^offline/(.*)$ /'.$ts_shop_folder.'/pages/shop-error.php?reason=2 [NC,L]
+RewriteRule ^closed/(.*)$ /'.$ts_shop_folder.'/pages/shop-error.php?reason=3 [NC,L]
+
+# /query/rnd/action/code/
+RewriteRule ^query/(.*)/(.*)/(.*)/$ query.php?action=$2&code=$3  [NC,L]
+
+# /wishlist/rnd/action/product/tr/
+RewriteRule ^wishlist/(.*)/(.*)/(.*)/(.*)/$ query.php?action=$2&product=$3&tr=$4  [NC,L]
+
+# /cart/action/rnd/product/
+# /cart/addtocart/rnd/id/
+
+RewriteRule ^cart/$ cart.php [NC,L]
+
+RewriteRule ^cart/checkout/$ checkout.php [NC,L]
+RewriteRule ^'.$ts_shop_folder.'/cart/checkout/$ checkout.php [NC,L]
+
+RewriteRule ^cart/cancel/$ query.php?action=cancel [NC,L]
+RewriteRule ^cart/paid/$ query.php?action=payed [NC,L]
+RewriteRule ^'.$ts_shop_folder.'/cart/paid/$ query.php?action=payed [NC,L]
+RewriteRule ^cart/ipn/$ query.php?action=ipn [NC,L]
+RewriteRule ^'.$ts_shop_folder.'/cart/delete/(.*)/$ query.php [NC,L]
+RewriteRule ^'.$ts_shop_folder.'/cart/update/(.*)/$ query.php?action=$1 [NC,L]
+RewriteRule ^cart/(.*)/(.*)/$ query.php?action=$1 [NC,L]
+RewriteRule ^'.$ts_shop_folder.'/cart/(.*)/(.*)/$ query.php?action=$1 [NC,L]
+
+# Webapplication firewall.
+
+RewriteCond %{REQUEST_METHOD}  ^(HEAD|TRACE|DELETE|TRACK) [NC,OR]
+RewriteCond %{HTTP_REFERER}    ^(.*)(<|>|\'|%0A|%0D|%27|%3C|%3E|%00).* [NC,OR]
+RewriteCond %{REQUEST_URI}     ^/(,|;|<|>|/{2,999}).* [NC,OR]
+RewriteCond %{HTTP_USER_AGENT} ^$ [OR]
+RewriteCond %{HTTP_USER_AGENT} ^(java|curl|wget).* [NC,OR]
+RewriteCond %{HTTP_USER_AGENT} ^.*(winhttp|HTTrack|clshttp|archiver|loader|email|harvest|extract|grab|miner).* [NC,OR]
+RewriteCond %{HTTP_USER_AGENT} ^.*(libwww|curl|wget|python|nikto|scan).* [NC,OR]
+RewriteCond %{HTTP_USER_AGENT} ^.*(<|>|\'|%0A|%0D|%27|%3C|%3E|%00).* [NC,OR]
+RewriteCond %{HTTP_COOKIE}     ^.*(<|>|\'|%0A|%0D|%27|%3C|%3E|%00).* [NC,OR]
+RewriteCond %{QUERY_STRING}    ^.*(;|\'|").*(union|select|insert|declare|drop|update|md5|benchmark).* [NC,OR]
+RewriteCond %{QUERY_STRING}    ^.*(localhost|loopback|127\.0\.0\.1).* [NC,OR]
+RewriteCond %{QUERY_STRING}    ^.*\.[A-Za-z0-9].* [NC,OR] # prevents shell injection
+RewriteCond %{QUERY_STRING}    ^.*(<|>|\'|%0A|%0D|%27|%3C|%3E|%00).* [NC]
+RewriteRule ^(.*)$ index.php
+
+# Prevent framing
+Header set X-Frame-Options SAMEORIGIN env=!allow_framing
+
+<IfModule mod_headers.c>
+    Header unset ETag
+</IfModule>
+
+<FilesMatch "(\.(bak|config|dist|fla|inc|ini|log|psd|sh|sql|swp)|~)$">
+    # Apache 2.2
+    Order allow,deny
+    Deny from all
+    Satisfy All
+    # Apache 2.4
+    # Require all denied
+</FilesMatch>
+
+<IfModule mod_deflate.c>
+
+    # Compress all output labeled with one of the following MIME-types
+    <IfModule mod_filter.c>
+        AddOutputFilterByType DEFLATE application/atom+xml \
+                                      application/javascript \
+                                      application/json \
+                                      application/rss+xml \
+                                      application/x-web-app-manifest+json \
+                                      application/xhtml+xml \
+                                      application/xml \
+                                      font/opentype \
+                                      image/svg+xml \
+                                      image/x-icon \
+                                      text/css \
+                                      text/html \
+                                      text/plain \
+                                      text/x-component \
+                                      text/xml
+    </IfModule>
+
+</IfModule>
+';
+
+$hta_root = fopen(".htaccess", "w") or die("Unable to open .htaccess");
+fwrite($hta_root, $htaccess_mod);
+fclose($hta_root);
+
+}
+
+/***
+/* Create a .htaccess programatically.
+*/	
 				
-				function create_htaccess($ip,$root) {
+function create_htaccess($ip,$root,$ts_shop_folder) {
 					
-					$htaccess = 'AuthType Basic
-					AuthName "Tinyshop Administration"
-					AuthUserFile '.$root.'/shop/administration/.htpasswd
-					Require valid-user
-					Order Deny,Allow
-					Deny from all
-					Allow from '.$ip.'
-					';
+$htaccess = 'AuthType Basic
+AuthName "Tinyshop Administration"
+AuthUserFile '.$root.'/'.$ts_shop_folder.'/administration/.htpasswd
+Require valid-user
+Order Deny,Allow
+Deny from all
+Allow from '.$ip.'
+';
 					
-					$hta = fopen("administration/.htaccess", "w") or die("Unable to open .htaccess");
-					fwrite($hta, $htaccess);
-					fclose($hta);
-				}
+$hta = fopen("administration/.htaccess", "w") or die("Unable to open .htaccess");
+fwrite($hta, $htaccess);
+fclose($hta);
+
+}
 
 				$username = $shop->sanitize($_POST['admin_username'],'table');
 				$password = $shop->sanitize($_POST['admin_password'],'table');
@@ -281,7 +430,8 @@
 				$root 	  = $shop->sanitize($_SERVER['DOCUMENT_ROOT'],'table');
 				
 				create_htpasswd($username,$password);
-				create_htaccess($ip,$root);
+				create_htaccess($ip,$root,$ts_shop_folder);
+				create_htaccess_root($ts_shop_folder);
 
 				/***
 				/* Store Site JSON configuration.
@@ -290,10 +440,12 @@
 				$keys = 'inventory/site.json';
 				$shop->backup($keys);
 				$json = $shop->load_json($keys); 
-				$json[0]["site.url"] = $shop->sanitize($_POST['admin_website'],'url');
-				$json[0]["site.domain"] = $shop->sanitize($_POST['admin_website'],'url');
-				$json[0]["site.currency"] = $shop->sanitize($_POST['admin_currency'],'num');
-				$json[0]["site.email"] = $shop->sanitize($_POST['admin_email'],'url');
+				
+				$json[0]["site.canonical"] 	= $ts_shop_folder;
+				$json[0]["site.url"] 		= $shop->sanitize($_POST['admin_website'],'url');
+				$json[0]["site.domain"] 	= $shop->sanitize($_POST['admin_website'],'url');
+				$json[0]["site.currency"] 	= $shop->sanitize($_POST['admin_currency'],'num');
+				$json[0]["site.email"] 		= $shop->sanitize($_POST['admin_email'],'url');
 
 				if($_POST['admin_encryption'] == '1') {
 					$json[0]["site.email"] = $shop->encrypt($shop->sanitize($_POST['admin_email'],'url'));
@@ -352,7 +504,7 @@
 					<form name="" action="" method="post">
 						<input name="setup" value="1" type="hidden">
 						<input name="nonce" value="<?=$shop->sanitize($nonce,'alphanum');?>" type="hidden">
-						Website: <input name="admin_website" value="https://www.example.com" type="text">
+						Website: <input name="admin_website" value="https://<?=$host;?>" type="text"> Shop folder /shop/ <input name="shop_folder" value="shop" type="text" alt="Without slashes" title="Without slashes">
 						Website e-mail: <input name="admin_website_email" value="info@website.com" type="text">
 						<hr />
 						Currency:

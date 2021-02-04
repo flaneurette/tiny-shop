@@ -1,9 +1,7 @@
 <?php
 		include("resources/php/header.inc.php");
 		include("class.Shop.php");
-		
 		$shop  = new Shop();
-
 ?>
 <!DOCTYPE html>
 <html>
