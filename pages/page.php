@@ -7,9 +7,7 @@
 	
 	$token = $shop->getToken();
 	$_SESSION['token'] = $token;
-
 ?>
-
 <!DOCTYPE html>
 <html>
 <head>

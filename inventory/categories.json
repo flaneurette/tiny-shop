@@ -17,8 +17,8 @@
     },
     {
         "category.id": "2",
-        "category.title": "watches",
-        "category.description": "",
+        "category.title": "jewelry",
+        "category.description": "jewelry",
         "category.short.text": "",
         "category.long.text": "",
         "category.url": "",
@@ -33,8 +33,8 @@
     },
     {
         "category.id": "3",
-        "category.title": "jewelry",
-        "category.description": "",
+        "category.title": "watches",
+        "category.description": "watches",
         "category.short.text": "",
         "category.long.text": "",
         "category.url": "",

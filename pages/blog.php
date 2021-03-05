@@ -9,7 +9,6 @@
 	$_SESSION['token'] = $token;
 
 ?>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -35,6 +34,7 @@ include("../header.php");
 		
 	<div id="ts-shop-page"></div>
 <?php
+
 	$json = "../inventory/blog.json";
 	$pagelist = $shop->getpagelist($json,'blog');
 				
@@ -50,13 +50,13 @@ include("../header.php");
 				<div class="ts-shop-page-item-header">
 				<?php
 				if(strlen($row['blog.image.header']) > 30) {
-					echo '<img src="' . $shop->cleanInput($row['blog.image.header']) . '" width="" height="" />';
+					echo '<img src="'.$shop->cleanInput($row['blog.image.header']).'" width="" height="" />';
 				}
 				?>
 				</div>
 				<div class="ts-shop-page-item-main">
 					<div class="ts-shop-page-item-title">
-					<h1><?=$shop->cleanInput($row['blog.title']);?></h1>
+						<h1><?=$shop->cleanInput($row['blog.title']);?></h1>
 					</div>
 					<div class="ts-shop-page-item-titles">
 						<!-- <span class="ts-shop-page-item-author"></span> -->

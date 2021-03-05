@@ -1,0 +1,51 @@
+[
+    {
+        "nav.id": "1",
+        "nav.title": "index",
+        "nav.description": "Index page",
+        "nav.url": "",
+		"nav.status": "1"
+    },
+    {
+        "nav.id": "2",
+        "nav.title": "Link 1",
+        "nav.description": "Link 1",
+        "nav.url": "nav1/",
+		"nav.status": "1"
+    },
+    {
+        "nav.id": "3",
+        "nav.title": "Link 2",
+        "nav.description": "Link 2",
+        "nav.url": "nav2/",
+		"nav.status": "1"
+    },
+    {
+        "nav.id": "4",
+        "nav.title": "Link 3",
+        "nav.description": "Link3",
+        "nav.url": "nav3/",
+		"nav.status": "1"
+    },
+    {
+        "nav.id": "5",
+        "nav.title": "Blog",
+        "nav.description": "Weblog",
+        "nav.url": "blog/",
+		"nav.status": "1"
+    },
+    {
+        "nav.id": "6",
+        "nav.title": "Articles",
+        "nav.description": "Articles",
+        "nav.url": "articles/",
+		"nav.status": "1"
+    },
+    {
+        "nav.id": "7",
+        "nav.title": "Contact",
+        "nav.description": "Contact",
+        "nav.url": "contact/",
+		"nav.status": "0"
+    }
+]

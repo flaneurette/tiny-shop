@@ -1,9 +1,9 @@
 [
     {
-        "site.url": "http://127.0.0.1",
-        "site.domain": "http://127.0.0.1",
-        "site.email": "4853496e46387139746934696f4b74335763456570687941793350523769496a61345a2f474b31366864355754776c6e716b7678787063756a2b684c6c5146476b7254766b4571307136342b4a6141747131547634336169522f5259556353737a53453d",
-        "site.canonical": "shop",
+        "site.url": "https://127.0.0.1",
+        "site.domain": "https://127.0.0.1",
+        "site.email": "365a584d634f5a576746584438724c762b35595a6f75537076334e4f38586265744e7944503859304b566942625646794f393434335a48495876552f4435446e6d4b69464d6d6863685a50674b73703231643341632b3230416e5737473772446e34513d",
+        "site.canonical": "shopping",
         "site.cdn": "",
         "site.charset": "utf-8",
         "site.title": "Tinyshop webshop",
@@ -12,7 +12,7 @@
         "site.icon": "resources/images/favicon.ico",
         "site.status": "online",
         "site.updated": "",
-        "site.currency": "0",
+        "site.currency": "2",
         "site.meta.title": "Tinyshop webshop",
         "site.meta.description": "Tinyshop webshop is your place to shop!",
         "site.meta.name.1": "Pragma",
