@@ -15,7 +15,9 @@
 		$token = $shop->getToken();
 		$_SESSION['token'] = $token;
 	}
-		
+
+	$host_path = $shop->getbase(true);
+	
 	/* Get the currency of site.json
 	 * To change the default currency, edit site.json which has a numeric value that corresponds to the values inside currencies.json.
 	 * DO NOT edit currencies.json, unless adding a new currency, as this file is used throughout TinyShop and might break functionality.
@@ -49,7 +51,7 @@ include("header.php");
 		if(($c > 0) && ($c < 9999) ) {
 			
 	?>
-		<form name="ts_cart" method="post" action="/shop/cart/checkout/" id="ts-shop-cart-form-data" onSubmit="javascript:return tinyshop.checkform();">
+		<form name="ts_cart" method="post" action="<?=$host;?>cart/checkout/" id="ts-shop-cart-form-data" onSubmit="javascript:return tinyshop.checkform();">
 		<input type="hidden" name="token" value="<?=$token;?>">
 		<input type="hidden" name="checkout-post" value="1">
 		<hr />
@@ -111,9 +113,9 @@ include("header.php");
 			<li class="ts-shop-ul-li-item-description"><?=$productdesc;?><!-- desc --></li>
 			<li class="ts-shop-ul-li-item-price"><?=$sitecurrency;?> <?=$productprice;?><!-- price --></li>
 			<li class="ts-shop-ul-li-item-qty"><input type="number" name="qty" id="<?=$qtyid;?>" size="1" min="1" max="9999" value="<?=$productqty;?>"></li>
-			<li class="ts-shop-ul-li-item-update"><a href="#" onclick="tinyshop.updatecart('<?=$product;?>','<?=$qtyid;?>','<?=$token;?>');">&#x21bb;</a></li>
+			<li class="ts-shop-ul-li-item-update"><a href="#" onclick="tinyshop.updatecart('<?=$product;?>','<?=$qtyid;?>','<?=$token;?>','<?=$host_path;?>');">&#x21bb;</a></li>
 			<li class="ts-shop-ul-li-item-total"><?=$sitecurrency;?> <?=$productsum;?><!-- sum --></li>
-			<li class="ts-shop-ul-li-item-delete" id="ts-shop-delete"><a href="#" onclick="tinyshop.deletefromcart('<?=$product;?>','<?=$token;?>');">&#x2716;</a>
+			<li class="ts-shop-ul-li-item-delete" id="ts-shop-delete"><a href="#" onclick="tinyshop.deletefromcart('<?=$product;?>','<?=$token;?>','<?=$host_path;?>');">&#x2716;</a>
 			</li>
 		</div>
 		<?php

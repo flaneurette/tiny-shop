@@ -12,6 +12,15 @@ include("resources/php/class.Security.php");
 $session = new Session();
 $secure = new Security();
 
+if(isset($shop)) {
+	$host = $shop->gethost("inventory/site.json");
+	} else {
+	require("class.Shop.php");
+	$shop  = new Shop();
+	$host 		= $shop->gethost("inventory/site.json");
+	$host_path 	= $shop->gethost("inventory/site.json",true);
+}
+
 if(isset($_POST['token']))  {
 	// A token was provided through $_POST data. Check if it is the same as our session token.
 	if($_POST['token'] == $_SESSION['token']) {
@@ -48,7 +57,7 @@ if(isset($_GET['action'])) {
 				case 'cancel':
 				echo "Checkout has been cancelled.";
 				// redirect to cart
-				header('Location: /shop/', true, 302);
+				header('Location: '.$host, true, 302);
 				exit;
 				break;
 				
@@ -56,7 +65,7 @@ if(isset($_GET['action'])) {
 				case 'paid':
 				
 				// update stock here.
-				header('Location: /shop/payment/paid/index.php?token='.$secure->sanitize($_SESSION['token'],'alphanum'), true, 302);
+				header('Location: '.$host.'/payment/paid/index.php?token='.$secure->sanitize($_SESSION['token'],'alphanum'), true, 302);
 				exit;
 				
 				break;	

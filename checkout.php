@@ -100,7 +100,7 @@ include("header.php");
 		
 		if(($c > 0) && ($c < 9999) ) {
 	?>
-		<form name="ts_cart" method="post" action="/shop/payment/paypal/checkout.php" id="ts-shop-cart-form-data">
+		<form name="ts_cart" method="post" action="<?=$host;?>payment/paypal/checkout.php" id="ts-shop-cart-form-data">
 		<input type="hidden" name="token" value="<?=$token;?>">
 		<input type="hidden" name="checkout-post-gateway" value="1">
 		<hr />

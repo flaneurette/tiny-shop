@@ -1,15 +1,84 @@
-<?php 
+<?php
+
+error_reporting(0);
+
+	include("resources/php/header.inc.php");
+	include("class.Shop.php");
+	
+	$shop  = new Shop();
+	
+	$token = $shop->getToken();
+	$_SESSION['token'] = $token;
+	
+	if(isset($_REQUEST['cat'])) {
+		$cat   = $shop->sanitize($_REQUEST['cat'],'cat');
+		$catid = $shop->getcatId($cat,$subcat=false);
+	}
+	
+	if(isset($_REQUEST['subcat'])) {
+		$cat    = $shop->sanitize($_REQUEST['cat'],'cat');
+		$subcat = $shop->sanitize($_REQUEST['subcat'],'cat');
+		$catid  = $shop->getcatId($cat,$subcat=false); // TODO: highlight subcats
+	}
+	
+?>
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=0.73">
+<?php
+echo $shop->getmeta();				
+?>
+</head>
+
+<body>
+
+<?php
+include("header.php");
+?>
+
+<div id="cart-contents"><a href="<?=$host;?>cart/">View Cart</a></div>
+<div id="wrapper">
+<h2>Store</h2>
+	<div id="ts-shop-result-message" onclick="tinyshop.togglecartmsg('close');"></div>
+		<!-- <h1>Shop product list</h1> -->
+			<div id="shop">
 			
-		error_reporting(E_ALL);
-		session_start();
+			<div id="ts-shop-nav-left">
+			<?php
+
+					// categories
+					$categories = "inventory/categories.json";
+					
+					// subcategories
+					$subcategories = "inventory/subcategories.json";
+					
+					$selected = [];
+					
+					if(isset($cat) != false) {
+						array_push($selected,$cat);
+					} 
+					
+					if(isset($subcat) != false) {
+						array_push($selected,$subcat);
+					} 
+					
+					$cats = $shop->categories($categories,$subcategories,$selected,'left');
+					
+					echo $cats;
+			?>
+			</div>
+			
+			<div id="ts-shop-nav">
+			<?php
+			
+		if(isset($_REQUEST['productid'])) {
+			$id = (int) $_REQUEST['productid'];
+		}
 		
-		include("class.Shop.php");
-		$shop  = new Shop();
-		$shoplist = $shop->decode();
-		
-		
-		$shop  = new Shop();
 		$product_list = $shop->decode();
+		
+		$base_url = $shop->getbase();
 
 		if($product_list !== null) {
 
@@ -20,38 +89,79 @@
 			$i = 0;
 			
 				foreach($product_list as $c) {	
+				
 					array_push($iv,$c);
-					$shop->cleanInput($c['title']);
+					
+					if($iv[$i]['product.id'] == $id) {
+
+						if($iv[$i]['product.status'] == '1') {
+
+							  $product_id 			= $shop->cleanInput($iv[$i]["product.id"]);
+							  $product_title 		= $shop->cleanInput($iv[$i]["product.title"]);
+							  $product_description 	= $shop->cleanInput($iv[$i]["product.description"]);
+							  $product_category 	= $shop->cleanInput($iv[$i]["product.category"]);
+							  $product_stock 		= $shop->cleanInput($iv[$i]["product.stock"]);
+							  $product_price 		= $shop->cleanInput($iv[$i]["product.price"]);
+							  $product_image 		= $shop->cleanInput($iv[$i]["product.image"]);
+							  
+						echo '<div class="product-box">
+								<div class="product-title">'.$product_title.'</div>
+								
+									<div class="product-subbox">
+									
+										<div class="product-image">
+										<img src="'.$base_url.$product_image.'" />
+										</div>
+										
+										<div class="product-details">
+											<div class="product-description">'.$product_description.'</div>
+											<div class="product-price">'.$product_price.'</div>
+											<div class="product-buynow">Buy</div>
+										</div>
+									
+									</div>
+								
+								<div class="product-images"></div>
+						</div>';
+	
+						} else {
+							echo "Product cannot be shown.";
+						}
+ 
+
+						break;
+					}
+					
 					$i++;
 				}
-			
-			echo "<pre>";
-			var_dump($iv);
-			echo "</pre>";
-			
-			echo '<table border="0" cellpadding="3" cellspacing="5" width="100%">';
-			$i = count($iv)-1;
-			
-			if($i >= 0) { 
-			$j=0;
-				while($i >= 0) {
-
-
-					$iv[$i];
-					echo "<tr>";
-					echo "<td><a href=\"".$iv[$i][0]."</td>";
-					echo $i."-".$j;
-					echo "</tr>";
-				$j++;
-				
-				
-				$i--;
-				}
-			}
-			
-			echo '</table>';
 
 		} else {
 			echo "<p class='book'><em>Shop database is empty... edit the JSON database and add a product.</em></p>";
 		}
+			?>
+			</div>
+			
+			</div>
+			<div id="ts-paginate">
+				<?php 
+					echo $shop->paginate(1);
+				?>
+			</div>
+			<!-- caller: method, opts, uri. -->
+</div>
+
+<?php
+include("footer.php");
 ?>
+<script>
+
+
+function categoryEvents() {
+	tinyshop.toggle(<?=$catid;?>,'8');
+}
+
+tinyshop.tinyEvents('categories');
+
+</script>
+</body>
+</html>

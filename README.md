@@ -1,7 +1,7 @@
 # Tiny Shop
 
 N.B. Under construction. 
-*december 2020: a beta demo version is ready. The Shop is workable and accepts PayPal payments.
+*december 2020: a beta demo version is ready. The Shop is workable and accepts PayPal payments. Blog, Articles and Themes are not fully functioning yet.*
 
 A tiny shop written in PHP and flat file JSON. Useful for small webshops that do not receive much web traffic, and for those who do not want to install unwieldy and large pieces of software that have too many features. A shop owner wants to sell a product, and that does not have to be complex.
 

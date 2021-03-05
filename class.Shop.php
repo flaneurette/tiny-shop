@@ -40,9 +40,10 @@ class Shop {
 	CONST MAXMERSENNE		= 0xffffffff; 	// Max. value of the Mersenne twister.
 	
 	CONST GATEWAYS 			= ["ACH","Alipay","Apple Pay","Bancontact","BenefitPay","Boleto Bancário","Citrus Pay","EPS","Fawry","Giropay","Google Pay","PayPal","KNET","Klarna","Mada","Multibanco","OXXO","Pago Fácil","Poli","Przelewy24","QPAY","Rapipago","SEPA Direct Debit","Sofort","Stripe","Via Baloto","iDEAL"];
-
+	
 	public function __construct() {
 		$incomplete = false;
+		$host = $this->getbase();
 	}
 	
 	// Password to encrypt JSON
@@ -50,6 +51,36 @@ class Shop {
 		return "thepasswordisyesterday";
 	}
 
+	public function getbase($path=false) 
+	{	
+	
+		$host_path 	= $this->gethost("inventory/site.json",true);
+		
+		$siteconf 	 = $this->load_json("inventory/site.json");
+		$result_url  = $this->getasetting($siteconf,'site.url');
+		$result_can  = $this->getasetting($siteconf,'site.canonical');
+
+		if($path == true) {
+			return $result_can['site.canonical'];
+		}
+		
+		$find 	 = ['http://','https://','http//','https//','www.','www','/']; // todo: make regex out of it.
+		$replace = ['','','','','','',''];
+
+		// build paths dynamically
+		$home  = 'https://';
+		$home .= str_replace($find,$replace,$result_url['site.url']);
+		$home .= '/';
+		$home .= $result_can['site.canonical'];
+		$home .= '/';
+		
+		return $home;
+	}
+	
+	public function host() {
+		return $this->getbase();
+	}
+	
 	/**
 	* Sanitizes user-input
 	* @param string
@@ -239,7 +270,19 @@ class Shop {
 			$url = 'inventory/site.json';
 		}
 		
-		$file = file_get_contents($url);
+		$url = str_replace('.json','',$url);
+		$url .= '.json';
+
+		if(file_exists($url)) {
+			$file = file_get_contents($url);
+			} elseif(file_exists('../'.$url)) {
+			$file = file_get_contents('../'.$url);
+			} elseif(file_exists('../../'.$url)) {
+			$file = file_get_contents('../../'.$url);
+			} else {
+			return false;
+		}
+		
 		$json = json_decode($file, true, self::DEPTH, JSON_BIGINT_AS_STRING);
 		
 		if($json !== NULL || $json != false) {
@@ -271,7 +314,7 @@ class Shop {
 
 	public function debug($rawdata) 
 	{
-		$string = "<pre>";
+		$string  = "<pre>";
 		$string .= print_r($rawdata);
 		$string .= "</pre>";
 		return $string;
@@ -502,6 +545,71 @@ class Shop {
 		} 
 	}
 	
+	public function navigation($host) { 
+	
+		$navigate = $this->load_json('inventory/navigation.json');
+	
+		$nav = '<nav>';
+		
+		$total = count($navigate);
+		
+		foreach($navigate as $n) {	
+				
+			if($n['nav.status'] =='1') {
+				$nav .= '<a href="'.$this->cleanInput($host.$n['nav.url']).'" target="_self">'.$this->cleanInput($n['nav.title']).'</a>' .PHP_EOL;
+			}
+		}
+
+		$nav .= '</nav>';
+		
+		return $nav;
+	}	
+	
+	public function getcatId($cat,$subcat) {
+		
+		// categories JSON
+		$categories = "inventory/categories.json";
+		
+		// subcategories JSON
+		$subcategories = "inventory/subcategories.json";
+
+		if(isset($cat) && ($subcat !=false)) {
+			
+			$category = $this->load_json($categories);
+			foreach($category as $c) {	
+				if($c['category.title'] == $cat) {
+					$catno = (int)($c['category.id'] -1);
+					break;
+				}
+			}
+			
+			// subcategories
+			$subcategory = $this->load_json($subcategories);
+			
+			foreach($subcategory as $sc) {	
+			
+				if(($sc['sub.category.title'] == str_replace('-',' ',$subcat)) && ($sc['sub.category.cat.id'] == $catno)) {
+					return (int)($sc['sub.category.cat.id'] -1);
+					break;
+				}
+			}
+			
+		} elseif(isset($cat)) {
+			
+			// categories
+			$category = $this->load_json($categories);
+				
+			foreach($category as $c) {	
+				if($c['category.title'] == $cat) {
+					return (int)($c['category.id'] -1);
+					break;
+				}
+			}
+			
+		} else {
+		return false;
+		}
+	}
 
 	public function categories($categories,$subcategories,$selected=false,$direction) { 
 
@@ -527,6 +635,9 @@ class Shop {
 					}			
 				}
 			}
+		
+			// get host
+			$hostaddr = $this->getbase();
 		
 			// categories
 			$categories = $this->load_json($categories);
@@ -557,27 +668,30 @@ class Shop {
 				
 				if($c['category.title'] !='') {
 					
-					if($catselected == $c['category.title']) {
-						$html .= '<li class="ts-shop-'.$cssdirection.'-navigation-cat-selected" onclick="tinyshop.toggle(\''.$i.'\',\''.$totalcats.'\');" id="cat'.$i.'">'.$c['category.title'].'</li>'.PHP_EOL;
+					if(isset($catselected) == isset($c['category.title'])) {
+						$html .= '<li class="ts-shop-'.$cssdirection.'-navigation-cat-selected" onclick="tinyshop.toggle(\''.$i.'\',\''.$totalcats.'\');" id="cat'.$i.'"><a href="'.$hostaddr.'category/'.$this->seoUrl($c['category.title']).'/">'.$c['category.title'].'</a></li>'.PHP_EOL;
 						} else {
-						$html .= '<li class="ts-shop-'.$cssdirection.'-navigation-cat" onclick="tinyshop.toggle(\''.$i.'\',\''.$totalcats.'\');" id="cat'.$i.'">'.$c['category.title'].'</li>'.PHP_EOL;
+						$html .= '<li class="ts-shop-'.$cssdirection.'-navigation-cat" onclick="tinyshop.toggle(\''.$i.'\',\''.$totalcats.'\');" id="cat'.$i.'"><a href="'.$hostaddr.'category/'.$this->seoUrl($c['category.title']).'/">'.$c['category.title'].'</a></li>'.PHP_EOL;
 					}
 					
 					$catid = (int)$c['category.id'];
 					
 					$j = 0;
-					foreach($subcategories as $sc) {	
-						if($catid == $sc['sub.category.cat.id']) {
-							if($j == 0) {
-								$html .= '<ul class="ts-shop-'.$cssdirection.'-navigation-subcat" id="toggle'.$i.'">'.PHP_EOL;
+					
+					if($totalsubcats >=1) {
+						foreach($subcategories as $sc) {	
+							if($catid == $sc['sub.category.cat.id']) {
+								if($j == 0) {
+									$html .= '<ul class="ts-shop-'.$cssdirection.'-navigation-subcat" id="toggle'.$i.'">'.PHP_EOL;
+								}
+								
+								if(isset($subcatselected) == isset($c['sub.category.title'])) {
+								$html .= '<li class="ts-shop-'.$cssdirection.'-navigation-subcat-item-selected"><a href="'.$hostaddr.'category/'.$this->seoUrl($c['category.title']).'/'.$this->seoUrl($sc['sub.category.title']).'/">'.$sc['sub.category.title'].'</a></li>'.PHP_EOL;
+								} else {
+								$html .= '<li class="ts-shop-'.$cssdirection.'-navigation-subcat-item"><a href="'.$hostaddr.'category/'.$this->seoUrl($c['category.title']).'/'.$this->seoUrl($sc['sub.category.title']).'/">'.$sc['sub.category.title'].'</a></li>'.PHP_EOL;	
+								}
+								$j++;
 							}
-							
-							if($subcatselected == $c['sub.category.title']) {
-							$html .= '<li class="ts-shop-'.$cssdirection.'-navigation-subcat-item-selected"><a href="category/'.$this->seoUrl($c['category.title']).'/'.$this->seoUrl($sc['sub.category.title']).'/">'.$sc['sub.category.title'].'</a></li>'.PHP_EOL;
-							} else {
-							$html .= '<li class="ts-shop-'.$cssdirection.'-navigation-subcat-item"><a href="category/'.$this->seoUrl($c['category.title']).'/'.$this->seoUrl($sc['sub.category.title']).'/">'.$sc['sub.category.title'].'</a></li>'.PHP_EOL;	
-							}
-							$j++;
 						}
 					}
 					
@@ -591,8 +705,8 @@ class Shop {
 			$html .= '</ul>';
 			
 			return $html;
-	}
-	
+	}	
+		
 	/**
 	* Returns a product list, by reading shop.json.
 	* @param method: list|group.	
@@ -602,21 +716,13 @@ class Shop {
 	*/		
 	public function getproducts($method,$category,$string=false,$token) 
 	{
-		
-		$siteconf = $this->load_json("inventory/site.json");
-		$result = $this->getasetting($siteconf,'site.url');
-		
-		$find = ['http://','https://','www.','/'];
-		$replace = ['','','',''];
-
-		$home  = 'https://';
-		$home .= str_replace($find,$replace,$result['site.url']);
-		$home .= '/shop/';
 	
 		isset($string) ? $this->$string = $string : $string = false;
 		isset($category) ? $this->$category = $category : $category = false;
 		isset($page_id) ? $this->page_id = (int)$_GET['page_id'] : $this->page_id = 1;
 	
+		$hostaddr = $this->getbase();
+		
 		// Loading the shop configuration.
 		$shopconf = $this->load_json("inventory/shop.conf.json");
 		$configuration = [];
@@ -649,9 +755,14 @@ class Shop {
 
 			$shoplist = $productlist;
 			$ts 	  = array(); 
-			$i 		  = count($ts)-1;
-		
+			$i 		  = count($ts);
+			$j 		  = 0;
+			
+			$i = count($ts)-1;
+			
 			foreach($productlist as $c) {	
+			
+				$j++;
 			
 				if($i >= $configuration[0]['products.per.page']) {
 					$this->message('Too many products in category, try to generate pagination.');
@@ -674,6 +785,10 @@ class Shop {
 				}
 			}
 			
+			if($j <= 0) {
+				return '<div id="ts-products-noproducts">There are no products in this category.</div>';
+			}
+			
 			if($method == 'array') {
 				return $ts;
 				exit;
@@ -683,36 +798,41 @@ class Shop {
 			
 				while($i >= 0) {
 					
-					if($ts[$i]['product.stock'] <= 3) {
+					if(isset($ts[$i]['product.stock']) <= 3) {
 						$status = 'ts-product-status-red'; // low stock
 						} else {
 						$status = 'ts-product-status-green';
 					}
 					
-					if($ts[$i]['product.image'] != "") {
-						$productimage = '<div class="ts-product-image-div"><img src="'.$home.$this->cleanInput($ts[$i]['product.image']).'" class="ts-product-image"/></div>';
+					if(isset($ts[$i]['product.image']) != "") {
+						$productimage = '<div class="ts-product-image-div"><img src="'.$hostaddr.$this->cleanInput($ts[$i]['product.image']).'" class="ts-product-image"/></div>';
 						} else {
 						$productimage = '<div class="ts-product-image-icon">&#128722;</div>';
 					}				
 					
 					switch($method) {
 						
-						case 'list':		
-						$string .= "<div class=\"ts-product-list\">";
-						$string .= $productimage;
-						$string .= "<div class=\"ts-list-product-link\"><a href=\"item/".$this->seoUrl($this->cleanInput($ts[$i]['product.category'])).'/'.$this->seoUrl($this->cleanInput($ts[$i]['product.title'])).'/'.$this->cleanInput($ts[$i]['product.id'])."/".(int)$this->page_id."/\">".$this->maxstring($this->cleanInput($ts[$i]['product.title']),10,false)."</a> </div>";
-						$string .= "<div class=\"ts-list-product-desc\">".$this->maxstring($this->cleanInput($ts[$i]['product.description']),30,true)."</div>";
-					    // $string .= "<div class=\"ts-list-product-cat\">".$this->cleanInput($ts[$i]['product.category'])."</div>";
-						$string .= "<div class=\"ts-list-product-price\">".$this->getsitecurrency('inventory/site.json','inventory/currencies.json').' '.$this->cleanInput($ts[$i]['product.price'])."</div>";
-						$string .= "<div class=\"ts-list-product-status\">left in stock.<div class=\"".$status."\">".$this->cleanInput($ts[$i]['product.stock'])."</div></div>";
-						
-						if($configuration[0]['products.quick.cart'] == 'yes') {
-							$string .= "<div><input type='number' name='qty' size='1' value='1' min='1' max='9999' id='ts-group-cart-qty-".$i.'-'.$ts[$i]['product.id']."'><input type='button' onclick='tinyshop.addtocart(\"".$ts[$i]['product.id']."\",\"ts-group-cart-qty-".$i.'-'.$ts[$i]['product.id']."\",\"".$token."\");' class='ts-list-cart-button' name='add_cart' value='".$this->cleanInput($configuration[0]['products.cart.button'])."' /></div>";
-							} else {
-							$string .= "<div class='ts-list-view-link'><a href=\"product/".$this->cleanInput($ts[$i]['product.id'])."/\">view</a></div>";
-						}
-						
-						$string .= "</div>";
+						case 'list':
+
+						if(isset($ts[$i]['product.description'])) {
+
+							$string .= "<div class=\"ts-product-list\">";
+							$string .= $productimage;
+							$string .= "<div class=\"ts-list-product-link\"><a href=\"item/".$this->seoUrl($this->cleanInput($ts[$i]['product.category'])).'/'.$this->seoUrl($this->cleanInput($ts[$i]['product.title'])).'/'.$this->cleanInput($ts[$i]['product.id'])."/".(int)$this->page_id."/\">".$this->maxstring($this->cleanInput($ts[$i]['product.title']),10,false)."</a> </div>";
+							$string .= "<div class=\"ts-list-product-desc\">".$this->maxstring($this->cleanInput($ts[$i]['product.description']),30,true)."</div>";
+							// $string .= "<div class=\"ts-list-product-cat\">".$this->cleanInput($ts[$i]['product.category'])."</div>";
+							$string .= "<div class=\"ts-list-product-price\">".$this->getsitecurrency('inventory/site.json','inventory/currencies.json').' '.$this->cleanInput($ts[$i]['product.price'])."</div>";
+							$string .= "<div class=\"ts-list-product-status\">left in stock.<div class=\"".$status."\">".$this->cleanInput($ts[$i]['product.stock'])."</div></div>";
+							
+							if(isset($configuration[0]['products.quick.cart']) == 'yes') {
+								$string .= "<div><input type='number' name='qty' size='1' value='1' min='1' max='9999' id='ts-group-cart-qty-".$i.'-'.$ts[$i]['product.id']."'><input type='button' onclick='tinyshop.addtocart(\"".$ts[$i]['product.id']."\",\"ts-group-cart-qty-".$i.'-'.$ts[$i]['product.id']."\",\"".$token."\",\"".$hostaddr."\");' class='ts-list-cart-button' name='add_cart' value='".$this->cleanInput($configuration[0]['products.cart.button'])."' /></div>";
+								} else {
+								$string .= "<div class='ts-list-view-link'><a href=\"product/".$this->cleanInput($ts[$i]['product.id'])."/\">view</a></div>";
+							}
+							
+							$string .= "</div>";
+						} 
+		
 						break;
 						
 						case 'group':		
@@ -724,9 +844,9 @@ class Shop {
 						// $string .= "<div class=\"ts-group-product-cat\">".$this->cleanInput($ts[$i]['product.category'])."</div>";
 						$string .= "<div class=\"ts-group-product-status\">left in stock.<div class=\"".$status."\">".$this->cleanInput($ts[$i]['product.stock'])."</div></div>";
 						
-						if($configuration[0]['products.quick.cart'] == 'yes') {
+						if(isset($configuration[0]['products.quick.cart']) == 'yes') {
 							
-							$string .= "<div><input type='number' name='qty' size='1' min='1' max='9999' value='1' id='ts-group-cart-qty-".$i.'-'.$ts[$i]['product.id']."'><input type='button' onclick='tinyshop.addtocart(\"".$ts[$i]['product.id']."\",\"ts-group-cart-qty-".$i.'-'.$ts[$i]['product.id']."\",\"".$token."\");' class='ts-group-cart-button' name='add_cart' value='".$this->cleanInput($configuration[0]['products.cart.button'])."' /></div>";
+							$string .= "<div><input type='number' name='qty' size='1' min='1' max='9999' value='1' id='ts-group-cart-qty-".$i.'-'.$ts[$i]['product.id']."'><input type='button' onclick='tinyshop.addtocart(\"".$ts[$i]['product.id']."\",\"ts-group-cart-qty-".$i.'-'.$ts[$i]['product.id']."\",\"".$token."\",\"".$host."\");' class='ts-group-cart-button' name='add_cart' value='".$this->cleanInput($configuration[0]['products.cart.button'])."' /></div>";
 							} else {
 							$string .= "<div class='ts-group-view-link'><a href=\"product/".$this->cleanInput($ts[$i]['product.id'])."/\">view</a></div>";
 						}
@@ -744,7 +864,6 @@ class Shop {
 		
 		return $string;
 	}
-	
 	
 	public function getproductlist($json) {
 		
@@ -929,16 +1048,21 @@ class Shop {
 		return $html;
 	}
 
-	public function gethost($json) 
+	public function gethost($json,$shoppath=false)   
 	{
-		$siteconf 	= $this->load_json($json);
-		$result 	= $this->getasetting($siteconf,'site.url');
+		$siteconf 		= $this->load_json($json);
+		$result 		= $this->getasetting($siteconf,'site.url');
+		$result_path 	= $this->getasetting($siteconf,'site.canonical');
 		
 		$find 		= ['http://','https://','www.','/'];
 		$replace 	= ['','','',''];
 		
 		$home  		= 'https://';
 		$home 	   .= str_replace($find,$replace,$result['site.url']);
+		
+		if($shoppath==true) {
+			$home  .= '/' . $result_path['site.canonical'] . '/';
+		}
 		
 		return $home;
 	}
@@ -1095,7 +1219,7 @@ class Shop {
 							
 							if($key == 'newsletter') {
 								$html .= "<label>".ucfirst($key)."</label>";
-								$html .="<input type=\"checkbox\" id=\"".$keycss."\" name=\"".$key."\">";	
+								$html .= "<input type=\"checkbox\" id=\"".$keycss."\" name=\"".$key."\">";	
 								} else {
 								$html .= "<label>".ucfirst($key)."</label>";
 								$html .= "<input type=\"text\" id=\"".$keycss."\" name=\"".$key."\">";

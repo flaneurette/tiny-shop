@@ -24,7 +24,7 @@ echo $shop->getmeta();
 include("header.php");
 ?>
 
-<div id="cart-contents"><a href="/shop/cart/">View Cart</a></div>
+<div id="cart-contents"><a href="<?=$host;?>cart/">View Cart</a></div>
 <div id="wrapper">
 <h2>Store</h2>
 	<div id="ts-shop-result-message" onclick="tinyshop.togglecartmsg('close');"></div>
