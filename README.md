@@ -42,15 +42,13 @@ Tiny Shop makes (real-time) automatic backups of the JSON database each time a p
 # SEO
 Tiny Shop creates SEO friendly URL's of all products.
 
-# Site.csv|json
-
-This file contains site wide settings, such as meta tags, logo, javascripts and stylesheets.
-
-
-
 # CSV & JSON files of interest
 
-Most CSV and JSOn files can be edited, and it is advised to do so for TinyShop to work properly. A few are listed below that are required to be edited:
+Most CSV and JSON files can be edited, and it is advised to do so for TinyShop to work properly. A few are listed below that are required to be edited:
+
+- Site.csv|json
+
+This file contains site wide settings, such as meta tags, logo, javascripts and stylesheets.
 
 - Navigation.csv|json
 
@@ -70,7 +68,7 @@ This file contains the subcategories that are loaded in the left-side navigation
 
 - payment/paypal/paypal.csv|json
 
-This file contains the PayPal information. Upon installation, the PayPal e-mailadress will be asked and is written to this file. Further information could be chnaged manually, such as return pages and cencellation pages.
+This file contains the PayPal information. Upon installation, the PayPal e-mailadress will be asked and is written to this file. Further information could be changed manually, such as return pages and cancellation pages.
 
 - Currencies.csv|json
 
