@@ -46,39 +46,41 @@ Tiny Shop creates SEO friendly URL's of all products.
 
 This file contains site wide settings, such as meta tags, logo, javascripts and stylesheets.
 
-# Navigation.csv|json
 
-TinyShop has a preset navigation which can be changed according to one's wishes. Currently, TinyShop does not support dropdown navigation only a horizontal navigation bar. This might change in future versions. Navigation supports relative paths only. 
 
 # CSV & JSON files of interest
 
 Most CSV and JSOn files can be edited, and it is advised to do so for TinyShop to work properly. A few are listed below that are required to be edited:
 
-# Shop.csv|json
+- Navigation.csv|json
+
+TinyShop has a preset navigation which can be changed according to one's wishes. Currently, TinyShop does not support dropdown navigation only a horizontal navigation bar. This might change in future versions. Navigation supports relative paths only. 
+
+- Shop.csv|json
 
 This file contains all shop products. By default, preset shop products are loaded and displayed.
 
-# Categories.csv|json
+- Categories.csv|json
 
 This file contains the categories that are loaded in the left-side navigation bar.
 
-# Subcategories.csv|json
+- Subcategories.csv|json
 
 This file contains the subcategories that are loaded in the left-side navigation bar and displayed under each particular category.
 
-# payment/paypal/paypal.csv|json
+- payment/paypal/paypal.csv|json
 
 This file contains the PayPal information. Upon installation, the PayPal e-mailadress will be asked and is written to this file. Further information could be chnaged manually, such as return pages and cencellation pages.
 
-# Currencies.csv|json
+- Currencies.csv|json
 
 This file contains all currencies, normally this file needs not to be changed.
 
-# Articles.csv|json
+- Articles.csv|json
 
 This file contains all the articles, if written and displayed under the navigation of artiles.
 
-# Blog.csv|json
+- Blog.csv|json
 
 This file contains all the weblogs, if written and displayed under the navigation of weblog or blog.
 
