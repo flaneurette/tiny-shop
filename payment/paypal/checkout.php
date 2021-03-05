@@ -8,7 +8,8 @@
 	$session->sessioncheck();
 	
 	$shop  		= new Shop();
-	$shopconf 	= $shop->load_json("paypal.json");
+	
+	$shopconf = $shop->load_json("paypal.json");
 	
 	if(!empty($_GET)) {	
 		$shop->message('Gateway cannot be accessed this way. Please open the cart on the shop website.');

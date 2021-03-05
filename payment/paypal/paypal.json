@@ -1,6 +1,6 @@
 [
     {
-        "paypal.domain": "http://127.0.0.1",
+        "paypal.domain": "https://127.0.0.1",
         "paypal.cancel.page": "/shop/cart/cancel/",
         "paypal.return.page": "/shop/cart/payed/",
         "paypal.email": "info@website.com",

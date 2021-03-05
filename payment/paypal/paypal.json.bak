@@ -1,9 +1,9 @@
 [
     {
-        "paypal.domain": "https://www.website.com",
+        "paypal.domain": "https://127.0.0.1",
         "paypal.cancel.page": "/shop/cart/cancel/",
         "paypal.return.page": "/shop/cart/payed/",
-        "paypal.email": "info@protonmail.com",
+        "paypal.email": "info@website.com",
         "paypal.notify.url": "/shop/cart/ipn/",
         "paypal.currency.code": "USD",
         "paypal.custom.field": "",

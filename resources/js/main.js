@@ -10,7 +10,20 @@ var tinyshop = {
 	instanceid: 1e5,
 	messagecode: 1e5,
 	csp: ["Access-Control-Allow-Origin","*"],
-
+	
+	tinyEvents: function(ev) {
+		
+		switch(ev) {
+			case 'categories':
+			document.addEventListener("DOMContentLoaded", categoryEvents);
+			break;
+			case 'navigation':
+			document.addEventListener("DOMContentLoaded", navigationEvents);		
+			break;
+		}
+		return;
+	},
+	
 	xhr: function() {
 
 		var objxml = null;
@@ -440,7 +453,7 @@ var tinyshop = {
 	* Site specific functions
 	*/
 	
-	addtocart: function(productId,qtyformId,token) {
+	addtocart: function(productId,qtyformId,token,path) {
 		
 		if(!token) {
 			var token = 'invalid';
@@ -452,24 +465,35 @@ var tinyshop = {
 			var quantity = 1;
 		}
 		
+		if(!path) {
+			//var path = 'shop';
+		} 
+		
 		this.id  = this.math('int',productId,1);
 		this.qty = this.math('int',quantity, 1);
 		
-		this.fetchHTML('POST','/shop/cart/addtocart/' + this.instanceid + '/', 'action=addtocart&id='+this.id+'&qty='+this.qty+'&token='+token, 'ts-shop-result-message');
+		this.fetchHTML('POST', path + '/cart/addtocart/' + this.instanceid + '/', 'action=addtocart&id='+this.id+'&qty='+this.qty+'&token='+token, 'ts-shop-result-message');
 		this.togglecartmsg('open');
 	},
 	
-	deletefromcart: function(id,token) {
+	deletefromcart: function(id,token,path) {
+
+		if(!path) {
+			var path = '/shop/';
+		} 
 		
 		if(!token) {
 			this.dom('ts-shop-result-message','Token was not set.');
 		}
 		
-		this.fetchHTML('POST','/shop/cart/delete/' + this.instanceid + '/', 'action=deletefromcart&id='+this.math('int',id)+'&token='+token,false,'/shop/cart/');
-		
+		this.fetchHTML('POST', 'delete/' + this.instanceid + '/', 'action=deletefromcart&id='+this.math('int',id)+'&token='+token,false,'/'+path+'/cart/');
 	},
 	
-	updatecart: function(id,qtyId,token) {
+	updatecart: function(id,qtyId,token,path) {
+
+		if(!path) {
+			//var path = 'shop';
+		} 
 		
 		if(!token) {
 			this.dom('ts-shop-result-message','Token was not set.');
@@ -484,7 +508,7 @@ var tinyshop = {
 		this.id  = this.math('int',id,1);
 		this.qty = this.math('int',qty, 1);
 		
-		this.fetchHTML('POST','/shop/cart/update/' + this.instanceid + '/', 'action=updatecart&id='+this.id+'&qty='+this.qty+'&token='+token,false,'/shop/cart/');
+		this.fetchHTML('POST', 'update/' + this.instanceid + '/', 'action=updatecart&id='+this.id+'&qty='+this.qty+'&token='+token,false,'');
 		
 	},
 	

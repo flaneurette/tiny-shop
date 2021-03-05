@@ -271,12 +271,19 @@ hr {
 /** Store styling.
 */
 
-#ts.shop.logo {
+#ts-shop-logo {
 	
 }
 
-#ts.shop.error {
+#ts-shop-error {
 	
+}
+
+#ts-products-noproducts {
+	background-color: #f2f2f2;
+	border: 1px solid #333;
+	padding:5px;
+	margin-left:20px;
 }
 
 .ts-shop-ul {
@@ -974,4 +981,46 @@ label {
 	background-color: #fff;
 	border: 1px solid #ced4da;
 	border-radius: .15rem;
+}
+
+/***
+/** product page styling.
+*/
+
+.product-box div {
+	border: 1px solid #000;
+	padding:5px;
+	margin:5px;
+}
+
+.product-box {
+
+}
+
+.product-title {
+	
+}
+
+.product-subbox {
+	
+}
+.product-image {
+	float:left;
+	margin:auto;
+}
+.product-details {
+	margin:auto;
+}
+.product-description {
+	float:left;
+}
+
+.product-price {
+
+}
+.product-buynow {
+	float:right;
+}
+.product-images {
+	float:left;
 }

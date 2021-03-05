@@ -15,13 +15,15 @@
 		$token = $shop->getToken();
 		$_SESSION['token'] = $token;
 	}
-		
+
+	$host_path = $shop->getbase(true);
+
 	/* Get the currency of site.json
 	*  To change the default currency, edit site.json which has a numeric value that corresponds to the values inside currencies.json.
 	*  DO NOT edit currencies.json, unless adding a new currency, as this file is used throughout TinyShop and might break functionality.
 	*/
 	
-	//$sitecurrency = $shop->getsitecurrency();
+	// $sitecurrency = $shop->getsitecurrency();
 	
 	echo $shop->debug($_POST);
 	
@@ -47,7 +49,7 @@
 		if(($c > 0) && ($c < 9999) ) {
 			
 	?>
-		<form name="ts_cart" method="post" action="/shop/cart/checkout/" id="ts-shop-cart-form-data">
+		<form name="ts_cart" method="post" action="<?=$host;?>/cart/checkout/" id="ts-shop-cart-form-data">
 		
 		<hr />
 		<ul class="ts-shop-ul">
@@ -106,9 +108,9 @@
 					<div class="ts-shop-ul-li-item"><?=$productdesc;?><!-- desc --></div>
 					<div class="ts-shop-ul-li-item"><?=$sitecurrency;?> <?=$productprice;?><!-- price --></div>
 					<div class="ts-shop-ul-li-item"><input type="number" id="<?=$qtyid;?>" size="1" min="1" max="9999" value="<?=$productqty;?>"></div>
-					<div class="ts-shop-ul-li-item"><a href="#" onclick="tinyshop.updatecart('<?=$product;?>','<?=$qtyid;?>','<?=$token;?>');">&#x21bb;</a></div>
+					<div class="ts-shop-ul-li-item"><a href="#" onclick="tinyshop.updatecart('<?=$product;?>','<?=$qtyid;?>','<?=$token;?>','<?=$host_path;?>');">&#x21bb;</a></div>
 					<div class="ts-shop-ul-li-item">Total: <?=$sitecurrency;?> <?=$productsum;?><!-- sum --></div>
-					<div class="ts-shop-ul-li-item" id="ts-shop-delete"><a href="#" onclick="tinyshop.deletefromcart('<?=$product;?>','<?=$token;?>');">&#x2716;</a>
+					<div class="ts-shop-ul-li-item" id="ts-shop-delete"><a href="#" onclick="tinyshop.deletefromcart('<?=$product;?>','<?=$token;?>','<?=$host_path;?>');">&#x2716;</a>
 					</div>
 				</li>
 			<?php
@@ -126,9 +128,9 @@
 			<option value="">Select payment method...</option>
 			<?php
 				// dynamically generate payment gateways from site.json
-				//$siteconf = $shop->load_json("../inventory/site.json");
-				//$keys = 'site.payment.gateways';
-				//echo $shop->gatewaylist($siteconf,$keys);
+				// $siteconf = $shop->load_json("../inventory/site.json");
+				// $keys = 'site.payment.gateways';
+				// echo $shop->gatewaylist($siteconf,$keys);
 			?>
 			</select>
 			
