@@ -1,7 +1,5 @@
 # Tiny Shop
 
-Most recent live demo: https://flaneurette.work/shopping/
-
 A tiny shop written in PHP and flat file JSON. Useful for small webshops that do not receive much web traffic, and for those who do not want to install unwieldy and large pieces of software that have too many features. A shop owner wants to sell a product, and that does not have to be complex.
 
 Tiny shop will be ideal for clients who make one-time single purchases, handmade or boutique items such as: art prints, antiques, music, jewelry, books and stationary. It is not recommended for mass retail and high volume shops, eventhough it can compete with regards to speed and delivery due to a lean architecture and adequate JSON caching.
