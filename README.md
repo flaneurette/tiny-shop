@@ -1,6 +1,6 @@
 # Tiny Shop
 
-Most recent live demo: https://flaneurette.work/demospace/shopping/
+Most recent live demo: https://flaneurette.work/shopping/
 
 A tiny shop written in PHP and flat file JSON. Useful for small webshops that do not receive much web traffic, and for those who do not want to install unwieldy and large pieces of software that have too many features. A shop owner wants to sell a product, and that does not have to be complex.
 
