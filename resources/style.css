@@ -951,11 +951,11 @@ label {
 }
 
 #ts-shop-nav-left {
-	width:100px;
+	width: 100px;
 	float: left;
-	margin:0px;
-	display:inline-block;
-	height:450px;
+	margin: 0px;
+	display: inline-block;
+	height: 450px;
 }
 
 #ts-shop-nav-right {
@@ -988,9 +988,7 @@ label {
 */
 
 .product-box div {
-	border: 1px solid #000;
-	padding:5px;
-	margin:5px;
+	border: 0px solid #000;
 }
 
 .product-box {
@@ -1007,19 +1005,30 @@ label {
 .product-image {
 	float:left;
 	margin:auto;
+	margin:0px;
 }
 .product-details {
 	margin:auto;
 }
 .product-description {
 	float:left;
+	width:50%;
+	padding-left:15px;
 }
 
 .product-price {
-
+	padding:5px;
+	margin:5px;
+	margin-left:5px;
+	border: 1px solid #000;
 }
 .product-buynow {
-	float:right;
+	float:left;
+	width:80px;
+	text-align:center;
+	padding:5px;
+	margin:5px;
+	border: 1px solid #ff0;
 }
 .product-images {
 	float:left;
