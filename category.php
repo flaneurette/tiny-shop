@@ -74,11 +74,11 @@ include("header.php");
 			
 			if(isset($cat)) {
 				$products = $shop->getproducts('list',$cat,false,$_SESSION['token']);				
-				echo $products;				
+				echo $products;
 			} elseif(isset($subcat)) {
 				$products = $shop->getproducts('list',$subcat,false,$_SESSION['token']);				
-				echo $products;				
-			} else {}			
+				echo $products;
+			} else { }	
 
 			?>
 			</div>

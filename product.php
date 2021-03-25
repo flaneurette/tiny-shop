@@ -11,15 +11,22 @@ error_reporting(0);
 	$_SESSION['token'] = $token;
 	
 	if(isset($_REQUEST['cat'])) {
-		$cat   = $shop->sanitize($_REQUEST['cat'],'cat');
-		$catid = $shop->getcatId($cat,$subcat=false);
+		$cat 		= $shop->sanitize($_REQUEST['cat'],'cat');
+		$product 	= $shop->sanitize($_REQUEST['product'],'cat');
+		$productid	= $shop->sanitize($_REQUEST['productid'],'num');
+		$page 		= $shop->sanitize($_REQUEST['page'],'num');
+		$catid  	= $shop->getcatId($cat,$subcat=false); // TODO: highlight subcats
 	}
 	
-	if(isset($_REQUEST['subcat'])) {
-		$cat    = $shop->sanitize($_REQUEST['cat'],'cat');
-		$subcat = $shop->sanitize($_REQUEST['subcat'],'cat');
-		$catid  = $shop->getcatId($cat,$subcat=false); // TODO: highlight subcats
+	// get host
+	if(isset($shop)) {
+		$hostaddr = $shop->getbase();
+		} else {
+		echo "Could not load Shop.class.php";
+		exit;
 	}
+			
+	// var_dump($_REQUEST);
 	
 ?>
 <!DOCTYPE html>
@@ -62,7 +69,7 @@ include("header.php");
 					if(isset($subcat) != false) {
 						array_push($selected,$subcat);
 					} 
-					
+				
 					$cats = $shop->categories($categories,$subcategories,$selected,'left');
 					
 					echo $cats;
@@ -70,84 +77,73 @@ include("header.php");
 			</div>
 			
 			<div id="ts-shop-nav">
-			<?php
+		<?php
 			
-		if(isset($_REQUEST['productid'])) {
-			$id = (int) $_REQUEST['productid'];
-		}
-		
-		$product_list = $shop->decode();
-		
-		$base_url = $shop->getbase();
+			if(isset($_REQUEST['productid'])) {
+				$id = (int) $_REQUEST['productid'];
+			}
+			
+			$product_list = $shop->decode();
+			
+			$base_url = $shop->getbase();
 
-		if($product_list !== null) {
+			if($product_list !== null) {
 
-			$shoplist = $product_list;
-			
-			$iv = array();
-			
-			$i = 0;
-			
-				foreach($product_list as $c) {	
+				$shoplist = $product_list;
 				
-					array_push($iv,$c);
+				$iv = array();
+				
+				$i = 0;
+				
+					foreach($product_list as $c) {	
 					
-					if($iv[$i]['product.id'] == $id) {
+						array_push($iv,$c);
+						
+						if($iv[$i]['product.id'] == $id) {
 
-						if($iv[$i]['product.status'] == '1') {
+							if($iv[$i]['product.status'] == '1') {
 
-							  $product_id 			= $shop->cleanInput($iv[$i]["product.id"]);
-							  $product_title 		= $shop->cleanInput($iv[$i]["product.title"]);
-							  $product_description 	= $shop->cleanInput($iv[$i]["product.description"]);
-							  $product_category 	= $shop->cleanInput($iv[$i]["product.category"]);
-							  $product_stock 		= $shop->cleanInput($iv[$i]["product.stock"]);
-							  $product_price 		= $shop->cleanInput($iv[$i]["product.price"]);
-							  $product_image 		= $shop->cleanInput($iv[$i]["product.image"]);
-							  
-						echo '<div class="product-box">
-								<div class="product-title">'.$product_title.'</div>
-								
-									<div class="product-subbox">
-									
-										<div class="product-image">
-										<img src="'.$base_url.$product_image.'" />
+								  $product_id 			= $shop->cleanInput($iv[$i]["product.id"]);
+								  $product_title 		= $shop->cleanInput($iv[$i]["product.title"]);
+								  $product_description 	= $shop->cleanInput($iv[$i]["product.description"]);
+								  $product_category 	= $shop->cleanInput($iv[$i]["product.category"]);
+								  $product_stock 		= $shop->cleanInput($iv[$i]["product.stock"]);
+								  $product_price 		= $shop->cleanInput($iv[$i]["product.price"]);
+								  $product_image 		= $shop->cleanInput($iv[$i]["product.image"]);
+
+							$string_button = "<div><input type='number' name='qty' size='1' value='1' min='1' max='9999' id='ts-group-cart-qty-".$i.'-'.$product_id."'><input type='button' onclick='tinyshop.addtocart(\"".$product_id."\",\"ts-group-cart-qty-".$i.'-'.$product_id."\",\"".$token."\",\"".$hostaddr."\");' class='ts-list-cart-button' name='add_cart' value='Add to Cart' /></div>";
+							
+							echo '<div class="product-box">
+									<div class="product-title">'.$product_title.'</div>
+										<div class="product-subbox">
+											<div class="product-image">
+												<img src="'.$base_url.$product_image.'" />
+											</div>
+											<div class="product-details">
+												<div class="product-description">'.$shop->formatter($product_description,'product-description').'</div>
+												<div class="product-price">'.$shop->getsitecurrency($hostaddr.'inventory/site.json',$hostaddr.'inventory/currencies.json').' '.$product_price.'</div>
+												<a href="#"><div class="product-buynow">'.$string_button.'</div></a>
+											</div>
 										</div>
-										
-										<div class="product-details">
-											<div class="product-description">'.$product_description.'</div>
-											<div class="product-price">'.$product_price.'</div>
-											<div class="product-buynow">Buy</div>
-										</div>
-									
-									</div>
-								
-								<div class="product-images"></div>
-						</div>';
-	
-						} else {
-							echo "Product cannot be shown.";
+									<div class="product-images"></div>
+							</div>';
+							
+							} else {
+								echo "Product cannot be shown.";
+							}
+	 
+							break;
 						}
- 
-
-						break;
+						
+						$i++;
 					}
-					
-					$i++;
-				}
 
-		} else {
-			echo "<p class='book'><em>Shop database is empty... edit the JSON database and add a product.</em></p>";
-		}
-			?>
-			</div>
-			
-			</div>
-			<div id="ts-paginate">
-				<?php 
-					echo $shop->paginate(1);
-				?>
-			</div>
-			<!-- caller: method, opts, uri. -->
+			} else {
+				echo "<p class='book'><em>Shop database is empty... edit the JSON database and add a product.</em></p>";
+			}
+		?>
+		</div>
+		</div>
 </div>
 
 <?php

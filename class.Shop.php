@@ -27,7 +27,7 @@ class Shop {
 	CONST BACKUPEXT				= ".bak"; 
 	CONST FILE_ENC				= "UTF-8";
 	CONST FILE_OS				= "WINDOWS-1252"; // only for JSON and CSV, not the server architecture.
-	CONST MAXINT  				= 9999999;
+	CONST MAXINT  				= 999999999;
 	CONST DEPTH				= 1024;
 	CONST MAXWEIGHT				= 10000;
 	CONST MAXTITLE				= 255; // Max length of title.
@@ -131,11 +131,10 @@ class Shop {
 	* @return string
 	*/
 	
-	public function sanitize($string,$method='',$buffer=255) 
+	public function sanitize($string,$method='') 
 	{
 		
 		$data = '';
-		$strbf = '';
 		
 		switch($method) {
 			
@@ -159,7 +158,7 @@ class Shop {
 
 			case 'email':
 			case 'cat':
-				$this->data =  preg_replace('/[^a-zA-Z-0-9\.@\-_]/','', $string);
+				$this->data =  preg_replace('/[^a-zA-Z-0-9\-_\/]/','', $string);
 			break;
 			
 			case 'alphanum':
@@ -565,6 +564,25 @@ class Shop {
 		return $nav;
 	}	
 	
+	
+	public function formatter($string,$method) {
+		
+		$returnstring = '';
+		
+		switch($method) {
+			
+			case 'product-description':
+
+			$returnstring = $this->sanitize($string,'encode');
+			$returnstring = substr($returnstring,0,512);
+			
+			break;
+			
+		}
+		
+		return $returnstring;
+	}
+	
 	public function getcatId($cat,$subcat) {
 		
 		// categories JSON
@@ -687,7 +705,7 @@ class Shop {
 								
 								if(isset($subcatselected) == isset($c['sub.category.title'])) {
 								$html .= '<li class="ts-shop-'.$cssdirection.'-navigation-subcat-item-selected"><a href="'.$hostaddr.'category/'.$this->seoUrl($c['category.title']).'/'.$this->seoUrl($sc['sub.category.title']).'/">'.$sc['sub.category.title'].'</a></li>'.PHP_EOL;
-								} else {
+									} else {
 								$html .= '<li class="ts-shop-'.$cssdirection.'-navigation-subcat-item"><a href="'.$hostaddr.'category/'.$this->seoUrl($c['category.title']).'/'.$this->seoUrl($sc['sub.category.title']).'/">'.$sc['sub.category.title'].'</a></li>'.PHP_EOL;	
 								}
 								$j++;
@@ -1189,16 +1207,14 @@ class Shop {
 			$currencies = $this->load_json($currency);
 		}
 		
-		$html = "";
-		
-			if($siteconf !== null) {
+		if($siteconf !== null || $siteconf !== false) {
 				
-				if($siteconf[0]['site.currency'] >=0) {
-					
-					return $currencies[0][$siteconf[0]['site.currency']]['symbol'];
-		
-				}		
+			if($siteconf[0]['site.currency'] >=0) {
+				return $currencies[0][$siteconf[0]['site.currency']]['symbol'];
 			}
+		} else {
+			return 'Price:';
+		}
 	}
 
 	public function generatecart($json,$split,$ignore) 
