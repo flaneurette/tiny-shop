@@ -44,7 +44,7 @@ The file shop.csv|.json, contains all the products. All products require to have
 
 To place a product inside a category or subcategory, the subsequent csv files need to be edited or viewed to obtain the categoryId or subcategoryId. In this way, products are linked. As an example, TinyShop has a basic list of demo products and (sub) categories, which makes it easy to see how TinyShop works. 
 
-# Future of product modification.
+- Future of product modification.
 In a future version of TinyShop, all CSV files will be linked into a single Excel document, making it even more practical. In this way the whole shop can be modified from a single excel document.
 
 
