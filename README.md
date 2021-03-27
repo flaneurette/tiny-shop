@@ -39,6 +39,15 @@ Tiny Shop makes (real-time) automatic backups of the JSON database each time a p
 # SEO
 Tiny Shop creates SEO friendly URL's of all products.
 
+# Products
+The file shop.csv|.json, contains all the products. All products require to have a unique product identifier, or productId. This is numeric, for example: 10000234. It is advised to have a large product identifier, in this way one can add more products. Without productId, or duplicate productIds, the shop might not work properly.
+
+To place a product inside a category or subcategory, the subsequent csv files need to be edited or viewed to obtain the categoryId or subcategoryId. In this way, products are linked. As an example, TinyShop has a basic list of demo products and (sub) categories, which makes it easy to see how TinyShop works. 
+
+# Future of product modification.
+In a future version of TinyShop, all CSV files will be linked into a single Excel document, making it even more practical. In this way the whole shop can be modified from a single excel document.
+
+
 # CSV & JSON files of interest
 
 Most CSV and JSON files can be edited, and it is advised to do so for TinyShop to work properly. A few are listed below that are required to be edited:
