@@ -15,7 +15,7 @@ TinyShop checks all requirements and if satisfied, the package should be install
 - PHP extensions (the installer will check on them and prompt for missing extensions)
 - Server module: (Apache) mod_rewrite for .htaccess functionalities. The .htaccess is written dynamically upon installing. By default, a standard .htaccess is present.
 - The /shop/ and especially the /administration/ folder needs to be writeable by the server (In Apache for example, the owner should be www-data. If not, it needs to be manually chowned through a terminal.) otherwise, session data and the .htaccess and .htpasswd cannot be written.
-- 
+
 # Payment types:
 
 By default, the free version, only accepts PayPal payments (including credit cards). 
