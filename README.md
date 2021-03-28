@@ -5,8 +5,8 @@ A tiny shop written in PHP and flat file JSON. Useful for small webshops that do
 Tiny shop will be ideal for clients who make one-time single purchases, handmade or boutique items such as: art prints, antiques, music, jewelry, books and stationary. It is not recommended for mass retail and high volume shops, eventhough it can compete with regards to speed and delivery due to a lean architecture and adequate JSON caching.
 
 # Installing
-- Clone or download the zip and upload them to a folder on your server. TinyShop expects that folder to be named /shop/. If you do want another path, it *might* manual editing of the configuration file. 
-- Run install.php in your browser.
+- Clone or download the zip and upload them to a folder on your server.
+- Run install.php in your browser and follow directions.
 
 TinyShop checks all requirements and if satisfied, the package should be installed seamlessly. If not, it will prompt for further action.
 
