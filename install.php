@@ -65,7 +65,7 @@
 
 	if(function_exists('ini_get')) {
 		if(ini_get('short_open_tag') == "Off" or  ini_get('short_open_tag') == 0) {
-			die('Please set "short_open_tag" to "1" or "On" in PHP.ini. Tinyshop does NOT work without it.');
+			echo 'Notice: please be sure that the "short_open_tag" is set to "1" or "On" in PHP.ini. Tinyshop does NOT work properly without it. (The installer is unable to test this adequately.)';
 		} 
 	}
 	
