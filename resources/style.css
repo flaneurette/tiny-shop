@@ -988,7 +988,7 @@ label {
 */
 
 .product-box div {
-	border: 0px solid #000;
+
 }
 
 .product-box {
@@ -999,9 +999,17 @@ label {
 	
 }
 
+.product-title h2 {
+	font-size:18px;
+	margin: 0px;
+	padding: 0px;
+	border-bottom: 0px solid #efefef;
+}
+
 .product-subbox {
 	
 }
+
 .product-image {
 	float:left;
 	margin:auto;
@@ -1018,18 +1026,20 @@ label {
 
 .product-price {
 	padding:5px;
-	margin:5px;
-	margin-left:5px;
-	border: 1px solid #000;
+	margin: 5px;
+	margin-left: 15px;
+	float:right;
+	width:80px;
 }
+
 .product-buynow {
 	float:left;
 	width:80px;
 	text-align:center;
 	padding:5px;
 	margin:5px;
-	border: 1px solid #ff0;
 }
+
 .product-images {
 	float:left;
 }
