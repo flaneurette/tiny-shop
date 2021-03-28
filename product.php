@@ -14,8 +14,15 @@ error_reporting(0);
 		$cat 		= $shop->sanitize($_REQUEST['cat'],'cat');
 		$product 	= $shop->sanitize($_REQUEST['product'],'cat');
 		$productid	= $shop->sanitize($_REQUEST['productid'],'num');
-		$page 		= $shop->sanitize($_REQUEST['page'],'num');
-		$catid  	= $shop->getcatId($cat,$subcat=false); // TODO: highlight subcats
+		$page 		= $shop->sanitize($_REQUEST['page'],'num');	
+		
+		if(isset($_REQUEST['subcat'])) {
+			echo $_REQUEST['subcat'];
+			$scat 		= $shop->sanitize($_REQUEST['subcat'],'cat');
+			$subcat  	= $shop->getcatId($cat,$scat);
+			echo $subcat;
+		}
+		
 	}
 	
 	// get host
@@ -114,14 +121,14 @@ include("header.php");
 							$string_button = "<div><input type='number' name='qty' size='1' value='1' min='1' max='9999' id='ts-group-cart-qty-".$i.'-'.$product_id."'><input type='button' onclick='tinyshop.addtocart(\"".$product_id."\",\"ts-group-cart-qty-".$i.'-'.$product_id."\",\"".$token."\",\"".$hostaddr."\");' class='ts-list-cart-button' name='add_cart' value='Add to Cart' /></div>";
 							
 							echo '<div class="product-box">
-									<div class="product-title">'.$product_title.'</div>
+									<div class="product-title"><h2>'.$product_title.'</h2></div>
 										<div class="product-subbox">
 											<div class="product-image">
 												<img src="'.$base_url.$product_image.'" />
 											</div>
 											<div class="product-details">
 												<div class="product-description">'.$shop->formatter($product_description,'product-description').'</div>
-												<div class="product-price">'.$shop->getsitecurrency($hostaddr.'inventory/site.json',$hostaddr.'inventory/currencies.json').' '.$product_price.'</div>
+												<div class="product-price">'.$shop->getsitecurrency('inventory/site.json','inventory/currencies.json').' '.$product_price.'</div>
 												<a href="#"><div class="product-buynow">'.$string_button.'</div></a>
 											</div>
 										</div>

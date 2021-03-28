@@ -65,7 +65,7 @@ include("header.php");
 			</div>
 			<div id="ts-paginate">
 				<?php 
-					echo $shop->paginate(1);
+					// echo $shop->paginate(1);
 				?>
 			</div>
 			<!-- caller: method, opts, uri. -->

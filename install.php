@@ -309,6 +309,17 @@ RewriteRule ^catalog/(.*)/(.*)/(.*)/(.*)/$ /'.$ts_shop_folder.'/product-list.php
 RewriteRule ^item/(.*)/(.*)/(.*)/(.*)/$ /'.$ts_shop_folder.'/product.php?cat=$1&product=$2&productid=$3&page=$4  [NC,L]
 RewriteRule ^category/(.*)$ /'.$ts_shop_folder.'/pages.php?id=$1&page=$2 [NC,L]
 
+# product single item
+RewriteRule ^category/(.*)/(.*)/(.*)/(.*)/$ /'.$ts_shop_folder.'/product.php?cat=$1&product=$2&productid=$3&page=$4 [NC,L]
+# sub-category
+RewriteRule ^category/(.*)/(.*)/(.*)/$ /'.$ts_shop_folder.'/product.php?cat=$1&product=$2&productid=$3&page=$4 [NC,L]
+# category
+RewriteRule ^category/(.*)/(.*)/$ /'.$ts_shop_folder.'/category.php?cat=$1&subcat=$2 [NC,L]
+RewriteRule ^category/(.*)/$ /'.$ts_shop_folder.'/category.php?cat=$1 [NC,L]
+
+RewriteRule ^catalog/(.*)/(.*)/(.*)/(.*)/$ /'.$ts_shop_folder.'/product-list.php?cat=$1&product=$2&productid=$3&page=$4  [NC,L]
+#RewriteRule ^category/(.*)$ /'.$ts_shop_folder.'/pages.php?id=$1&page=$2 [NC,L]
+
 RewriteRule ^blog/(.*)/(.*)/(.*)/(.*)/$ /'.$ts_shop_folder.'/pages/blog.php?cat=$1&blogid=$2&blogtitle=$3&page=$4  [NC,L]
 RewriteRule ^pages/(.*)/(.*)/(.*)/(.*)/$ /'.$ts_shop_folder.'/pages/page.php?cat=$1&pageid=$2&pagetitle=$3&page=$4  [NC,L]
 RewriteRule ^articles/(.*)/(.*)/(.*)/(.*)/$ /'.$ts_shop_folder.'/pages/article.php?cat=$1&articleid=$2&articletitle=$3&page=$4  [NC,L]
