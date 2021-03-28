@@ -14,6 +14,7 @@ TinyShop checks all requirements and if satisfied, the package should be install
 - PHP 5.4+ (the higher the better)
 - PHP extensions (the installer will check on them and prompt for missing extensions)
 - The /shop/ and especially the /administration/ folder needs to be writeable by the server (In Apache for example, the owner should be www-data. If not, it needs to be manually chowned through a terminal.) otherwise, session data and the .htaccess and .htpasswd cannot be written.
+- Apache module: mod_rewrite for .htaccess functionalities. The .htaccess is written dynamically upon installing. By default, a standard .htaccess is present.
 
 # Payment types:
 
