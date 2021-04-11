@@ -37,7 +37,7 @@
 <?php
 include("header.php");
 ?>
-<div id="ts-shop-result-message" onclick="tinyshop.togglecartmsg('close');"></div>
+<div id="ts-shop-result-message" onclick="tinyshop.togglecartmsg('close');" onmouseover="tinyshop.togglecartmsg('close');"></div>
 <div id="bio-wrapper">
 
 <div id="ts-shop-cart-form">

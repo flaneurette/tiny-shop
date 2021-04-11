@@ -125,6 +125,7 @@ class Shop {
 		return $returnstring;
 	}	
 	
+
 	/**
 	* Sanitizes user-input
 	* @param string
@@ -141,6 +142,26 @@ class Shop {
 			case 'alpha':
 				$this->data =  preg_replace('/[^a-zA-Z]/','', $string);
 			break;
+			
+			case 'trim':
+				
+				
+				if(isset($string)) {
+					
+					if(trim($string) != "") {
+						$this->data = $string;
+						} elseif(strlen($string) > 2) {
+						$this->data = $string;
+						} else {
+						$this->data = false;
+					}
+					
+				} else {
+					$this->data = false;
+				}
+				
+				
+			break;		
 			
 			case 'num':
 			
@@ -816,7 +837,13 @@ class Shop {
 			
 				while($i >= 0) {
 					
-					if(isset($ts[$i]['product.stock']) <= 3) {
+					if(isset($ts[$i]['product.stock'])) {
+						$stock = (int) $ts[$i]['product.stock'];
+					} else {
+						$stock = 0;
+					}
+					
+					if($stock <= 5) {
 						$status = 'ts-product-status-red'; // low stock
 						} else {
 						$status = 'ts-product-status-green';

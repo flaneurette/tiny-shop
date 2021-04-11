@@ -40,7 +40,7 @@ include("header.php");
 <div id="cart-contents"><a href="<?=$host;?>cart/">View Cart</a></div>
 <div id="wrapper">
 <h2>Store</h2>
-	<div id="ts-shop-result-message" onclick="tinyshop.togglecartmsg('close');"></div>
+	<div id="ts-shop-result-message" onclick="tinyshop.togglecartmsg('close');" onmouseover="tinyshop.togglecartmsg('close');"></div>
 		<!-- <h1>Shop product list</h1> -->
 			<div id="shop">
 			

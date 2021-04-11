@@ -89,7 +89,7 @@ include("header.php");
 
 <div id="wrapper">
 
-		<div id="ts-shop-result-message" onclick="tinyshop.togglecartmsg('close');"></div>
+		<div id="ts-shop-result-message" onclick="tinyshop.togglecartmsg('close');"  onmouseover="tinyshop.togglecartmsg('close');"></div>
 		<div id="ts-shop-cart-form">
 <h1>Checkout</h1>
 
