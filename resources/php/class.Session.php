@@ -142,7 +142,11 @@ class Session {
 			$obj['product.qty'] = 1;
 		}
 		
-		if($c > 0) { 
+		// if(!isset($_SESSION['cart'][$i]['product.id'])) {
+		//	return 'session could not be initialized due to offset error.';
+		// }
+		
+		if($c > 0 ) { 
 
 			for($i = 0; $i <= $c; $i++) {
 				
