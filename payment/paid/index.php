@@ -6,6 +6,8 @@
 	include("../../class.Shop.php");
 	
 	$shop = new Shop();
+	$hostaddr = $shop->getbase();
+
 	$session = new Session();
 	
 	$session->sessioncheck();
@@ -17,7 +19,7 @@
 			if($token != $_GET['token']) {
 				$shop->message('Transaction completed, however token is incorrect. Please contact the shop owner if issues arrive through either e-mail or the contact form. N.B. The shopowner has not been notified of this error.');
 				$shop->showmessage();
-				//exit;
+				// exit;
 			}
 	
 		} else {
@@ -26,7 +28,6 @@
 		$shop->showmessage();
 		//exit;
 	}
-
 
 	/*
 		$item_name = $_POST['item_name'];
@@ -65,7 +66,6 @@
 		$shop->invoiceid('set',$invoiceid+1);
 	}
 
-	
 	$sitecurrency = $shop->getsitecurrency('../../inventory/site.json','../../inventory/currencies.json');
 	$shippingcountry = $shop->sanitize($_SESSION['shipping_country'],'encode');
 	$siteconf = $shop->load_json("../../inventory/shipping.json");
@@ -103,92 +103,105 @@
 		}
 	}
 
-	$body  = "Today, a new order was placed in the webshop and paid. Below are the details of the order.".PHP_EOL . PHP_EOL;
-	$body .= "### ORDER ###".PHP_EOL;
+		$body  = "Today, a new order was placed in the webshop and paid. Below are the details of the order.".PHP_EOL . PHP_EOL;
+		$body .= "### ORDER ###".PHP_EOL;
+		
+		$body .= '<html>';
+		$body .= '<head>';
+		// Might not load 3rd resources, may have to include static CSS.
+		$body .= '<link rel="stylesheet" type="text/css" href="'.$hostaddr.'resources/css.css">';
+		$body .= '<link rel="stylesheet" type="text/css" href="'.$hostaddr.'resources/style.css">';
+		$body .= '</head>';
+		$body .= '<body>';
+		$body .= '<hr />';
 	
-	if(isset($_SESSION['cart']) && count($_SESSION['cart']) >= 1) {
-		
-		$products = $shop->getproductlist("../../inventory/shop.json");
-		$productsum_total = 0;
-		$productsum = 0;
-		
-		$c = count($_SESSION['cart']);
-		
-		for($i=0; $i < $c; $i++) {
+		if(isset($_SESSION['cart']) && count($_SESSION['cart']) >= 1) {
 			
-			if($_SESSION['cart'][$i]) {
-				$product = (int) $_SESSION['cart'][$i]['product.id'];
-				if($_SESSION['cart'][$i]['product.qty'] == 0) {
-					$_SESSION['cart'][$i]['product.qty'] = 1;
+			$products = $shop->getproductlist("../../inventory/shop.json");
+			$productsum_total = 0;
+			$productsum = 0;
+			
+			$c = count($_SESSION['cart']);
+			
+			for($i=0; $i < $c; $i++) {
+				
+				if($_SESSION['cart'][$i]) {
+					$product = (int) $_SESSION['cart'][$i]['product.id'];
+					if($_SESSION['cart'][$i]['product.qty'] == 0) {
+						$_SESSION['cart'][$i]['product.qty'] = 1;
+					}
+					$productqty = $_SESSION['cart'][$i]['product.qty'];
 				}
-				$productqty = $_SESSION['cart'][$i]['product.qty'];
-			}
-			
-			$j = 0;
+				
+				$j = 0;
 
-			if(isset($product)) {
-			
-				foreach($products as $key => $value) {
-					
-					if($products[$j][0][1] == $product) {
+				if(isset($product)) {
+				
+					foreach($products as $key => $value) {
 						
-						$producttitle = $products[$j][2][1];
-						$productdesc  = $products[$j][3][1];
-						$productprice = $products[$j][18][1];
-						
-						if($productprice == null || $productprice == 0 ) {
-							$productprice = 1;
+						if($products[$j][0][1] == $product) {
+							
+							$producttitle = $products[$j][2][1];
+							$productdesc  = $products[$j][3][1];
+							$productprice = $products[$j][18][1];
+							
+							if($productprice == null || $productprice == 0 ) {
+								$productprice = 1;
+							}
+							
+							if($productqty == null || $productqty == 0 ) {
+								$productqty = 1;
+							}					
+									
+							$productsum = round(($productprice * (int)$productqty),2);
+							
+							$qtyid = 'tscart-'.$j.$product;
+
+							$body .= '<div class="ts-shop-ul">';
+							$body .= '<li class="ts-shop-ul-li-item-product">'.$producttitle.'</li>';
+							$body .= '<li class="ts-shop-ul-li-item-description">'.$productdesc.'</li>';
+							$body .= '<li class="ts-shop-ul-li-item-price">'.$sitecurrency .' '.$productprice.'</li>';
+							$body .= '<li class="ts-shop-ul-li-item-qty">'.$productqty.'</li>';
+							$body .= '<li class="ts-shop-ul-li-item-total">'.$sitecurrency .' '. $productsum.'</li>';
+							$body .= '</div>';
 						}
 						
-						if($productqty == null || $productqty == 0 ) {
-							$productqty = 1;
-						}					
-								
-						$productsum = round(($productprice * (int)$productqty),2);
-						
-						$qtyid = 'tscart-'.$j.$product;
-
-			
-					$body .='<div class="ts-shop-ul">';
-					$body .='<li class="ts-shop-ul-li-item-product">'.$producttitle.'</li>';
-					$body .='<li class="ts-shop-ul-li-item-description">'.$productdesc.'</li>';
-					$body .='<li class="ts-shop-ul-li-item-price">'.$sitecurrency .' '.$productprice.'</li>';
-					$body .='<li class="ts-shop-ul-li-item-qty">'.$productqty.'</li>';
-					$body .='<li class="ts-shop-ul-li-item-total">'.$sitecurrency .' '. $productsum.'</li>';
-					$body .='</div>';
-					$body .='<div class="ts-shop-ul-set">';
-					$body .='<div class="ts-shop-ul">';
-					$body .='<li class="ts-shop-ul-li-item" width="10%"></li>';
-					$body .='<li class="ts-shop-ul-li-item" width="10%">Country</li>';
-					$body .='<li class="ts-shop-ul-li-item" width="30%">Subtotal</li>';
-					$body .='<li class="ts-shop-ul-li-item" width="35%">Shipping &amp; handling</li>';
-					$body .='<li class="ts-shop-ul-li-item" width="15%">Total</li>';
-					$body .='</div>';
-			
-					$body .='<li class="ts-shop-ul-li-item">';
-					$body .='</li>';
-					$body .='<li class="ts-shop-ul-li-item">';
-					$body .= str_replace('shipping.','',$shippingcountry);
-					$body .='</li>';
-					$body .='<li class="ts-shop-ul-li-item">';
-					$body .= $sitecurrency .' '. (int) $_SESSION['subtotal'];
-					$body .='</li>';
-					$body .='<li class="ts-shop-ul-li-item">';
-					$body .= $sitecurrency .' '. (int) $_SESSION['shipping'];
-					$body .='</li>		';
-					$body .='<li class="ts-shop-ul-li-item">';
-					$body .= $sitecurrency .' '. (int) $_SESSION['totalprice'];
-					$body .='</li>';
-					$body .='</div>';
-			
-					}
-				$j++;
+					$j++;
+				}
 			}
+			
+				$body .= '<div class="ts-shop-ul-set">';
+				$body .= '<div class="ts-shop-ul">';
+				$body .= '<li class="ts-shop-ul-li-item" width="10%"></li>';
+				$body .= '<li class="ts-shop-ul-li-item" width="10%">Country</li>';
+				$body .= '<li class="ts-shop-ul-li-item" width="30%">Subtotal</li>';
+				$body .= '<li class="ts-shop-ul-li-item" width="35%">Shipping &amp; handling</li>';
+				$body .= '<li class="ts-shop-ul-li-item" width="15%">Total</li>';
+				$body .= '</div>';
+						
+				$body .= '<li class="ts-shop-ul-li-item">';
+				$body .= '</li>';
+								
+				$body .= '<li class="ts-shop-ul-li-item">';
+				$body .= str_replace('shipping.','',$shippingcountry);
+				$body .= '</li>';
+				$body .= '<li class="ts-shop-ul-li-item">';
+				$body .= $sitecurrency .' '. (int) $_SESSION['subtotal'];
+				$body .= '</li>';
+				$body .= '<li class="ts-shop-ul-li-item">';
+				$body .=  $sitecurrency .' '. (int) $_SESSION['shipping'];
+				$body .= '</li>';
+				$body .= '<li class="ts-shop-ul-li-item">';
+				$body .= $sitecurrency .' '. (int) $_SESSION['totalprice'];
+				$body .= '</li>';
+				$body .= '</div>';
 		}
-	}
+	
+	$body .= '<hr />';
+	$body .= '</body>';
+	$body .= '</html>';
 	
 	}
-	
 	
 	$parameters = array( 
 		'to' => $email,
@@ -203,9 +216,9 @@
 
 	// destroy cart session.
 	/*
-	$_SESSION['cart']  = array();
-	$_SESSION['token'] = null;
-	$_SESSION['messages'] = array();
-	session_destroy();
+		$_SESSION['cart']  = array();
+		$_SESSION['token'] = null;
+		$_SESSION['messages'] = array();
+		session_destroy();
 	*/
 ?>

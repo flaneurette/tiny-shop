@@ -5,7 +5,9 @@
 	
 	$shop     = new Shop();
 	$shopconf = $shop->load_json("../inventory/customer.json");
+
 ?>
+
 <html>
 	<head>
 	<link rel="stylesheet" type="text/css" href="../resources/reset.css">

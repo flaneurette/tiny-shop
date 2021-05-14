@@ -124,7 +124,6 @@
 	echo $shop->getmeta("../../inventory/site.json");				
 	?>
 	</head>
-
 <body>
 
 <?php
@@ -167,10 +166,8 @@ include("../../header.php");
 			
 				foreach($products as $key => $value) {
 					
-					
 					if($products[$j][0][1] == $product) {
 
-					
 							$producttitle = $products[$j][2][1];
 							$productdesc  = $products[$j][3][1];
 							$productprice = $products[$j][18][1];
@@ -190,14 +187,11 @@ include("../../header.php");
 							<input type="hidden" name="item_name_<?=($i+1);?>" maxlength="127" size="20" value="<?=$producttitle;?>" title="cart item, 127 chars">
 							<input type="hidden" name="item_number_<?=($i+1);?>" maxlength="127" size="20" value="<?=$product;?>" title="track payments, 127 chars">
 							<input type="hidden" name="item_price_<?=($i+1);?>" maxlength="127" size="20" id="item_price" value="<?=$productprice;?>" title="">
-
 							<!-- required -->
 							<input type="hidden" name="amount_<?=($i+1);?>" maxlength="127" size="20" id="item_price" value="<?=$productprice;?>" title=""> 
 							<input type="hidden" name="quantity_<?=($i+1);?>" value="<?=$productqty;?>">
 							<input type="hidden" name="shipping_<?=($i+1);?>" maxlength="127" size="20" id="shipping_x" value="<?=$shipping_item;?>" title="">
-
 <?php
-					
 					}
 					$j++;
 				}
@@ -236,6 +230,7 @@ include("../../header.php");
 					}
 					?>
 					<input type="hidden" name="return" value="<?=$paypal_domain.''.$paypal_return_page;?>">
+					
 					<!-- optional -->			
 					<!-- <input type="hidden" name="cmd" value="_ext-enter"> -->
 					<!-- <input type="hidden" name="redirect_cmd" value="_xclick"> -->
@@ -256,7 +251,6 @@ include("../../header.php");
 					
 				</div>
 				<div class="ts-shop-form-section">
-
 
 					<label for="state">State</label>
 					<input type="text" name="state" id="state" size="2" maxlength="2" value="" title="The state noted in the customer's address (the official two-letter abbreviation).">

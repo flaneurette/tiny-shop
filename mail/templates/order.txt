@@ -1,0 +1,46 @@
+<div class="ts-shop-ul">
+<li class="ts-shop-ul-li-item-product">{{producttitle}}</li>
+<li class="ts-shop-ul-li-item-description">{{productdesc}}</li>
+<li class="ts-shop-ul-li-item-price">{{productprice}}</li>
+<li class="ts-shop-ul-li-item-qty">{{productqty}}</li>
+<li class="ts-shop-ul-li-item-total">{{productsum}}</li>
+</div>
+<div class="ts-shop-ul-set">
+<div class="ts-shop-ul">
+<li class="ts-shop-ul-li-item" width="10%"></li>
+<li class="ts-shop-ul-li-item" width="10%">Country</li>
+<li class="ts-shop-ul-li-item" width="30%">Subtotal</li>
+<li class="ts-shop-ul-li-item" width="35%">Shipping &amp; handling</li>
+<li class="ts-shop-ul-li-item" width="15%">Total</li>
+</div>
+<li class="ts-shop-ul-li-item">
+</li>
+<li class="ts-shop-ul-li-item">{{shippingcountry}}</li>
+<li class="ts-shop-ul-li-item">{{subtotal}}</li>
+<li class="ts-shop-ul-li-item">{{shipping}}</li>		
+<li class="ts-shop-ul-li-item">{{totalprice}}</li>
+</div>
+
+<!--
+
+	/*
+	
+	$parameters_template = array( 		
+		// TODO: send the qty to loop over the template
+		'producttitle' 		=>	$producttitle,
+		'productdesc'		=>	$productdesc,
+		'productprice'		=>	$sitecurrency .' '.$productprice,
+		'productqty'		=>	$productqty,
+		'productsum'		=>	$sitecurrency .' '.$productsum,
+		'sitecurrency'  	=> 	$sitecurrency,
+		'shippingcountry' 	=>	str_replace('shipping.','',$shippingcountry),
+		'subtotal'			=>	$sitecurrency .' '. (int) $_SESSION['subtotal'],
+		'shipping'			=>	$sitecurrency .' '. (int) $_SESSION['shipping'],
+		'totalprice'		=>	$sitecurrency .' '. (int) $_SESSION['totalprice']
+	);				
+		
+	$ordermail_tpl = new \security\forms\SecureMail($parameters_template);
+	$html_template = $ordermail_tpl->parseTemplate('../../mail/templates/order.txt',$parameters_template);
+	*/
+	
+-->
