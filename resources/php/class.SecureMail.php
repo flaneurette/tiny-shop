@@ -25,9 +25,9 @@ namespace security\forms;
 class SecureMail
 {
 	### REQUIRED CONFIGURATION
-	const DOMAIN			= 'mystryl.art'; // Domain this script is hosted on.
-	const SERVERADDR		= 'server <info@mystryl.art>'; // Server e-mail address.
-	const DEFAULTTO			= 'mystryl@protonmail.com'; // default "to" e-mail address when address has not been provided.
+	const DOMAIN			= 'localhost'; // Domain this script is hosted on.
+	const SERVERADDR		= 'server <admin@localhost>'; // Server e-mail address.
+	const DEFAULTTO			= 'admin@localhost'; // default "to" e-mail address when address has not been provided.
 	
 	### OPTIONAL CONFIGURATION (DEFAULT)
 	const XMAILER			= 'Secure Mail'; // Name class mailer.
@@ -40,8 +40,8 @@ class SecureMail
 	const OPTPARAM			= '-f'; 	// Optional 5th parameter. -f is required when SERVERADDR is set.
 	const WORD_WRAP			= true;		// Wrap message?
 	const WORD_WRAP_VALUE		= 70;		// Wrap at line length.
-	const MAXBODYSIZE 		= 5000; 	// Number of chars of body text.
-	const MAXFIELDSIZE 		= 150;   	// Number of allowed chars for single fields.
+	const MAXBODYSIZE 		= 15000; 	// Number of chars of body text.
+	const MAXFIELDSIZE 		= 1150;   	// Number of allowed chars for single fields.
 	const FORMTIME			= 10;  		// Minimum time in seconds for a user to fill out a form, detects bots.
 	const TEMPLATE_START		= '{{';     	// Placeholder start for HTML template variables. 
 	const TEMPLATE_END		= '}}';    	// Placeholder end for HTML template variables.
@@ -248,6 +248,8 @@ class SecureMail
 			isset($params['captcha'])    ? $this->fields['captcha']   = $params['captcha'] : '';
 			isset($params['extrafield']) ? $this->fields['extrafield']   = $params['extrafield'] : '';
 			isset($params['body'])       ? $this->body['body'] = $params['body'] : false;
+			isset($params['html_mail'])  ? $this->html_mail = $params['html_mail'] : false;
+			
 		} catch(Exception $e) {
 			$this->sessionmessage('Problem initializing:'.$e->getMessage());
 		}
@@ -340,15 +342,21 @@ class SecureMail
 		$name    = $this->clean($this->fields['name'],'field');
 		$email    = $this->clean($this->fields['email'],'field');
 		$subject = $this->clean($this->fields['subject'],'field');
-		$message = $this->clean($this->body['body'],'body');
-		$ip      = $this->clean($_SERVER['REMOTE_ADDR'],'field');
+		
+		if(isset($this->html_mail)) {
+			$message = $this->body['body'];
+			} else {
+			$message = $this->clean($this->body['body'],'body');
+		}
+		
+		$ip = $this->clean($_SERVER['REMOTE_ADDR'],'field');
 		
 		$headers = [
 			'From'                      	=> self::SERVERADDR,
 			'Sender'                    	=> self::SERVERADDR,
 			'Return-Path'               	=> self::SERVERADDR,
 			'MIME-Version'              	=> self::MIMEVERSION,
-			'Content-Type'              	=> 'text/plain; charset='.self::CHARSET.'; format='.self::MAILFORMAT.'; delsp='.self::DELSP,
+			'Content-Type'              	=> 'text/html; charset='.self::CHARSET.'; format='.self::MAILFORMAT.'; delsp='.self::DELSP,
 			'Content-Language'		=> self::LANGUAGE,
 			'Content-Transfer-Encoding' 	=> self::TRANSFERENCODING,
 			'X-Mailer'                  	=> self::XMAILER,
@@ -396,6 +404,7 @@ class SecureMail
 	public function parseTemplate($template,$parameters) {	
 		$html = '';
 		if(file_exists($template)) {
+			
 			$html = file_get_contents($template);
 			if(is_array($parameters) && is_string($html)) {
 				foreach ($parameters as $key => $value) {
@@ -406,7 +415,6 @@ class SecureMail
 			$this->sessionmessage('Template file does not exist.'); 
 			return FALSE; // e-mail cannot be send.	
 		}
-		
 		return $html;
 	}
 	
@@ -665,7 +673,7 @@ class SecureMail
 				$this->data =  preg_replace('/[^a-zA-Z-0-9]/','', $string);
 			break;
 			case 'field':
-				$this->data =  preg_replace('/[^A-Za-z0-9-_.@]/','', $string);
+				$this->data =  preg_replace('/[^A-Za-z0-9-_.@\\s]/','', $string);
 			break;			
 			case 'num':
 				$this->data =  preg_replace('/[^0-9]/','', $string);

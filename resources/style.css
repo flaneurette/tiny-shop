@@ -1065,7 +1065,7 @@ label {
 	height: 80px;
 }
 .product-images-item img {
-	height: 70px;
+	height: 100%;
 	overflow: hidden;
 }
 
@@ -1083,12 +1083,29 @@ label {
 	width: 20%;
 	padding:5px;
 	margin: 2px;
-	border:1px solid lightgrey;
+	border: 1px solid lightgrey;
+	font-size: 11px;
+}
+
+
+#product-social {
+	float:left;
+	padding:5px;
+	margin-top:10px;
+	margin-bottom:20px;	
+}
+
+#product-social-box-item {
+	float:left;
+	margin:auto;
+	width: 50%;
+	padding:2px;
+	margin: 2px;
 	font-size: 11px;
 }
 
 #product-footer {
 	float:left;
 	padding:5px;
-	margin-top:50px;
+	margin-top:80px;
 }
