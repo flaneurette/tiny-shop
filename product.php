@@ -32,8 +32,6 @@ error_reporting(0);
 		echo "Could not load Shop.class.php";
 		exit;
 	}
-			
-	// var_dump($_REQUEST);
 	
 ?>
 <!DOCTYPE html>
@@ -148,7 +146,23 @@ include("header.php");
 									$shop->sanitize($iv[$i]["socialmedia.option1"],'trim') ? $socialmedia_option1 = $shop->cleanInput($iv[$i]["socialmedia.option1"]) : $socialmedia_option1 = false; 
 									$shop->sanitize($iv[$i]["socialmedia.option2"],'trim') ? $socialmedia_option2 = $shop->cleanInput($iv[$i]["socialmedia.option2"]) : $socialmedia_option2 = false; 
 									$shop->sanitize($iv[$i]["socialmedia.option3"],'trim') ? $socialmedia_option3 = $shop->cleanInput($iv[$i]["socialmedia.option3"]) : $socialmedia_option3 = false; 
-									
+									$shop->sanitize($iv[$i]["variant.title1"],'trim') ? $variant_title_1 = $shop->cleanInput($iv[$i]["variant.title1"]) : $variant_title_1 = false; 
+									$shop->sanitize($iv[$i]["variant.title2"],'trim') ? $variant_title_2 = $shop->cleanInput($iv[$i]["variant.title2"]) : $variant_title_2 = false; 
+									$shop->sanitize($iv[$i]["variant.title3"],'trim') ? $variant_title_3 = $shop->cleanInput($iv[$i]["variant.title3"]) : $variant_title_3 = false; 	
+									$shop->sanitize($iv[$i]["variant.image1"],'trim') ? $variant_image_1 = $shop->cleanInput($iv[$i]["variant.image1"]) : $variant_image_1 = false; 
+									$shop->sanitize($iv[$i]["variant.image2"],'trim') ? $variant_image_2 = $shop->cleanInput($iv[$i]["variant.image2"]) : $variant_image_2 = false; 
+									$shop->sanitize($iv[$i]["variant.image3"],'trim') ? $variant_image_3 = $shop->cleanInput($iv[$i]["variant.image3"]) : $variant_image_3 = false;
+									$shop->sanitize($iv[$i]["variant.option1"],'trim') ? $variant_option_1 = $shop->cleanInput($iv[$i]["variant.option1"]) : $variant_option_1 = false;
+									$shop->sanitize($iv[$i]["variant.option2"],'trim') ? $variant_option_2 = $shop->cleanInput($iv[$i]["variant.option2"]) : $variant_option_2 = false;
+									$shop->sanitize($iv[$i]["variant.option3"],'trim') ? $variant_option_3 = $shop->cleanInput($iv[$i]["variant.option3"]) : $variant_option_3 = false;
+									$shop->sanitize($iv[$i]["variant.price1"],'trim') ? $variant_price_1 = $shop->cleanInput($iv[$i]["variant.price1"]) : $variant_price_1 = false;
+									$shop->sanitize($iv[$i]["variant.price2"],'trim') ? $variant_price_2 = $shop->cleanInput($iv[$i]["variant.price2"]) : $variant_price_2 = false;
+									$shop->sanitize($iv[$i]["variant.price3"],'trim') ? $variant_price_3 = $shop->cleanInput($iv[$i]["variant.price3"]) : $variant_price_3 = false;
+
+									$shop->sanitize($iv[$i]["shipping.fixed.price"],'trim') ? $shipping_fixed_price = $shop->cleanInput($iv[$i]["shipping.fixed.price"]) : $shipping_fixed_price = false;
+									$shop->sanitize($iv[$i]["shipping.flatfee"],'trim') ? $shipping_flat_fee = $shop->cleanInput($iv[$i]["shipping.flatfee"]) : $shipping_flat_fee = false;
+									$shop->sanitize($iv[$i]["shipping.locations"],'trim') ? $shipping_locations = $shop->cleanInput($iv[$i]["shipping.locations"]) : $shipping_locations = false;
+
 								if(trim($iv[$i]["variant.title1"]) != "") {
 									$variant_title1			= $shop->cleanInput($iv[$i]["variant.title1"]);
 									$variant_image1 		= $shop->cleanInput($iv[$i]["variant.image1"]);
@@ -186,7 +200,6 @@ include("header.php");
 										</div>
 							</div>';
 							
-							
 							$find = strstr($product_images,',');
 						
 							if(is_array($product_images) || $find == true ) {
@@ -209,43 +222,77 @@ include("header.php");
 								}
 							}
 							
+							
+							if($variant_title_1 != false) {
+								
+								echo '<div id="product-variant-box">';
+								
+									if($variant_title_1 != false) { echo '<div id="product-info-box-item">Variant 1: '.$shop->cleanInput($variant_title_1).'</div>'; } 
+									if($variant_title_2 != false) { echo '<div id="product-info-box-item">Variant 2: '.$shop->cleanInput($variant_title_2).'</div>'; } 	
+									if($variant_title_3 != false) { echo '<div id="product-info-box-item">Variant 3: '.$shop->cleanInput($variant_title_3).'</div>'; } 	
+
+									if($variant_image_1 != false) { echo '<div id="product-info-box-item"></div>'; } 
+									if($variant_image_2 != false) { echo '<div id="product-info-box-item"></div>'; } 	
+									if($variant_image_3 != false) { echo '<div id="product-info-box-item"></div>'; } 		
+									
+									if($variant_option_1 != false) { echo '<div id="product-info-box-item"></div>'; } 
+									if($variant_option_2 != false) { echo '<div id="product-info-box-item"></div>'; } 	
+									if($variant_option_3 != false) { echo '<div id="product-info-box-item"></div>'; } 		
+								
+									if($variant_price_1 != false) { echo '<div id="product-info-box-item"></div>'; } 
+									if($variant_price_2 != false) { echo '<div id="product-info-box-item"></div>'; } 	
+									if($variant_price_3 != false) { echo '<div id="product-info-box-item"></div>'; } 
+								
+								echo '</div>';
+							}
+
+
 							echo '<div id="product-info-box">';
-								if($product_id  != false) { echo '<div id="product-info-box-item">Product ID: '.$shop->cleanInput($product_id).'</div>'; }
-								if($product_title != false) { echo '<div id="product-info-box-item">Product title: '.$shop->cleanInput($product_title).'</div>'; } 
-								if($product_category != false) { echo '<div id="product-info-box-item">Category: '.$shop->cleanInput($product_category).'</div>'; } 
-								if($product_stock != false) { echo '<div id="product-info-box-item">In stock: '.$shop->cleanInput($product_stock).'</div>'; } 
-								if($product_catno != false) { echo '<div id="product-info-box-item">Catno: '.$shop->cleanInput($product_catno).'</div>'; } 
-								if($product_quantity != false) { echo '<div id="product-info-box-item">Quantity: '.$shop->cleanInput($product_quantity).'</div>'; } 
-								if($product_format != false) { echo '<div id="product-info-box-item">Format: '.$shop->cleanInput($product_format).'</div>'; } 
-								if($product_type != false) { echo '<div id="product-info-box-item">Type: '.$shop->cleanInput($product_type).'</div>'; } 
-								if($product_weight != false) { echo '<div id="product-info-box-item">Weight: '.$shop->cleanInput($product_weight).'</div>'; } 
-								if($product_condition != false) { echo '<div id="product-info-box-item">Condition: '.$shop->cleanInput($product_condition).'</div>'; } 
-								if($product_ean != false) { echo '<div id="product-info-box-item">EAN: '.$shop->cleanInput($product_ean).'</div>'; } 
-								if($product_sku != false) { echo '<div id="product-info-box-item">SKU: '.$shop->cleanInput($product_sku).'</div>'; } 
-								if($product_vendor != false) { echo '<div id="product-info-box-item">Vendor: '.$shop->cleanInput($product_vendor).'</div>'; } 
-								// if($product_price_min != false) { echo '<div id="product-info-box-item">'..'</div>'; } 
-								// if($product_price_max != false) { echo '<div id="product-info-box-item">'..'</div>'; } 
-								// if($product_price_varies != false) { echo '<div id="product-info-box-item">'..'</div>'; } 
-								if($product_date != false) { echo '<div id="product-info-box-item">Date: '.$shop->cleanInput($product_date).'</div>'; } 
-								if($product_url != false) { echo '<div id="product-info-box-item">URL: '.$shop->cleanInput($product_url).'</div>'; } 
-								if($product_tags != false) { echo '<div id="product-info-box-item">Tags: '.$shop->cleanInput($product_tags).'</div>'; } 
-								// if($product_images != false) { echo '<div id="product-info-box-item">'..'</div>'; } 
-								// if($product_featured != false) { echo '<div id="product-info-box-item">'..'</div>'; } 
-								// if($product_featured_location != false) { echo '<div id="product-info-box-item">'..'</div>'; } 
-								// if($product_featured_carousel != false) { echo '<div id="product-info-box-item">'..'</div>'; } 
-								// if($product_featured_image != false) { echo '<div id="product-info-box-item">'..'</div>'; } 
-								// if($product_content != false) { echo '<div id="product-info-box-item">'..'</div>'; } 
-								// if($product_variants != false) { echo '<div id="product-info-box-item">'..'</div>'; } 
-								// if($product_available != false) { echo '<div id="product-info-box-item">'..'</div>'; } 
-								// if($product_selected_variant != false) { echo '<div id="product-info-box-item">'..'</div>'; } 
-								// if($product_collections != false) { echo '<div id="product-info-box-item">'..'</div>'; } 
-								// if($product_options != false) { echo '<div id="product-info-box-item">'..'</div>'; } 
-								// if($socialmedia_option1 != false) { echo '<div id="product-info-box-item">'..'</div>'; } 
-								// if($socialmedia_option2 != false) { echo '<div id="product-info-box-item">'..'</div>'; } 
-								// if($socialmedia_option3 != false) { echo '<div id="product-info-box-item">'..'</div>'; }
+									if($product_id  != false) { echo '<div id="product-info-box-item">Product ID: '.$shop->cleanInput($product_id).'</div>'; }
+									if($product_title != false) { echo '<div id="product-info-box-item">Product title: '.$shop->cleanInput($product_title).'</div>'; } 
+									if($product_category != false) { echo '<div id="product-info-box-item">Category: '.$shop->cleanInput($product_category).'</div>'; } 
+									if($product_stock != false) { echo '<div id="product-info-box-item">In stock: '.$shop->cleanInput($product_stock).'</div>'; } 
+									if($product_catno != false) { echo '<div id="product-info-box-item">Catno: '.$shop->cleanInput($product_catno).'</div>'; } 
+									if($product_quantity != false) { echo '<div id="product-info-box-item">Quantity: '.$shop->cleanInput($product_quantity).'</div>'; } 
+									if($product_format != false) { echo '<div id="product-info-box-item">Format: '.$shop->cleanInput($product_format).'</div>'; } 
+									if($product_type != false) { echo '<div id="product-info-box-item">Type: '.$shop->cleanInput($product_type).'</div>'; } 
+									if($product_weight != false) { echo '<div id="product-info-box-item">Weight: '.$shop->cleanInput($product_weight).'</div>'; } 
+									if($product_condition != false) { echo '<div id="product-info-box-item">Condition: '.$shop->cleanInput($product_condition).'</div>'; } 
+									if($product_ean != false) { echo '<div id="product-info-box-item">EAN: '.$shop->cleanInput($product_ean).'</div>'; } 
+									if($product_sku != false) { echo '<div id="product-info-box-item">SKU: '.$shop->cleanInput($product_sku).'</div>'; } 
+									if($product_vendor != false) { echo '<div id="product-info-box-item">Vendor: '.$shop->cleanInput($product_vendor).'</div>'; } 
+									
+									if($product_date != false) { echo '<div id="product-info-box-item">Date: '.$shop->cleanInput($product_date).'</div>'; } 
+									if($product_url != false) { echo '<div id="product-info-box-item">URL: '.$shop->cleanInput($product_url).'</div>'; } 
+									if($product_tags != false) { echo '<div id="product-info-box-item">Tags: '.$shop->cleanInput($product_tags).'</div>'; } 
+
+									// if($product_price_min != false) { echo '<div id="product-info-box-item">'..'</div>'; } 
+									// if($product_price_max != false) { echo '<div id="product-info-box-item">'..'</div>'; } 
+									// if($product_price_varies != false) { echo '<div id="product-info-box-item">'..'</div>'; } 		
+									// if($product_images != false) { echo '<div id="product-info-box-item">'..'</div>'; } 
+									// if($product_featured != false) { echo '<div id="product-info-box-item">'..'</div>'; } 
+									// if($product_featured_location != false) { echo '<div id="product-info-box-item">'..'</div>'; } 
+									// if($product_featured_carousel != false) { echo '<div id="product-info-box-item">'..'</div>'; } 
+									// if($product_featured_image != false) { echo '<div id="product-info-box-item">'..'</div>'; } 
+									// if($product_content != false) { echo '<div id="product-info-box-item">'..'</div>'; } 
+									// if($product_variants != false) { echo '<div id="product-info-box-item">'..'</div>'; } 
+									// if($product_available != false) { echo '<div id="product-info-box-item">'..'</div>'; } 
+									// if($product_selected_variant != false) { echo '<div id="product-info-box-item">'..'</div>'; } 
+									// if($product_collections != false) { echo '<div id="product-info-box-item">'..'</div>'; } 
+									// if($product_options != false) { echo '<div id="product-info-box-item">'..'</div>'; } 		
+									
+									if($shipping_fixed_price != false) { echo '<div id="product-info-box-item">Shipping fixed price: '.$shop->cleanInput($shipping_fixed_price).'</div>'; }
+									if($shipping_flat_fee != false) { echo '<div id="product-info-box-item">Flat fee: '.$shop->cleanInput($shipping_flat_fee).'</div>'; } 
+									if($shipping_locations != false) { echo '<div id="product-info-box-item">Shipping locations: '.$shop->cleanInput($shipping_locations).'</div>'; } 
 
 							echo '</div>';	
 
+							echo '<div id="product-social">';
+									if($socialmedia_option1 != false) { echo '<div id="product-social-box-item"><a href="'.$shop->cleanInput($socialmedia_option1).'" target="_blank">'.$shop->cleanInput($socialmedia_option1).'</a></div>'; } 
+									if($socialmedia_option2 != false) { echo '<div id="product-social-box-item"><a href="'.$shop->cleanInput($socialmedia_option2).'" target="_blank">'.$shop->cleanInput($socialmedia_option2).'</a></div>'; } 
+									if($socialmedia_option3 != false) { echo '<div id="product-social-box-item"><a href="'.$shop->cleanInput($socialmedia_option3).'" target="_blank">'.$shop->cleanInput($socialmedia_option3).'</a></div>'; }
+							echo '</div>';
+							
 							echo '<div id="product-footer"></div>';
 							
 							} else {
@@ -270,11 +317,13 @@ include("header.php");
 include("footer.php");
 ?>
 <script>
+
 function categoryEvents() {
 	tinyshop.toggle(<?=$catid;?>,'8');
 }
 
 tinyshop.tinyEvents('categories');
+
 </script>
 </body>
 </html>

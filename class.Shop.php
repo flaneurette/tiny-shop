@@ -145,7 +145,6 @@ class Shop {
 			
 			case 'trim':
 				
-				
 				if(isset($string)) {
 					
 					if(trim($string) != "") {
@@ -159,7 +158,6 @@ class Shop {
 				} else {
 					$this->data = false;
 				}
-				
 				
 			break;		
 			
