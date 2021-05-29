@@ -273,53 +273,33 @@ function create_htpasswd($username,$password) {
 function create_htaccess_root($ts_shop_folder) {
 	
 $htaccess_mod = '
-RewriteEngine On
-
 Options All -Indexes
 Options +FollowSymLinks
-ServerSignature Off
 
-IndexIgnore *
-
-# PHP 5.
-# <IfModule mod_php5.c>
-#   php_value include_path ".:/usr/local/lib/php"
-#   php_flag mail.add_x_header Off
-#   php_value memory_limit 64M
-#   php_value post_max_size 10M
-#   php_value upload_max_filesize 10M
-#   php_value display_errors 0
-# </IfModule>
-
-# PHP 7.
-# <IfModule mod_php7.c>
-#   php_value include_path ".:/usr/local/lib/php"
-#   php_flag mail.add_x_header Off
-#   php_value memory_limit 64M
-#   php_value post_max_size 10M
-#   php_value upload_max_filesize 10M
-#   php_value display_errors 0
-# </IfModule>
+RewriteEngine On
 
 # Rewrite URI\'s
 RewriteCond %{HTTPS} !on
 RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI}
 
-RewriteRule ^catalog/(.*)/(.*)/(.*)/(.*)/$ /'.$ts_shop_folder.'/product-list.php?cat=$1&product=$2&productid=$3&page=$4  [NC,L]
-RewriteRule ^item/(.*)/(.*)/(.*)/(.*)/$ /'.$ts_shop_folder.'/product.php?cat=$1&product=$2&productid=$3&page=$4  [NC,L]
-RewriteRule ^category/(.*)$ /'.$ts_shop_folder.'/pages.php?id=$1&page=$2 [NC,L]
+# build this dynamically
 
 # product single item
 RewriteRule ^category/(.*)/(.*)/(.*)/(.*)/$ /'.$ts_shop_folder.'/product.php?cat=$1&product=$2&productid=$3&page=$4 [NC,L]
+
 # sub-category
 RewriteRule ^category/(.*)/(.*)/(.*)/$ /'.$ts_shop_folder.'/product.php?cat=$1&product=$2&productid=$3&page=$4 [NC,L]
+
+RewriteRule ^item/(.*)/(.*)/(.*)/(.*)/$ /'.$ts_shop_folder.'/product.php?cat=$1&product=$2&productid=$3&page=$4  [NC,L]
+
 # category
 RewriteRule ^category/(.*)/(.*)/$ /'.$ts_shop_folder.'/category.php?cat=$1&subcat=$2 [NC,L]
 RewriteRule ^category/(.*)/$ /'.$ts_shop_folder.'/category.php?cat=$1 [NC,L]
-
 RewriteRule ^catalog/(.*)/(.*)/(.*)/(.*)/$ /'.$ts_shop_folder.'/product-list.php?cat=$1&product=$2&productid=$3&page=$4  [NC,L]
 #RewriteRule ^category/(.*)$ /'.$ts_shop_folder.'/pages.php?id=$1&page=$2 [NC,L]
 
+RewriteRule ^blog/$ /'.$ts_shop_folder.'/pages/blog.php  [NC,L]
+RewriteRule ^articles/$ /'.$ts_shop_folder.'/pages/articles.php  [NC,L]
 RewriteRule ^blog/(.*)/(.*)/(.*)/(.*)/$ /'.$ts_shop_folder.'/pages/blog.php?cat=$1&blogid=$2&blogtitle=$3&page=$4  [NC,L]
 RewriteRule ^pages/(.*)/(.*)/(.*)/(.*)/$ /'.$ts_shop_folder.'/pages/page.php?cat=$1&pageid=$2&pagetitle=$3&page=$4  [NC,L]
 RewriteRule ^articles/(.*)/(.*)/(.*)/(.*)/$ /'.$ts_shop_folder.'/pages/article.php?cat=$1&articleid=$2&articletitle=$3&page=$4  [NC,L]

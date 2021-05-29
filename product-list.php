@@ -16,7 +16,7 @@
 			<div id="shop">
 			
 				<?php 
-				echo $products;
+				echo $products[1];
 				?>
 			</div>
 	</body>

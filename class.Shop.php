@@ -493,7 +493,7 @@ class Shop {
 	* @return $string, html, false for failure.
 	*/	
 
-	public function paginate($page) 
+	public function paginate($page,$total,$limit=false) 
 	{
 
 		if(!is_numeric($page)) {
@@ -502,10 +502,26 @@ class Shop {
 		}
 		
 		// Cast to integer, for security.
+		
 		$p = (int)$page;
 
-		$total = 100;
-		$limit = 20;
+		if(!isset($total)) {
+			$this->message('Pagination error: the total number of items is zero.');
+			return false;
+		}
+		
+		if($limit == false) {
+			$siteconf 	= $this->load_json("inventory/site.json");
+			$result 	= $this->getasetting($siteconf,'site.maxproducts.visible.in.cat');
+			$limit 		= (int) $result["site.maxproducts.visible.in.cat"];
+		}
+		
+		if($limit >= $total) {
+			$limit = $total;
+		}
+		
+		# TODO: update the number of fetched products in the category page.
+		
 		$ps = ceil($total / $limit);
 
 		if($p <= 0) {
@@ -513,16 +529,19 @@ class Shop {
 		}
 		
 		$offset = ($p - 1)  * $limit;
+
 		$start  = $offset + 1;
+		
 		$end    = min(($offset + $limit), $total);
 		
-		$uri = '';
+		$uri = $this->getbase($path=true);
 		
 		$prevlink = ($p > 1) ? '<a href="'.$uri.'/1/" title="First page">&laquo;</a> <a href="'.$uri.'/' . ($p - 1) . '/" title="Previous page" class="ts.pagination.link">&lsaquo;</a>' : '<span class="ts.disabled.span">&laquo;</span> <span class="ts.disabled.span">&lsaquo;</span>';
 		$nextlink = ($p < $ps) ? '<a href="'.$uri.'/' . ($p + 1) . '/" title="Next page" class="ts.pagination.link">&rsaquo;</a> <a href="'.$uri.'/' . $ps . '/" title="Last page" class="ts.pagination.link">&raquo;</a>' : '<span class="ts.disabled.span">&rsaquo;</span> <span class="ts.disabled.span">&raquo;</span>';
 
 		return '<div id="ts.pagination">'. $prevlink. ' Page '.$p. ' of ' .$ps. ' pages, showing '.$start. '-'.$end. ' of '.$total.' results '. $nextlink. ' </div>';
 	}
+	
 
 	public function invoiceid($dir,$method,$value=false) 
 	{
@@ -905,7 +924,7 @@ class Shop {
 
 		$string .= "</div>";		
 		
-		return $string;
+		return array($j,$string);
 	}
 	
 	public function getproductlist($json) {
@@ -1095,7 +1114,7 @@ class Shop {
 	{
 		$siteconf 		= $this->load_json($json);
 		$result 		= $this->getasetting($siteconf,'site.url');
-		$result_path 	= $this->getasetting($siteconf,'site.canonical');
+		$result_path 	= $this->getasetting($siteconf,'site.canonical');   
 		
 		$find 		= ['http://','https://','www.','/'];
 		$replace 	= ['','','',''];

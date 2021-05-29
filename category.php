@@ -74,19 +74,20 @@ include("header.php");
 			
 			if(isset($cat)) {
 				$products = $shop->getproducts('list',$cat,false,$_SESSION['token']);				
-				echo $products;
+				echo $products[1];
 			} elseif(isset($subcat)) {
 				$products = $shop->getproducts('list',$subcat,false,$_SESSION['token']);				
-				echo $products;
+				echo $products[1];
 			} else { }	
 
+			$catitems = $products[0];
 			?>
 			</div>
 			
 			</div>
 			<div id="ts-paginate">
 				<?php 
-					// echo $shop->paginate(1);
+					 // echo $shop->paginate(1,$catitems);
 				?>
 			</div>
 			<!-- caller: method, opts, uri. -->

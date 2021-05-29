@@ -17,10 +17,8 @@ error_reporting(0);
 		$page 		= $shop->sanitize($_REQUEST['page'],'num');	
 		
 		if(isset($_REQUEST['subcat'])) {
-			echo $_REQUEST['subcat'];
 			$scat 		= $shop->sanitize($_REQUEST['subcat'],'cat');
 			$subcat  	= $shop->getcatId($cat,$scat);
-			echo $subcat;
 		}
 		
 	}
