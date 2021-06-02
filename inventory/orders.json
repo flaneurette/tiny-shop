@@ -7,7 +7,6 @@
         "orders.data": "",
         "orders.sum": "",
         "orders.tax": "",
-        "orders.customer.email": "",
         "orders.delivered": "",
         "orders.refunded": "",
         "orders.discount": "",
@@ -17,9 +16,6 @@
         "orders.checkout.status": "",
         "orders.checkout.discount": "",
         "orders.checkout.success": "",
-        "orders.session.id": "",
-        "orders.session.ip": "",
-        "orders.session.ua": "",
         "orders.session.attempts": "",
         "orders.diff": ""
     }
