@@ -147,7 +147,7 @@ class Session {
 		$original_plaintext = openssl_decrypt($ciphertext_raw, $cipher, $key, $options=OPENSSL_RAW_DATA, $iv);
 		$calcmac = hash_hmac('sha256', $ciphertext_raw, $key, $as_binary=true);
 		
-		if (hash_equals($hmac, $calcmac)) { //PHP 5.6+ timing attack safe comparison
+		if (hash_equals($hmac, $calcmac)) { // PHP 5.6+ timing attack safe comparison
 			return $original_plaintext;
 		}
 	}

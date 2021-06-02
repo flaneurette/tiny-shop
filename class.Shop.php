@@ -28,7 +28,7 @@ class Shop {
 	CONST FILE_ENC				= "UTF-8";
 	CONST FILE_OS				= "WINDOWS-1252"; // only for JSON and CSV, not the server architecture.
 	CONST MAXINT  				= 999999999;
-	CONST DEPTH				= 1024;
+	CONST DEPTH					= 10024;
 	CONST MAXWEIGHT				= 10000;
 	CONST MAXTITLE				= 255; // Max length of title.
 	CONST MAXDESCRIPTION			= 500; // Max length of description.
@@ -48,7 +48,7 @@ class Shop {
 	
 	// Password to encrypt JSON
 	private static function PWD() {
-		return "thepasswordisyesterday";
+		return "thepasswordisnow";
 	}
 
 	public function getbase($path=false) 
@@ -177,7 +177,8 @@ class Shop {
 
 			case 'email':
 			case 'cat':
-				$this->data =  preg_replace('/[^a-zA-Z-0-9\-_\/]/','', $string);
+				$this->data = $string;
+				# $this->data =  preg_replace('/[^a-zA-Z-0-9\-_\/]/','', $string);
 			break;
 			
 			case 'alphanum':
@@ -770,13 +771,16 @@ class Shop {
 	* @param category: select shop category, if none is given it will list all products.
 	* @return $string, html or array (if method is requested.)
 	*/		
-	public function getproducts($method,$category,$string=false,$token) 
+	public function getproducts($method,$category,$string=false,$limit=false,$page=false,$token) 
 	{
 	
 		isset($string) ? $this->$string = $string : $string = false;
 		isset($category) ? $this->$category = $category : $category = false;
-		isset($page_id) ? $this->page_id = (int)$_GET['page_id'] : $this->page_id = 1;
-	
+		isset($page_id) ? $this->page_id = (int)$_GET['page_id'] : $this->page_id = 1;	
+		
+		isset($_GET['cat']) ? $this->product_cat = $_GET['cat'] : $this->product_cat = false;	
+		isset($_GET['subcat']) ? $this->product_subcat = $_GET['subcat'] : $this->product_subcat = false;	
+				
 		$hostaddr = $this->getbase();
 		
 		// Loading the shop configuration.
@@ -788,6 +792,111 @@ class Shop {
 				array_push($configuration,$conf);
 			}
 		}
+		
+		// Logic for pagination on products.
+		
+		if($limit == false) {
+			$siteconf 	= $this->load_json("inventory/site.json");
+			$result 	= $this->getasetting($siteconf,'site.maxproducts.visible.in.cat');
+			$limit 		= (int) $result["site.maxproducts.visible.in.cat"];
+			$limit_products = $limit;
+			} else {
+			$limit_products = $limit;
+		}
+		
+		if($page != false) {
+			$page_products = $page;
+			} else {
+			$page_products = 1;
+		}
+		
+		$productlist = $this->decode();	
+		
+		if($productlist !== null) {
+			$amount_products = count($productlist);
+			} else {
+			$amount_products = 0;
+		}
+		
+		// build pagination for product page.
+		
+		if($amount_products >= 1) {
+
+			$pagination = true;
+			
+			if(isset($_GET['page'])) {
+				$page_products   = (int)$_GET['page'];
+				} else {
+				$page_products   = 1;
+			}
+		 
+			if($amount_products <= 1) {
+				echo 'There are not enough products to view.';
+				exit;
+			}
+
+			if($limit_products >= 500) {
+				echo 'There are too many products to view. Please edit the appropiate max product value setting in site.json.';
+				exit;
+			}
+
+			if($limit_products <= 1) {
+				$limit_products = 10;
+			}
+
+			if($page_products < 1) {
+				$page_products = 1;
+			}
+			
+			// todo: fix bug on limit ~ amount
+			if($limit_products > $amount_products) {
+				$limit_products = $amount_products;
+			}
+			
+			$pages = round($amount_products / $limit_products);
+			
+			if($page_products == 1) {
+				$min = 0;
+				$max = $limit_products;
+			}
+			
+			if($page_products > 1) {
+				$min = (($page_products -1) * $limit_products);
+				$max = ($page_products * $limit_products);		
+			}
+			
+			if($max > $amount_products) {
+				$min = ($amount_products - $limit_products); 
+				$max = $amount_products; 
+			}
+			
+		} else {
+			$pagination = false;
+		}
+		
+		// top paginate links
+		$string .= '<div id="ts-paginate">';
+		$string .= '<div id="ts-paginate-left">';
+		$string .= 'Showing product ';
+		
+		if($min == 0) {
+			$string .= $min+1;
+			} else {
+			$string .= $min;
+		}
+	
+		$string .= ' to ';
+		$string .= $max;
+		$string .= '</div>';
+		$string .= '<div id="ts-paginate-right">';
+		$string .= 'Page '.$page_products.' of '. $pages; 
+		
+		if($page != $pages) {
+		   $string .= '&nbsp;<span id="ts-paginate-arrow"><a href="'.($page_products+1).'/">&rarr;</a></span>';
+		} 
+		
+		$string .= '</div>';
+		$string .= '</div>';
 		
 		// carousel selection.
 		if($configuration[0]['products.carousel'] == 1 && $category == 'index') {
@@ -802,52 +911,53 @@ class Shop {
 			$configuration['products.per.page']    : 25		
 			$configuration['products.per.cat']     : 25
 		*/
+
+		$string .= "<div id=\"ts-product\">";
 		
-		$productlist = $this->decode();
-
-		$string .= "<div id=\"ts.product\">";
-
 		if($productlist !== null) {
 
+			$ts 	  = array();
 			$shoplist = $productlist;
-			$ts 	  = array(); 
-			$i 		  = count($ts);
-			$j 		  = 0;
 			
-			$i = count($ts)-1;
-			
-			foreach($productlist as $c) {	
-			
-				$j++;
-			
-				if($i >= $configuration[0]['products.per.page']) {
-					$this->message('Too many products in category, try to generate pagination.');
-					// todo: pagination
-					$prc = $configuration[0]['products.row.count'];	
-					$ppp = $configuration[0]['products.per.page'];		
-					$ppc = $configuration[0]['products.per.cat'];
+			if($pagination == false) {
+				$min  = 0;
+				$max  = count($productlist);
+			} 
 		
-				} else {
-					if($category != false) {
-						if($c['product.category'] == $category) {
-							array_push($ts,$c);
-						}
+			for($k = $min; $k < count($productlist); $k++) {	
+			
+				$c = $productlist[$k];
+			
+					if($this->product_subcat != false) {
+						// category and subcategory
+						if($c['product.category.sub'] == $this->product_subcat && $c['product.category'] == $this->product_cat) {
+								array_push($ts,$c);
+						}	
+					} elseif($this->product_cat != false) {
+						// only category
+						if($c['product.category'] == $this->product_cat) {
+								array_push($ts,$c);
+						}	
 					} else {
-						array_push($ts,$c);
+						// no cat nor subcat.
 					}
 				
 					$this->cleanInput($c['product.title']);
-					$i++;
-				}
 			}
 			
-			if($j <= 0) {
+			if($k <= 0) {
 				return '<div id="ts-products-noproducts">There are no products in this category.</div>';
 			}
 			
 			if($method == 'array') {
 				return $ts;
 				exit;
+			}
+
+			if($pagination == false) {
+				$i = count($ts);
+				} else {
+				$i = $max;
 			}
 
 			if($i >= 0) { 
@@ -887,7 +997,7 @@ class Shop {
 							$string .= "<div class=\"ts-list-product-status\">left in stock.<div class=\"".$status."\">".$this->cleanInput($ts[$i]['product.stock'])."</div></div>";
 							
 							if(isset($configuration[0]['products.quick.cart']) == 'yes') {
-								$string .= "<div><input type='number' name='qty' size='1' value='1' min='1' max='9999' id='ts-group-cart-qty-".$i.'-'.$ts[$i]['product.id']."'><input type='button' onclick='tinyshop.addtocart(\"".$ts[$i]['product.id']."\",\"ts-group-cart-qty-".$i.'-'.$ts[$i]['product.id']."\",\"".$token."\",\"".$hostaddr."\");' class='ts-list-cart-button' name='add_cart' value='".$this->cleanInput($configuration[0]['products.cart.button'])."' /></div>";
+								$string .= "<div><input type='number' name='qty' size='1' value='1' min='1' max='9999' id='ts-group-cart-qty-".($i+1).'-'.$ts[$i]['product.id']."'><input type='button' onclick='tinyshop.addtocart(\"".$ts[$i]['product.id']."\",\"ts-group-cart-qty-".($i+1).'-'.$ts[$i]['product.id']."\",\"".$token."\",\"".$hostaddr."\");' class='ts-list-cart-button' name='add_cart' value='".$this->cleanInput($configuration[0]['products.cart.button'])."' /></div>";
 								} else {
 								$string .= "<div class='ts-list-view-link'><a href=\"product/".$this->cleanInput($ts[$i]['product.id'])."/\">view</a></div>";
 							}
@@ -908,7 +1018,7 @@ class Shop {
 						
 						if(isset($configuration[0]['products.quick.cart']) == 'yes') {
 							
-							$string .= "<div><input type='number' name='qty' size='1' min='1' max='9999' value='1' id='ts-group-cart-qty-".$i.'-'.$ts[$i]['product.id']."'><input type='button' onclick='tinyshop.addtocart(\"".$ts[$i]['product.id']."\",\"ts-group-cart-qty-".$i.'-'.$ts[$i]['product.id']."\",\"".$token."\",\"".$host."\");' class='ts-group-cart-button' name='add_cart' value='".$this->cleanInput($configuration[0]['products.cart.button'])."' /></div>";
+							$string .= "<div><input type='number' name='qty' size='1' min='1' max='9999' value='1' id='ts-group-cart-qty-".($i+1).'-'.$ts[$i]['product.id']."'><input type='button' onclick='tinyshop.addtocart(\"".$ts[$i]['product.id']."\",\"ts-group-cart-qty-".($i+1).'-'.$ts[$i]['product.id']."\",\"".$token."\",\"".$host."\");' class='ts-group-cart-button' name='add_cart' value='".$this->cleanInput($configuration[0]['products.cart.button'])."' /></div>";
 							} else {
 							$string .= "<div class='ts-group-view-link'><a href=\"product/".$this->cleanInput($ts[$i]['product.id'])."/\">view</a></div>";
 						}
@@ -924,7 +1034,7 @@ class Shop {
 
 		$string .= "</div>";		
 		
-		return array($j,$string);
+		return array($k,$string);
 	}
 	
 	public function getproductlist($json) {
@@ -2156,6 +2266,8 @@ class Shop {
 		return;
 	}
 	
+
 }
+
 
 ?>

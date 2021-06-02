@@ -5,6 +5,7 @@
         "category.description": "Index page",
         "category.short.text": "",
         "category.long.text": "",
+		"category.maxproducts": "50",
         "category.url": "",
         "category.tags": "",
         "category.image.header": "",

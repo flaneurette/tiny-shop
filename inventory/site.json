@@ -13,6 +13,7 @@
         "site.status": "online",
         "site.updated": "",
         "site.currency": "0",
+		"site.maxproducts.visible.in.cat": "50",
         "site.meta.title": "Tinyshop webshop",
         "site.meta.description": "Tinyshop webshop is your place to shop!",
         "site.meta.name.1": "Pragma",

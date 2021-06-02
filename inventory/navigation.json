@@ -3,7 +3,7 @@
         "nav.id": "1",
         "nav.title": "index",
         "nav.description": "Index page",
-        "nav.url": "",
+        "nav.url": "category/index/",
 		"nav.status": "1"
     },
     {

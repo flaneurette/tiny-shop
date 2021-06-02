@@ -5,7 +5,7 @@ class Security {
 	/**
 	* Security class
 	*/
-	const MAXINT  			= 9999999;
+	const MAXINT  			= 2000000000; 
 	const PHPENCODING 		= 'UTF-8';		// Characterset of PHP functions: (htmlspecialchars, htmlentities) 
 	const MINHASHBYTES		= 32; 			// Min. of bytes for secure hash.
 	const MAXHASHBYTES		= 64; 			// Max. of bytes for secure hash, more increases cost. Max. recommended: 256 bytes.

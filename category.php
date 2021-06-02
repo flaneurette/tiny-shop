@@ -10,17 +10,17 @@ error_reporting(0);
 	$token = $shop->getToken();
 	$_SESSION['token'] = $token;
 	
-	if(isset($_REQUEST['cat'])) {
-		$cat   = $shop->sanitize($_REQUEST['cat'],'cat');
+	if(isset($_GET['cat'])) {
+		$cat   = $shop->sanitize($_GET['cat'],'cat');
 		$catid = $shop->getcatId($cat,$subcat=false);
 	}
 	
-	if(isset($_REQUEST['subcat'])) {
-		$cat    = $shop->sanitize($_REQUEST['cat'],'cat');
-		$subcat = $shop->sanitize($_REQUEST['subcat'],'cat');
-		$catid  = $shop->getcatId($cat,$subcat=false); // TODO: highlight subcats
+	if(isset($_GET['subcat'])) {
+		$cat    = $shop->sanitize($_GET['cat'],'cat');
+		$subcat = $_REQUEST['subcat'];
+		$catid  = $shop->getcatId($cat,false); // TODO: highlight subcats
 	}
-	
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -71,12 +71,22 @@ include("header.php");
 			
 			<div id="ts-shop-nav">
 			<?php
-			
-			if(isset($cat)) {
-				$products = $shop->getproducts('list',$cat,false,$_SESSION['token']);				
+
+			if(isset($_GET['page'])) {
+				if($_GET['page'] != '' || $_GET['page'] != null) {
+					$paginate = (int) $_GET['page'];
+					} else {
+					$paginate = false;
+				}
+			} else {
+				$paginate = false;
+			}
+				
+			if(isset($subcat)) {
+				$products = $shop->getproducts('list',$subcat,false,false,$paginate,$_SESSION['token']);				
 				echo $products[1];
-			} elseif(isset($subcat)) {
-				$products = $shop->getproducts('list',$subcat,false,$_SESSION['token']);				
+			} elseif(isset($cat)) {
+				$products = $shop->getproducts('list',$cat,false,false,$paginate,$_SESSION['token']);				
 				echo $products[1];
 			} else { }	
 
@@ -85,12 +95,6 @@ include("header.php");
 			</div>
 			
 			</div>
-			<div id="ts-paginate">
-				<?php 
-					 // echo $shop->paginate(1,$catitems);
-				?>
-			</div>
-			<!-- caller: method, opts, uri. -->
 </div>
 
 <?php

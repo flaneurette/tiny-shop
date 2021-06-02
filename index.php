@@ -57,7 +57,7 @@ include("header.php");
 			
 			<div id="ts-shop-nav">
 			<?php
-				$products = $shop->getproducts('list',$category='index',false,$_SESSION['token']);				
+				$products = $shop->getproducts('list','index',false,false,false,$_SESSION['token']);				
 				echo $products[1];
 			?>
 			</div>

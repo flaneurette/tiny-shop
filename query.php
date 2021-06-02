@@ -89,6 +89,7 @@ if(isset($_POST['action'])) {
 			
 			case 'addtocart':
 			
+
 				$id  = (int)$secure->sanitize($_POST['id'],'num');
 				$qty = (int)$secure->sanitize($_POST['qty'],'num');
 				
