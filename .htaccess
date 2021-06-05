@@ -24,15 +24,16 @@ RewriteRule ^category/(.*)/(item)/(.*)/(.*)/(.*)/(.*)$ /shopping/product.php?cat
 RewriteRule ^category/(.*)/(item)/(.*)/(.*)/(.*)/$ /shopping/product.php?cat=$1&product=$4&productid=$5 [NC,L]
 RewriteRule ^item/(index)/(.*)/(.*)/(.*)/$ /shopping/product.php?cat=index&product=$2&productid=$3&page=$4  [NC,L]
 
-# subcat pag.
-RewriteRule ^category/(.*)/(.*)/(.*)/$ /shopping/category.php?cat=$1&subcat=$2&page=$3 [NC,L]
-# subcat
-RewriteRule ^category/(.*)/(.*)/$ /shopping/category.php?cat=$1&subcat=$2 [NC,L]
 
 # single cat pag.
 RewriteRule ^category/(.*)/(.*)/$ /shopping/category.php?cat=$1&page=$2 [NC,L]
 # single cat
 RewriteRule ^category/(.*)/$ /shopping/category.php?cat=$1 [NC,L]
+
+# subcat pag.
+RewriteRule ^subcategory/(.*)/(.*)/(.*)/$ /shopping/category.php?cat=$1&subcat=$2&page=$3 [NC,L]
+# subcat
+RewriteRule ^subcategory/(.*)/(.*)/$ /shopping/category.php?cat=$1&subcat=$2 [NC,L]
 
 RewriteRule ^blog/$ /shopping/pages/blog.php  [NC,L]
 RewriteRule ^articles/$ /shopping/pages/articles.php  [NC,L]
