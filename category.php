@@ -71,7 +71,7 @@ include("header.php");
 			
 			<div id="ts-shop-nav">
 			<?php
-
+			
 			if(isset($_GET['page'])) {
 				if($_GET['page'] != '' || $_GET['page'] != null) {
 					$paginate = (int) $_GET['page'];

@@ -494,56 +494,6 @@ class Shop {
 	* @return $string, html, false for failure.
 	*/	
 
-	public function paginate($page,$total,$limit=false) 
-	{
-
-		if(!is_numeric($page)) {
-			$this->message('Pagination error: page value is not numeric, could not paginate.');
-			return false;
-		}
-		
-		// Cast to integer, for security.
-		
-		$p = (int)$page;
-
-		if(!isset($total)) {
-			$this->message('Pagination error: the total number of items is zero.');
-			return false;
-		}
-		
-		if($limit == false) {
-			$siteconf 	= $this->load_json("inventory/site.json");
-			$result 	= $this->getasetting($siteconf,'site.maxproducts.visible.in.cat');
-			$limit 		= (int) $result["site.maxproducts.visible.in.cat"];
-		}
-		
-		if($limit >= $total) {
-			$limit = $total;
-		}
-		
-		# TODO: update the number of fetched products in the category page.
-		
-		$ps = ceil($total / $limit);
-
-		if($p <= 0) {
-			$p = 1;
-		}
-		
-		$offset = ($p - 1)  * $limit;
-
-		$start  = $offset + 1;
-		
-		$end    = min(($offset + $limit), $total);
-		
-		$uri = $this->getbase($path=true);
-		
-		$prevlink = ($p > 1) ? '<a href="'.$uri.'/1/" title="First page">&laquo;</a> <a href="'.$uri.'/' . ($p - 1) . '/" title="Previous page" class="ts.pagination.link">&lsaquo;</a>' : '<span class="ts.disabled.span">&laquo;</span> <span class="ts.disabled.span">&lsaquo;</span>';
-		$nextlink = ($p < $ps) ? '<a href="'.$uri.'/' . ($p + 1) . '/" title="Next page" class="ts.pagination.link">&rsaquo;</a> <a href="'.$uri.'/' . $ps . '/" title="Last page" class="ts.pagination.link">&raquo;</a>' : '<span class="ts.disabled.span">&rsaquo;</span> <span class="ts.disabled.span">&raquo;</span>';
-
-		return '<div id="ts.pagination">'. $prevlink. ' Page '.$p. ' of ' .$ps. ' pages, showing '.$start. '-'.$end. ' of '.$total.' results '. $nextlink. ' </div>';
-	}
-	
-
 	public function invoiceid($dir,$method,$value=false) 
 	{
 
@@ -743,9 +693,9 @@ class Shop {
 								}
 								
 								if(isset($subcatselected) == isset($c['sub.category.title'])) {
-								$html .= '<li class="ts-shop-'.$cssdirection.'-navigation-subcat-item-selected"><a href="'.$hostaddr.'category/'.$this->seoUrl($c['category.title']).'/'.$this->seoUrl($sc['sub.category.title']).'/">'.$sc['sub.category.title'].'</a></li>'.PHP_EOL;
+								$html .= '<li class="ts-shop-'.$cssdirection.'-navigation-subcat-item-selected"><a href="'.$hostaddr.'subcategory/'.$this->seoUrl($c['category.title']).'/'.$this->seoUrl($sc['sub.category.title']).'/">'.$sc['sub.category.title'].'</a></li>'.PHP_EOL;
 									} else {
-								$html .= '<li class="ts-shop-'.$cssdirection.'-navigation-subcat-item"><a href="'.$hostaddr.'category/'.$this->seoUrl($c['category.title']).'/'.$this->seoUrl($sc['sub.category.title']).'/">'.$sc['sub.category.title'].'</a></li>'.PHP_EOL;	
+								$html .= '<li class="ts-shop-'.$cssdirection.'-navigation-subcat-item"><a href="'.$hostaddr.'subcategory/'.$this->seoUrl($c['category.title']).'/'.$this->seoUrl($sc['sub.category.title']).'/">'.$sc['sub.category.title'].'</a></li>'.PHP_EOL;	
 								}
 								$j++;
 							}
@@ -875,28 +825,28 @@ class Shop {
 		}
 		
 		// top paginate links
-		$string .= '<div id="ts-paginate">';
-		$string .= '<div id="ts-paginate-left">';
-		$string .= 'Showing product ';
+		$string_pag = '<div id="ts-paginate">';
+		$string_pag .= '<div id="ts-paginate-left">';
+		$string_pag .= 'Showing product ';
 		
 		if($min == 0) {
-			$string .= $min+1;
+			$string_pag .= $min+1;
 			} else {
-			$string .= $min;
+			$string_pag .= $min;
 		}
 	
-		$string .= ' to ';
-		$string .= $max;
-		$string .= '</div>';
-		$string .= '<div id="ts-paginate-right">';
-		$string .= 'Page '.$page_products.' of '. $pages; 
+		$string_pag .= ' to ';
+		$string_pag .= $max;
+		$string_pag .= '</div>';
+		$string_pag .= '<div id="ts-paginate-right">';
+		$string_pag .= 'Page '.$page_products.' of '. $pages; 
 		
 		if($page != $pages) {
-		   $string .= '&nbsp;<span id="ts-paginate-arrow"><a href="'.($page_products+1).'/">&rarr;</a></span>';
+		   $string_pag .= '&nbsp;<span id="ts-paginate-arrow"><a href="'.($page_products+1).'/">&rarr;</a></span>';
 		} 
 		
-		$string .= '</div>';
-		$string .= '</div>';
+		$string_pag .= '</div>';
+		$string_pag .= '</div>';
 		
 		// carousel selection.
 		if($configuration[0]['products.carousel'] == 1 && $category == 'index') {
@@ -904,6 +854,8 @@ class Shop {
 		}
 		
 		/* 
+			TODO: 
+			carousel selection, plus:
 			$configuration['products.orientation'] : "thumb"
 			$configuration['products.alt.tags']    : "no"
 			$configuration['products.scene.type']  : "box"
@@ -943,6 +895,16 @@ class Shop {
 					}
 				
 					$this->cleanInput($c['product.title']);
+			}
+			
+			// pagination count correction.
+			
+			$ts_pag = count($ts);
+
+			if($ts_pag > $limit) {
+				$string .= $string_pag;
+				} else {
+				
 			}
 			
 			if($k <= 0) {

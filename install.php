@@ -298,15 +298,15 @@ RewriteRule ^category/(.*)/(item)/(.*)/(.*)/(.*)/$ /'.$ts_shop_folder.'/product.
 RewriteRule ^category/(.*)/(item)/(.*)/(.*)/(.*)/(.*)$ /'.$ts_shop_folder.'/product.php?cat=$1&product=$4&productid=$5&productid=$6 [NC,L]
 RewriteRule ^category/(.*)/(item)/(.*)/(.*)/(.*)/$ /'.$ts_shop_folder.'/product.php?cat=$1&product=$4&productid=$5 [NC,L]
 
-# subcat pag.
-RewriteRule ^category/(.*)/(.*)/(.*)/$ /'.$ts_shop_folder.'/category.php?cat=$1&subcat=$2&page=$3 [NC,L]
-# subcat
-RewriteRule ^category/(.*)/(.*)/$ /'.$ts_shop_folder.'/category.php?cat=$1&subcat=$2 [NC,L]
-
 # single cat pag.
 RewriteRule ^category/(.*)/(.*)/$ /'.$ts_shop_folder.'/category.php?cat=$1&page=$2 [NC,L]
 # single cat
 RewriteRule ^category/(.*)/$ /'.$ts_shop_folder.'/category.php?cat=$1 [NC,L]
+
+# subcat pag.
+RewriteRule ^subcategory/(.*)/(.*)/(.*)/$ /'.$ts_shop_folder.'/category.php?cat=$1&subcat=$2&page=$3 [NC,L]
+# subcat
+RewriteRule ^subcategory/(.*)/(.*)/$ /'.$ts_shop_folder.'/category.php?cat=$1&subcat=$2 [NC,L]
 
 RewriteRule ^blog/$ /'.$ts_shop_folder.'/pages/blog.php  [NC,L]
 RewriteRule ^articles/$ /'.$ts_shop_folder.'/pages/articles.php  [NC,L]
