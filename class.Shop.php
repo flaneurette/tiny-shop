@@ -51,7 +51,7 @@ class Shop {
 		return "thepasswordisnow";
 	}
 
-	public function getbase($path=false) 
+	public function getbase($path=false,$nav=false) 
 	{	
 	
 		$host_path 	= $this->gethost("inventory/site.json",true);
@@ -60,6 +60,10 @@ class Shop {
 		$result_url  = $this->getasetting($siteconf,'site.url');
 		$result_can  = $this->getasetting($siteconf,'site.canonical');
 
+		if($nav == true) {
+			return $result_url['site.url'];
+		}
+		
 		if($path == true) {
 			return $result_can['site.canonical'];
 		}
@@ -537,6 +541,27 @@ class Shop {
 	
 		$navigate = $this->load_json('inventory/navigation.json');
 	
+		$hostaddr = $this->getbase(false,true);
+	
+		if(isset($_SERVER["SCRIPT_URL"])) {
+			$script_url 	= $this->sanitize($_SERVER["SCRIPT_URL"],'alpha');
+		}
+		if(isset($_SERVER["REQUEST_URI"])) {
+			$request_uri 	= $this->sanitize($_SERVER["REQUEST_URI"],'alpha');
+		}
+
+		if(strstr($request_uri,'category')) {
+			$hostaddr = $this->getbase(false,true) .'/'; 
+		} elseif(strstr($request_uri,'subcategory')) {
+			$hostaddr = $this->getbase(false,true) .'/';
+		} elseif(strstr($request_uri,'cart')) {
+			$hostaddr = $this->getbase(false,true) .'/';
+		} elseif(strstr($request_uri,$this->getbase(true,false))) {
+			$hostaddr = $this->getbase(false,true) .'/';
+		} else {
+			$hostaddr = $this->getbase();
+		}
+	
 		$nav = '<nav>';
 		
 		$total = count($navigate);
@@ -544,7 +569,7 @@ class Shop {
 		foreach($navigate as $n) {	
 				
 			if($n['nav.status'] =='1') {
-				$nav .= '<a href="'.$this->cleanInput($host.$n['nav.url']).'" target="_self">'.$this->cleanInput($n['nav.title']).'</a>' .PHP_EOL;
+				$nav .= '<a href="'.$hostaddr.$this->cleanInput($n['nav.url']).'" target="_self">'.$this->cleanInput($n['nav.title']).'</a>' .PHP_EOL;
 			}
 		}
 
@@ -552,7 +577,6 @@ class Shop {
 		
 		return $nav;
 	}	
-	
 	
 	public function formatter($string,$method) {
 		
