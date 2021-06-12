@@ -193,7 +193,7 @@ include("header.php");
 											<div class="product-details">
 												<div class="product-description">'.$shop->formatter($product_description,'product-description').'</div>
 												<div class="product-price">'.$shop->getsitecurrency('inventory/site.json','inventory/currencies.json').' '.$product_price.'</div>
-												<a href="#"><div class="product-buynow">'.$string_button.'</div></a>
+												<div class="product-buynow">'.$string_button.'</div>
 											</div>
 										</div>
 							</div>';
