@@ -54,17 +54,17 @@ In a future version of TinyShop, all CSV files will be linked into a single Exce
 To change the colors and thematical style of the shop these CSS files can be modified:
 
 Two main stylesheets for the webshop:
-/resources/css.css
-/resources/style.css
+- /resources/css.css
+- /resources/style.css
 
 Pages stylesheet for articles, pages and blogs:
-/resources/pages.css
+- /resources/pages.css
 
 Administration stylesheet:
-/resources/admin.css
+- /resources/admin.css
 
 Reset stylesheet, needs not to be modified:
-/resources/reset.css
+- /resources/reset.css
 
 
 # CSV & JSON files of interest
