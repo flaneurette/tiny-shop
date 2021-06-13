@@ -49,6 +49,23 @@ To place a product inside a category or subcategory, the subsequent csv files ne
 - Future of product modification.
 In a future version of TinyShop, all CSV files will be linked into a single Excel document, making it even more practical. In this way the whole shop can be modified from a single excel document.
 
+# Style and themes.
+
+To change the colors and thematical style of the shop these CSS files can be modified:
+
+Two main stylesheets for the webshop:
+/resources/css.css
+/resources/style.css
+
+Pages stylesheet for articles, pages and blogs:
+/resources/pages.css
+
+Administration stylesheet:
+/resources/admin.css
+
+Reset stylesheet, needs not to be modified:
+/resources/reset.css
+
 
 # CSV & JSON files of interest
 
