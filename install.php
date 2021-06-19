@@ -68,7 +68,21 @@
 			echo 'Notice: please be sure that the "short_open_tag" is set to "1" or "On" in PHP.ini. Tinyshop does NOT work properly without it. (The installer is unable to test this adequately.)';
 		} 
 	}
-	
+
+
+	if(!is_writable("inventory/site.json")) {
+
+		if(chmod("inventory/site.json",0777) == false) {
+			array_push($error, "Could not chmod the inventory. Please chmod the /inventory/ folder manually to 0755, to write files to it.");
+		}
+	}
+
+	if(!is_writable("payment/paypal/paypal.json")) {
+		if(chmod("payment/paypal/paypal.json",0777) == false) {
+			array_push($error, "Could not chmod the paypal directory. Please chmod the /payment/paypal/ folder manually to 0755, to write files to it.");
+		}
+	}
+
 	/***
 	/* Check if required files are missing.
 	*/
@@ -81,14 +95,19 @@
 		array_push($error, "TinyShop software package is incomplete or has missing files: payment/paypal/paypal.json. Please clone or download again.");
 	}	
 	
+
 	if(!file_exists('administration/.htpasswd')) {
 		
-		if(chmod("administration/",0755) == FALSE) {
+		if(!is_writable("administration/.htpasswd")) {
+
+		if(chmod("administration/",0777) == false) {
 			array_push($error, "Could not chmod the administration directory. Please chmod the /administration/ folder manually to 0755, to write files to it.");
 		}
 		
-		if(chmod("administration/.htpasswd",0755) == FALSE) {
+		if(chmod("administration/.htpasswd",0777) == false) {
 			array_push($error, "Could not chmod the .htpasswd file. Please chmod the file manually to 0755, to write files to it.");
+		}
+
 		}
 	}		
 						
@@ -148,8 +167,8 @@
 	/***
 	/* Error reporting.
 	*/
-	
-	if(count($error) > 0) {
+
+	if(count($error) >= 1) {
 		
 		echo '<h1>Installation failed.</h1>' . PHP_EOL . PHP_EOL;
 		
@@ -160,7 +179,7 @@
 						$i=1;
 						
 						foreach($error as $e) {
-							echo $i . ": " . $shop->sanitize($e,'field') . PHP_EOL;
+							echo $i . ": " . $shop->sanitize($e,'cat') . PHP_EOL;
 							$i++;
 						}
 						
@@ -181,6 +200,11 @@
 			/***
 			/* Check if the installer already has been run before, or is running by another user. If so, exit the installer and warn user.
 			*/
+
+			if(!is_writable("administration/session.ses")) {
+				chmod("administration/session.ses",0777);
+			}
+
 			$session = fopen("administration/session.ses", "rw+") or die("Unable to open administration/session.ses. Cannot continue installation.");
 			$tmp_nonce = $security->getToken();
 			
@@ -359,7 +383,7 @@ RewriteCond %{QUERY_STRING}    ^.*(<|>|\'|%0A|%0D|%27|%3C|%3E|%00).* [NC]
 RewriteRule ^(.*)$ index.php
 
 # Prevent framing
-Header set X-Frame-Options SAMEORIGIN env=!allow_framing
+# Header set X-Frame-Options SAMEORIGIN env=!allow_framing
 
 <IfModule mod_headers.c>
     Header unset ETag
@@ -398,7 +422,13 @@ Header set X-Frame-Options SAMEORIGIN env=!allow_framing
 </IfModule>
 ';
 
-$hta_root = fopen(".htaccess", "w") or die("Unable to open .htaccess");
+if(!is_writable(".htaccess")) {
+
+chmod(".htaccess",0777);
+
+}
+
+$hta_root = fopen(".htaccess", "w+") or die("Unable to open .htaccess");
 fwrite($hta_root, $htaccess_mod);
 fclose($hta_root);
 
@@ -418,8 +448,14 @@ Order Deny,Allow
 Deny from all
 Allow from '.$ip.'
 ';
-					
-$hta = fopen("administration/.htaccess", "w") or die("Unable to open .htaccess");
+
+if(!is_writable("administration/.htaccess")) {
+
+chmod("administration/.htaccess",0777);
+
+}
+	
+$hta = fopen("administration/.htaccess", "w+") or die("Unable to open administration .htaccess");
 fwrite($hta, $htaccess);
 fclose($hta);
 
@@ -482,7 +518,16 @@ fclose($hta);
 		echo '<pre>';
 		echo 'TinyShop was installed and should function correctly! If not, please read the manual on Github: https://github.com/flaneurette/tiny-shop'. PHP_EOL;
 		echo 'Please delete the install.php file, or <a href="install.php?delete='.$shop->sanitize($nonce,'alphanum').'">click here.</a> to let Tinyshop do it for you'. PHP_EOL;
-		echo '</pre>';			
+		echo '</pre>';		
+
+		// make files non-writeable again.
+
+		chmod("administration/.htpasswd",0755);
+		chmod("administration/session.ses",0755);
+		chmod("administration/.htaccess",0755);
+		chmod(".htaccess",0755);
+		chmod("payment/paypal/paypal.json",0755);
+		chmod("inventory/site.json",0755);
 	
 	} else {
 		
