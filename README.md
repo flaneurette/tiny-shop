@@ -18,6 +18,17 @@ TinyShop checks all requirements and if satisfied, the package should be install
 - Server module: (Apache) mod_rewrite for .htaccess functionalities. The .htaccess is written dynamically upon installing. By default, a standard .htaccess is present.
 - The /shop/ and especially the /administration/ folder needs to be writeable by the server (In Apache for example, the owner should be www-data. If not, it needs to be manually chowned through a terminal.) otherwise, session data and the .htaccess and .htpasswd cannot be written.
 
+The following files need to be writeable by the installer. The installer attempts to chmod the files automatically, if this fails, then file rights need to be manually assigned as follows:
+
+- administration/.htpasswd : 0777
+- administration/session.ses : 0777
+- administration/.htaccess : 0777
+- .htaccess : 0777
+- payment/paypal/paypal.json : 0777
+- inventory/site.json : 0777
+
+Remember to change permissions back to 0755 after the installer has run. Again, the installer itself tries to do this automatically but it would be wise to check manually. The installer will give a notice if the chmodding fails.
+		
 # Payment types:
 
 By default, the free version, only accepts PayPal payments (including credit cards). 
