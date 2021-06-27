@@ -47,7 +47,7 @@
 </form>
 
 <hr />
-<small>N.B. your current PHP configuration allows only: <?=ini_get('max_file_uploads');?> simultaneous files to uploaded. To change it, edit PHP.ini max_file_uploads = number.</small>
+<small>N.B. your current PHP configuration allows only: <?php echo ini_get('max_file_uploads');?> simultaneous files to uploaded. To change it, edit PHP.ini max_file_uploads = number.</small>
 
 <?php
 

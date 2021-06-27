@@ -184,13 +184,13 @@ include("../../header.php");
 							$productsum_total = ($productsum_total + $productsum);
 							$qtyid = 'tscart-'.$j.$product;
 ?>
-							<input type="hidden" name="item_name_<?=($i+1);?>" maxlength="127" size="20" value="<?=$producttitle;?>" title="cart item, 127 chars">
-							<input type="hidden" name="item_number_<?=($i+1);?>" maxlength="127" size="20" value="<?=$product;?>" title="track payments, 127 chars">
-							<input type="hidden" name="item_price_<?=($i+1);?>" maxlength="127" size="20" id="item_price" value="<?=$productprice;?>" title="">
+							<input type="hidden" name="item_name_<?php echo ($i+1);?>" maxlength="127" size="20" value="<?php echo $producttitle;?>" title="cart item, 127 chars">
+							<input type="hidden" name="item_number_<?php echo ($i+1);?>" maxlength="127" size="20" value="<?php echo $product;?>" title="track payments, 127 chars">
+							<input type="hidden" name="item_price_<?php echo ($i+1);?>" maxlength="127" size="20" id="item_price" value="<?php echo $productprice;?>" title="">
 							<!-- required -->
-							<input type="hidden" name="amount_<?=($i+1);?>" maxlength="127" size="20" id="item_price" value="<?=$productprice;?>" title=""> 
-							<input type="hidden" name="quantity_<?=($i+1);?>" value="<?=$productqty;?>">
-							<input type="hidden" name="shipping_<?=($i+1);?>" maxlength="127" size="20" id="shipping_x" value="<?=$shipping_item;?>" title="">
+							<input type="hidden" name="amount_<?php echo ($i+1);?>" maxlength="127" size="20" id="item_price" value="<?php echo $productprice;?>" title=""> 
+							<input type="hidden" name="quantity_<?php echo ($i+1);?>" value="<?php echo $productqty;?>">
+							<input type="hidden" name="shipping_<?php echo ($i+1);?>" maxlength="127" size="20" id="shipping_x" value="<?php echo $shipping_item;?>" title="">
 <?php
 					}
 					$j++;
@@ -201,35 +201,35 @@ include("../../header.php");
 ?>
 			<input type="hidden" name="no_note" maxlength="1" min="0" max="1" value="1" title="0">
 			<!-- <input type="hidden" name="no_shipping" maxlength="1" min="0" max="1" value="1" title="0 or 1. 0 = to add shipping address"> -->
-			<input type="hidden" name="shipping" id="shipping" size="5" title="The item's shipping cost" value="<?=$shipping_price;?>"> 
-			<input type="hidden" name="handling" id="handling" size="5" title="handling cost" value="<?=$handling_price;?>">
-			<input type="hidden" name="amount" size="5" id="total_amount" title="total amount" value="<?=$total_price;?>" disabled>	
+			<input type="hidden" name="shipping" id="shipping" size="5" title="The item's shipping cost" value="<?php echo $shipping_price;?>"> 
+			<input type="hidden" name="handling" id="handling" size="5" title="handling cost" value="<?php echo $handling_price;?>">
+			<input type="hidden" name="amount" size="5" id="total_amount" title="total amount" value="<?php echo $total_price;?>" disabled>	
 
 			<div id="ts-shop-form">
 			
 				<div class="ts-shop-form-section">	
-					<input type="hidden" name="image_url" value="<?=$paypal_image_url;?>">
-					<input type="hidden" name="currency_code" value="<?=$paypal_currency_code;?>">		
-					<input type="hidden" name="business" value="<?=$paypal_email;?>">
-					<input type="hidden" name="cancel_return" value="<?=$paypal_domain.''.$paypal_cancel_page;?>">
-					<input type="hidden" name="custom" value="<?=$paypal_currency_code;?>">
-					<input type="hidden" name="invoice" value="<?=$paypal_invoice_number;?>">
-					<input type="hidden" name="notify_url" value="<?=$paypal_domain.''.$paypal_notify_url;?>">
+					<input type="hidden" name="image_url" value="<?php echo $paypal_image_url;?>">
+					<input type="hidden" name="currency_code" value="<?php echo $paypal_currency_code;?>">		
+					<input type="hidden" name="business" value="<?php echo $paypal_email;?>">
+					<input type="hidden" name="cancel_return" value="<?php echo $paypal_domain.''.$paypal_cancel_page;?>">
+					<input type="hidden" name="custom" value="<?php echo $paypal_currency_code;?>">
+					<input type="hidden" name="invoice" value="<?php echo $paypal_invoice_number;?>">
+					<input type="hidden" name="notify_url" value="<?php echo $paypal_domain.''.$paypal_notify_url;?>">
 					<?php
 					if($paypal_on0) {
 					?>
-						<input type="hidden" name="on0" maxlength="64" value="<?=$paypal_on0;?>">
-						<input type="hidden" name="on1" maxlength="64" value="<?=$paypal_on1;?>">
+						<input type="hidden" name="on0" maxlength="64" value="<?php echo $paypal_on0;?>">
+						<input type="hidden" name="on1" maxlength="64" value="<?php echo $paypal_on1;?>">
 					<?php
 					}
 					if($paypal_os0) {
 					?>
-						<input type="hidden" name="os0" maxlength="64" value="<?=$paypal_os0;?>">
-						<input type="hidden" name="os1" maxlength="64" value="<?=$paypal_os1;?>">
+						<input type="hidden" name="os0" maxlength="64" value="<?php echo $paypal_os0;?>">
+						<input type="hidden" name="os1" maxlength="64" value="<?php echo $paypal_os1;?>">
 					<?php
 					}
 					?>
-					<input type="hidden" name="return" value="<?=$paypal_domain.''.$paypal_return_page;?>">
+					<input type="hidden" name="return" value="<?php echo $paypal_domain.''.$paypal_return_page;?>">
 					
 					<!-- optional -->			
 					<!-- <input type="hidden" name="cmd" value="_ext-enter"> -->

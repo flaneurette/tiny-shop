@@ -48,13 +48,13 @@
 				?>
 			
 			<div class="ts-shop-ul">
-					<li class="ts-shop-ul-li-item-product"><?=$producttitle;?><!-- title --></li>
-					<li class="ts-shop-ul-li-item-description"><?=$productdesc;?><!-- desc --></li>
-					<li class="ts-shop-ul-li-item-price"><?=$sitecurrency;?> <?=$productprice;?><!-- price --></li>
-					<li class="ts-shop-ul-li-item-qty"><input type="number" name="qty" id="<?=$qtyid;?>" size="1" min="1" max="9999" value="<?=$productqty;?>"></li>
-					<li class="ts-shop-ul-li-item-update"><a href="#" onclick="tinyshop.updatecart('<?=$product;?>','<?=$qtyid;?>','<?=$token;?>');">&#x21bb;</a></li>
-					<li class="ts-shop-ul-li-item-total"><?=$sitecurrency;?> <?=$productsum;?><!-- sum --></li>
-					<li class="ts-shop-ul-li-item-delete" id="ts-shop-delete"><a href="#" onclick="tinyshop.deletefromcart('<?=$product;?>','<?=$token;?>');">&#x2716;</a>
+					<li class="ts-shop-ul-li-item-product"><?php echo $producttitle;?><!-- title --></li>
+					<li class="ts-shop-ul-li-item-description"><?php echo $productdesc;?><!-- desc --></li>
+					<li class="ts-shop-ul-li-item-price"><?php echo $sitecurrency;?> <?php echo $productprice;?><!-- price --></li>
+					<li class="ts-shop-ul-li-item-qty"><input type="number" name="qty" id="<?php echo $qtyid;?>" size="1" min="1" max="9999" value="<?php echo $productqty;?>"></li>
+					<li class="ts-shop-ul-li-item-update"><a href="#" onclick="tinyshop.updatecart('<?php echo $product;?>','<?php echo $qtyid;?>','<?php echo $token;?>');">&#x21bb;</a></li>
+					<li class="ts-shop-ul-li-item-total"><?php echo $sitecurrency;?> <?php echo $productsum;?><!-- sum --></li>
+					<li class="ts-shop-ul-li-item-delete" id="ts-shop-delete"><a href="#" onclick="tinyshop.deletefromcart('<?php echo $product;?>','<?php echo $token;?>');">&#x2716;</a>
 					</li>
 			</div>
 			
@@ -69,7 +69,7 @@
 		</div>
 		
 		
-		<?
+		<?php
 		
 		}
 		
