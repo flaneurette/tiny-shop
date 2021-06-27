@@ -19,7 +19,7 @@ if(!$title) {
 
 ?>
 <header>
-<h1 id="logo"><span id="logo-left"><?=$title;?></span></h1>
+<h1 id="logo"><span id="logo-left"><?php echo $title;?></span></h1>
 <br><br>
 <?php
 echo $shop->navigation($host);

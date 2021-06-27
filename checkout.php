@@ -100,8 +100,8 @@ include("header.php");
 		
 		if(($c > 0) && ($c < 9999) ) {
 	?>
-		<form name="ts_cart" method="post" action="<?=$host;?>payment/paypal/checkout.php" id="ts-shop-cart-form-data">
-		<input type="hidden" name="token" value="<?=$token;?>">
+		<form name="ts_cart" method="post" action="<?php echo $host;?>payment/paypal/checkout.php" id="ts-shop-cart-form-data">
+		<input type="hidden" name="token" value="<?php echo $token;?>">
 		<input type="hidden" name="checkout-post-gateway" value="1">
 		<hr />
 		<div class="ts-shop-ul-set">
@@ -156,11 +156,11 @@ include("header.php");
 				?>
 				<div class="ts-shop-ul">
 						<li class="ts-shop-ul-li-item-icon" width="2%">&#128722;</li>
-						<li class="ts-shop-ul-li-item-product" width="35%"><?=$producttitle;?><!-- title --></li>
-						<li class="ts-shop-ul-li-item-description" width="35%"><?=$productdesc;?><!-- desc --></li>
-						<li class="ts-shop-ul-li-item-price" width="5%"><?=$sitecurrency;?> <?=$productprice;?><!-- price --></li>
-						<li class="ts-shop-ul-li-item-qty" width="5%"><?=$productqty;?></li>
-						<li class="ts-shop-ul-li-item-total" width="16%"><?=$sitecurrency;?> <?=$productsum;?><!-- sum --></li>
+						<li class="ts-shop-ul-li-item-product" width="35%"><?php echo $producttitle;?><!-- title --></li>
+						<li class="ts-shop-ul-li-item-description" width="35%"><?php echo $productdesc;?><!-- desc --></li>
+						<li class="ts-shop-ul-li-item-price" width="5%"><?php echo $sitecurrency;?> <?php echo $productprice;?><!-- price --></li>
+						<li class="ts-shop-ul-li-item-qty" width="5%"><?php echo $productqty;?></li>
+						<li class="ts-shop-ul-li-item-total" width="16%"><?php echo $sitecurrency;?> <?php echo $productsum;?><!-- sum --></li>
 				</div>
 			<?php
 					}
@@ -185,22 +185,22 @@ include("header.php");
 			<li class="ts-shop-ul-li-item">
 			</li>
 			<li class="ts-shop-ul-li-item">
-			<?=str_replace('shipping.','',$shippingcountry);?>
+			<?php echo str_replace('shipping.','',$shippingcountry);?>
 			</li>
 			<li class="ts-shop-ul-li-item">	
 			<!-- subtotal -->
-			<?=$sitecurrency;?> <?=$productsum_total;?>
+			<?php echo $sitecurrency;?> <?php echo $productsum_total;?>
 			</li>
 			<li class="ts-shop-ul-li-item">
-				<?=$sitecurrency;?> <?=$country_price;?>
+				<?php echo $sitecurrency;?> <?php echo $country_price;?>
 			</li>		
 			<li class="ts-shop-ul-li-item">
-				<?=$sitecurrency;?> <?=($country_price + $productsum_total);?>	
+				<?php echo $sitecurrency;?> <?php echo ($country_price + $productsum_total);?>	
 			</li>
 			</div>
 			
 		<div class="ts-shop-form-field">
-		<input type="submit" name="submit" value="Pay with <?=$gateway;?>">
+		<input type="submit" name="submit" value="Pay with <?php echo $gateway;?>">
 		</div>
 
 		</form>

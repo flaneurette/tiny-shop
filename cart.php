@@ -51,8 +51,8 @@ include("header.php");
 		if(($c > 0) && ($c < 9999) ) {
 			
 	?>
-		<form name="ts_cart" method="post" action="<?=$host;?>cart/checkout/" id="ts-shop-cart-form-data" onSubmit="javascript:return tinyshop.checkform();">
-		<input type="hidden" name="token" value="<?=$token;?>">
+		<form name="ts_cart" method="post" action="<?php echo $host;?>cart/checkout/" id="ts-shop-cart-form-data" onSubmit="javascript:return tinyshop.checkform();">
+		<input type="hidden" name="token" value="<?php echo $token;?>">
 		<input type="hidden" name="checkout-post" value="1">
 		<hr />
 		
@@ -109,13 +109,13 @@ include("header.php");
 
 		?>
 		<div class="ts-shop-ul">
-			<li class="ts-shop-ul-li-item-product"><?=$producttitle;?><!-- title --></li>
-			<li class="ts-shop-ul-li-item-description"><?=$productdesc;?><!-- desc --></li>
-			<li class="ts-shop-ul-li-item-price"><?=$sitecurrency;?> <?=$productprice;?><!-- price --></li>
-			<li class="ts-shop-ul-li-item-qty"><input type="number" name="qty" id="<?=$qtyid;?>" size="1" min="1" max="9999" value="<?=$productqty;?>"></li>
-			<li class="ts-shop-ul-li-item-update"><a href="#" onclick="tinyshop.updatecart('<?=$product;?>','<?=$qtyid;?>','<?=$token;?>','<?=$host_path;?>');">&#x21bb;</a></li>
-			<li class="ts-shop-ul-li-item-total"><?=$sitecurrency;?> <?=$productsum;?><!-- sum --></li>
-			<li class="ts-shop-ul-li-item-delete" id="ts-shop-delete"><a href="#" onclick="tinyshop.deletefromcart('<?=$product;?>','<?=$token;?>','<?=$host_path;?>');">&#x2716;</a>
+			<li class="ts-shop-ul-li-item-product"><?php echo $producttitle;?><!-- title --></li>
+			<li class="ts-shop-ul-li-item-description"><?php echo $productdesc;?><!-- desc --></li>
+			<li class="ts-shop-ul-li-item-price"><?php echo $sitecurrency;?> <?php echo $productprice;?><!-- price --></li>
+			<li class="ts-shop-ul-li-item-qty"><input type="number" name="qty" id="<?php echo $qtyid;?>" size="1" min="1" max="9999" value="<?php echo $productqty;?>"></li>
+			<li class="ts-shop-ul-li-item-update"><a href="#" onclick="tinyshop.updatecart('<?php echo $product;?>','<?php echo $qtyid;?>','<?php echo $token;?>','<?php echo $host_path;?>');">&#x21bb;</a></li>
+			<li class="ts-shop-ul-li-item-total"><?php echo $sitecurrency;?> <?php echo $productsum;?><!-- sum --></li>
+			<li class="ts-shop-ul-li-item-delete" id="ts-shop-delete"><a href="#" onclick="tinyshop.deletefromcart('<?php echo $product;?>','<?php echo $token;?>','<?php echo $host_path;?>');">&#x2716;</a>
 			</li>
 		</div>
 		<?php

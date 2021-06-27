@@ -338,6 +338,12 @@ RewriteRule ^blog/(.*)/(.*)/(.*)/(.*)/$ /'.$ts_shop_folder.'/pages/blog.php?cat=
 RewriteRule ^pages/(.*)/(.*)/(.*)/(.*)/$ /'.$ts_shop_folder.'/pages/page.php?cat=$1&pageid=$2&pagetitle=$3&page=$4  [NC,L]
 RewriteRule ^articles/(.*)/(.*)/(.*)/(.*)/$ /'.$ts_shop_folder.'/pages/article.php?cat=$1&articleid=$2&articletitle=$3&page=$4  [NC,L]
 
+RewriteRule ^'.$ts_shop_folder.'/blog/$ /'.$ts_shop_folder.'/pages/blog.php  [NC,L]
+RewriteRule ^'.$ts_shop_folder.'/articles/$ /'.$ts_shop_folder.'/pages/articles.php  [NC,L]
+RewriteRule ^'.$ts_shop_folder.'/blog/(.*)/(.*)/(.*)/$ /'.$ts_shop_folder.'/pages/blog.php?blogid=$1&blogtitle=$2&page=$3  [NC,L]
+RewriteRule ^'.$ts_shop_folder.'/pages/(.*)/(.*)/(.*)/$ /'.$ts_shop_folder.'/pages/page.php?pageid=$1&pagetitle=$2&page=$3  [NC,L]
+RewriteRule ^'.$ts_shop_folder.'/articles/(.*)/(.*)/(.*)/$ /'.$ts_shop_folder.'/pages/article.php?articleid=$1&articletitle=$2&page=$3  [NC,L]
+
 RewriteRule ^vacation/(.*)$ /'.$ts_shop_folder.'/pages/shop-error.php?reason=1 [NC,L]
 RewriteRule ^offline/(.*)$ /'.$ts_shop_folder.'/pages/shop-error.php?reason=2 [NC,L]
 RewriteRule ^closed/(.*)$ /'.$ts_shop_folder.'/pages/shop-error.php?reason=3 [NC,L]
@@ -549,8 +555,8 @@ fclose($hta);
 				<div id="ts-shop-cart-form">
 					<form name="" action="" method="post">
 						<input name="setup" value="1" type="hidden">
-						<input name="nonce" value="<?=$shop->sanitize($nonce,'alphanum');?>" type="hidden">
-						Website: <input name="admin_website" value="https://<?=$host;?>" type="text"> Shop folder /shop/ <input name="shop_folder" value="shop" type="text" alt="Without slashes" title="Without slashes">
+						<input name="nonce" value="<?php echo $shop->sanitize($nonce,'alphanum');?>" type="hidden">
+						Website: <input name="admin_website" value="https://<?php echo $host;?>" type="text"> Shop folder /shop/ <input name="shop_folder" value="shop" type="text" alt="Without slashes" title="Without slashes">
 						Website e-mail: <input name="admin_website_email" value="info@website.com" type="text">
 						<hr />
 						Currency:
@@ -570,7 +576,7 @@ fclose($hta);
 							<option value="1">Yes</option>
 						</select> <sup>(if NO, it will be visible to everyone)</sup>
 						<hr />
-						Admin IP: <input name="admin_ip" value="<?= $shop->sanitize($_SERVER['REMOTE_ADDR'],'table');?>" type="text">
+						Admin IP: <input name="admin_ip" value="<?php echo  $shop->sanitize($_SERVER['REMOTE_ADDR'],'table');?>" type="text">
 						<hr />
 						PayPal e-mail (to accept payments on): <input name="admin_paypal_email" value="info@website.com" type="text">
 						<hr />
