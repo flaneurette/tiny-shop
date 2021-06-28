@@ -334,15 +334,15 @@ RewriteRule ^subcategory/(.*)/(.*)/$ /'.$ts_shop_folder.'/category.php?cat=$1&su
 
 RewriteRule ^blog/$ /'.$ts_shop_folder.'/pages/blog.php  [NC,L]
 RewriteRule ^articles/$ /'.$ts_shop_folder.'/pages/articles.php  [NC,L]
-RewriteRule ^blog/(.*)/(.*)/(.*)/(.*)/$ /'.$ts_shop_folder.'/pages/blog.php?cat=$1&blogid=$2&blogtitle=$3&page=$4  [NC,L]
+RewriteRule ^blog/(.*)/(.*)/(.*)/$ /'.$ts_shop_folder.'/pages/blog.php?blogid=$1&blogtitle=$2&page=$3  [NC,L]
 RewriteRule ^pages/(.*)/(.*)/(.*)/(.*)/$ /'.$ts_shop_folder.'/pages/page.php?cat=$1&pageid=$2&pagetitle=$3&page=$4  [NC,L]
-RewriteRule ^articles/(.*)/(.*)/(.*)/(.*)/$ /'.$ts_shop_folder.'/pages/article.php?cat=$1&articleid=$2&articletitle=$3&page=$4  [NC,L]
+RewriteRule ^articles/(.*)/(.*)/(.*)/(.*)/$ /'.$ts_shop_folder.'/pages/articles.php?cat=$1&articleid=$2&articletitle=$3&page=$4  [NC,L]
 
 RewriteRule ^'.$ts_shop_folder.'/blog/$ /'.$ts_shop_folder.'/pages/blog.php  [NC,L]
 RewriteRule ^'.$ts_shop_folder.'/articles/$ /'.$ts_shop_folder.'/pages/articles.php  [NC,L]
 RewriteRule ^'.$ts_shop_folder.'/blog/(.*)/(.*)/(.*)/$ /'.$ts_shop_folder.'/pages/blog.php?blogid=$1&blogtitle=$2&page=$3  [NC,L]
-RewriteRule ^'.$ts_shop_folder.'/pages/(.*)/(.*)/(.*)/$ /'.$ts_shop_folder.'/pages/page.php?pageid=$1&pagetitle=$2&page=$3  [NC,L]
-RewriteRule ^'.$ts_shop_folder.'/articles/(.*)/(.*)/(.*)/$ /'.$ts_shop_folder.'/pages/article.php?articleid=$1&articletitle=$2&page=$3  [NC,L]
+RewriteRule ^'.$ts_shop_folder.'/pages/(.*)/(.*)/(.*)/(.*)/$ /'.$ts_shop_folder.'/pages/page.php?cat=$1&pageid=$2&pagetitle=$3&page=$4  [NC,L]
+RewriteRule ^'.$ts_shop_folder.'/articles/(.*)/(.*)/(.*)/(.*)/$ /'.$ts_shop_folder.'/pages/articles.php?cat=$1&articleid=$2&articletitle=$3&page=$4  [NC,L]
 
 RewriteRule ^vacation/(.*)$ /'.$ts_shop_folder.'/pages/shop-error.php?reason=1 [NC,L]
 RewriteRule ^offline/(.*)$ /'.$ts_shop_folder.'/pages/shop-error.php?reason=2 [NC,L]

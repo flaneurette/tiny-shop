@@ -568,8 +568,14 @@ class Shop {
 		
 		foreach($navigate as $n) {	
 				
+			$shopfolder = $this->getbase(true,false);
+
 			if($n['nav.status'] =='1') {
-				$nav .= '<a href="'.$hostaddr.$this->cleanInput($n['nav.url']).'" target="_self">'.$this->cleanInput($n['nav.title']).'</a>' .PHP_EOL;
+				if(strtolower($this->cleanInput($n['nav.title'])) == 'index' ) {
+					$nav .= '<a href="'.$hostaddr.$shopfolder.'" target="_self">'.$this->cleanInput($n['nav.title']).'</a>' .PHP_EOL;
+					} else {
+					$nav .= '<a href="'.$hostaddr.$shopfolder.'/'.$this->cleanInput($n['nav.url']).'" target="_self">'.$this->cleanInput($n['nav.title']).'</a>' .PHP_EOL;
+				}
 			}
 		}
 
