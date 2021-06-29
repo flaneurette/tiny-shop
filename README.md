@@ -26,6 +26,8 @@ The following files need to be writeable by the installer. The installer attempt
 - .htaccess : 0777
 - payment/paypal/paypal.json : 0777
 - inventory/site.json : 0777
+- resources/images/products/ : 0777
+- resources/images/category/ : 0777
 
 Remember to change permissions back to 0755 after the installer has run. Again, the installer itself tries to do this automatically but it would be wise to check manually. The installer will give a notice if the chmodding fails.
 		
