@@ -7,7 +7,9 @@
 	
 	$token = $shop->getToken();
 	$_SESSION['token'] = $token;
-
+	
+	$cat   = $shop->sanitize('index','cat');
+	$catid = $shop->getcatId($cat,$subcat=false);
 ?>
 <!DOCTYPE html>
 <html>
@@ -35,19 +37,20 @@ include("header.php");
 			<?php
 
 					// categories
-					$categories = "inventory/categories.json";		
+					$categories = "inventory/categories.json";
+					
 					// subcategories
-					$subcategories = "inventory/subcategories.json";	
+					$subcategories = "inventory/subcategories.json";
 					
 					$selected = [];
 					
-					if(isset($_REQUEST['cat'])) {
-						array_push($selected,$shop->sanitize($_REQUEST['cat'],'alphanum'));
-					}
+					if(isset($cat) != false) {
+						array_push($selected,$cat);
+					} 
 					
-					if(isset($_REQUEST['subcat'])) {
-						array_push($selected,$shop->sanitize($_REQUEST['subcat'],'alphanum'));
-					}
+					if(isset($subcat) != false) {
+						array_push($selected,$subcat);
+					} 
 					
 					$cats = $shop->categories($categories,$subcategories,$selected,'left');
 					
@@ -57,22 +60,29 @@ include("header.php");
 			
 			<div id="ts-shop-nav">
 			<?php
-				$products = $shop->getproducts('list','index',false,false,false,$_SESSION['token']);				
-				echo $products[1];
+
+			$products = $shop->getproducts('list','index',false,false,false,$_SESSION['token']);
+		
+			echo $products[1];	
+
 			?>
 			</div>
 			
 			</div>
-			<div id="ts-paginate">
-				<?php 
-					// echo $shop->paginate(1);
-				?>
-			</div>
-			<!-- caller: method, opts, uri. -->
 </div>
 
 <?php
 include("footer.php");
 ?>
+<script>
+
+
+function categoryEvents() {
+	tinyshop.toggle(<?php echo $catid;?>,'8');
+}
+
+tinyshop.tinyEvents('categories');
+
+</script>
 </body>
 </html>

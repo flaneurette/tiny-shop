@@ -63,23 +63,16 @@
 		} 
 	}
 
-	if(function_exists('ini_get')) {
-		if(ini_get('short_open_tag') == "Off" or  ini_get('short_open_tag') == 0) {
-			echo 'Notice: please be sure that the "short_open_tag" is set to "1" or "On" in PHP.ini. Tinyshop does NOT work properly without it. (The installer is unable to test this adequately.)';
-		} 
-	}
-
-
 	if(!is_writable("inventory/site.json")) {
 
-		if(chmod("inventory/site.json",0777) == false) {
-			array_push($error, "Could not chmod the inventory. Please chmod the /inventory/ folder manually to 0755, to write files to it.");
+		if(chmod("inventory/site.json",0775) == false) {
+			array_push($error, "Could not chmod the inventory. Please chmod the /inventory/ folder manually to 0775, to write files to it.");
 		}
 	}
 
 	if(!is_writable("payment/paypal/paypal.json")) {
-		if(chmod("payment/paypal/paypal.json",0777) == false) {
-			array_push($error, "Could not chmod the paypal directory. Please chmod the /payment/paypal/ folder manually to 0755, to write files to it.");
+		if(chmod("payment/paypal/paypal.json",0775) == false) {
+			array_push($error, "Could not chmod the paypal directory. Please chmod the /payment/paypal/ folder manually to 0775, to write files to it.");
 		}
 	}
 
@@ -93,23 +86,38 @@
 	
 	if(!file_exists('payment/paypal/paypal.json')) {
 		array_push($error, "TinyShop software package is incomplete or has missing files: payment/paypal/paypal.json. Please clone or download again.");
-	}	
+	}
 	
+	if(!is_writable("resources/images/")) {
+		if(chmod("resources/images/",0775) == false) {
+			array_push($error, "Could not chmod resources/images/. Please chmod the directory manually to 0775, to write files to it.");			
+		}
+	}
 
-	if(!file_exists('administration/.htpasswd')) {
-		
-		if(!is_writable("administration/.htpasswd")) {
+	if(!is_writable("resources/images/products/")) {
+		if(chmod("resources/images/products/",0775) == false) {
+			array_push($error, "Could not chmod resources/images/products/. Please chmod the directory manually to 0775, to write files to it.");			
+		}
+	}
+	
+	if(!is_writable("resources/images/category/")) {
+		if(chmod("resources/images/category/",0775) == false) {
+			array_push($error, "Could not chmod resources/images/category/. Please chmod the directory manually to 0775, to write files to it.");			
+		}
+	}	
 
-		if(chmod("administration/",0777) == false) {
-			array_push($error, "Could not chmod the administration directory. Please chmod the /administration/ folder manually to 0755, to write files to it.");
+
+	if(!is_writable("administration/.htpasswd")) {
+
+		if(chmod("administration/",0775) == false) {
+			array_push($error, "Could not chmod the administration directory. Please chmod the /administration/ folder manually to 0775, to write files to it.");
 		}
 		
-		if(chmod("administration/.htpasswd",0777) == false) {
-			array_push($error, "Could not chmod the .htpasswd file. Please chmod the file manually to 0755, to write files to it.");
+		if(chmod("administration/.htpasswd",0775) == false) {
+			array_push($error, "Could not chmod the .htpasswd file. Please chmod the file manually to 0775, to write files to it.");
 		}
-
-		}
-	}		
+	}
+	
 						
 	$httest = fopen("administration/.htpasswd", "w");
 	
@@ -202,7 +210,7 @@
 			*/
 
 			if(!is_writable("administration/session.ses")) {
-				chmod("administration/session.ses",0777);
+				chmod("administration/session.ses",0775);
 			}
 
 			$session = fopen("administration/session.ses", "rw+") or die("Unable to open administration/session.ses. Cannot continue installation.");
@@ -334,15 +342,17 @@ RewriteRule ^subcategory/(.*)/(.*)/$ /'.$ts_shop_folder.'/category.php?cat=$1&su
 
 RewriteRule ^blog/$ /'.$ts_shop_folder.'/pages/blog.php  [NC,L]
 RewriteRule ^articles/$ /'.$ts_shop_folder.'/pages/articles.php  [NC,L]
-RewriteRule ^blog/(.*)/(.*)/(.*)/$ /'.$ts_shop_folder.'/pages/blog.php?blogid=$1&blogtitle=$2&page=$3  [NC,L]
-RewriteRule ^pages/(.*)/(.*)/(.*)/(.*)/$ /'.$ts_shop_folder.'/pages/page.php?cat=$1&pageid=$2&pagetitle=$3&page=$4  [NC,L]
-RewriteRule ^articles/(.*)/(.*)/(.*)/(.*)/$ /'.$ts_shop_folder.'/pages/articles.php?cat=$1&articleid=$2&articletitle=$3&page=$4  [NC,L]
+RewriteRule ^pages/$ /'.$ts_shop_folder.'/pages/page.php  [NC,L]
+
+RewriteRule ^blog/(.*)/(.*)/$ /'.$ts_shop_folder.'/pages/blog.php?blogid=$1&blogtitle=$2  [NC,L]
+RewriteRule ^pages/(.*)/(.*)/$ /'.$ts_shop_folder.'/pages/page.php?pageid=$1&pagetitle=$2  [NC,L]
+RewriteRule ^articles/(.*)/(.*)/$ /'.$ts_shop_folder.'/pages/articles.php?articleid=$1&articletitle=$2  [NC,L]
 
 RewriteRule ^'.$ts_shop_folder.'/blog/$ /'.$ts_shop_folder.'/pages/blog.php  [NC,L]
 RewriteRule ^'.$ts_shop_folder.'/articles/$ /'.$ts_shop_folder.'/pages/articles.php  [NC,L]
-RewriteRule ^'.$ts_shop_folder.'/blog/(.*)/(.*)/(.*)/$ /'.$ts_shop_folder.'/pages/blog.php?blogid=$1&blogtitle=$2&page=$3  [NC,L]
-RewriteRule ^'.$ts_shop_folder.'/pages/(.*)/(.*)/(.*)/(.*)/$ /'.$ts_shop_folder.'/pages/page.php?cat=$1&pageid=$2&pagetitle=$3&page=$4  [NC,L]
-RewriteRule ^'.$ts_shop_folder.'/articles/(.*)/(.*)/(.*)/(.*)/$ /'.$ts_shop_folder.'/pages/articles.php?cat=$1&articleid=$2&articletitle=$3&page=$4  [NC,L]
+RewriteRule ^'.$ts_shop_folder.'/blog/(.*)/(.*)/$ /'.$ts_shop_folder.'/pages/blog.php?blogid=$1&blogtitle=$2  [NC,L]
+RewriteRule ^'.$ts_shop_folder.'/pages/(.*)/(.*)/$ /'.$ts_shop_folder.'/pages/page.php?pageid=$1&pagetitle=$2  [NC,L]
+RewriteRule ^'.$ts_shop_folder.'/articles/(.*)/(.*)/$ /'.$ts_shop_folder.'/pages/articles.php?articleid=$1&articletitle=$2  [NC,L]
 
 RewriteRule ^vacation/(.*)$ /'.$ts_shop_folder.'/pages/shop-error.php?reason=1 [NC,L]
 RewriteRule ^offline/(.*)$ /'.$ts_shop_folder.'/pages/shop-error.php?reason=2 [NC,L]
@@ -430,7 +440,7 @@ RewriteRule ^(.*)$ index.php
 
 if(!is_writable(".htaccess")) {
 
-chmod(".htaccess",0777);
+chmod(".htaccess",0775);
 
 }
 
@@ -457,7 +467,7 @@ Allow from '.$ip.'
 
 if(!is_writable("administration/.htaccess")) {
 
-chmod("administration/.htaccess",0777);
+chmod("administration/.htaccess",0775);
 
 }
 	

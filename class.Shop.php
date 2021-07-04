@@ -98,6 +98,16 @@ class Shop {
 			return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
 		}
 	}
+	
+	/**
+	* Sanitizes page output
+	* @param string
+	* @return string
+	*/
+	public function cleanPageOutput($string) 
+	{
+		return nl2br(htmlspecialchars($string, ENT_QUOTES, 'UTF-8'));
+	}	
 
 	/**
 	* Max string of user-input
@@ -364,10 +374,15 @@ class Shop {
 	{
 		if($method == 'json') {
 			$json = mb_convert_encoding($this->encode($data), self::FILE_ENC, self::FILE_OS);
-			file_put_contents($url,$json, LOCK_EX);			
+			
+			if(!is_writable($url)) {
+				chmod($url,0777);
+			}
+			file_put_contents($url,$json, LOCK_EX);
 			} else {
-			file_put_contents($url,$data, LOCK_EX);			
+			file_put_contents($url,$data, LOCK_EX);					
 		}
+		chmod($url,0755);
 	}
 	
 	public function backup($url) 
@@ -758,7 +773,7 @@ class Shop {
 		isset($category) ? $this->$category = $category : $category = false;
 		isset($page_id) ? $this->page_id = (int)$_GET['page_id'] : $this->page_id = 1;	
 		
-		isset($_GET['cat']) ? $this->product_cat = $_GET['cat'] : $this->product_cat = false;	
+		isset($_GET['cat']) ? $this->product_cat = $_GET['cat'] : $this->product_cat = $category;
 		isset($_GET['subcat']) ? $this->product_subcat = $_GET['subcat'] : $this->product_subcat = false;	
 				
 		$hostaddr = $this->getbase();
