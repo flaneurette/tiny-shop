@@ -22,6 +22,7 @@
 		$page = 1;
 	}
 	
+	$baseurl = $shop->getbase();
 ?>
 <!DOCTYPE html>
 <html>
@@ -32,7 +33,7 @@
 	echo $shop->getmeta("../inventory/site.json");				
 ?>
 
-<link rel="stylesheet" type="text/css" href="../resources/pages.css">
+<link rel="stylesheet" type="text/css" href="<?php echo $baseurl;?>resources/pages.css">
 
 </head>
 
@@ -62,7 +63,7 @@ include("../header.php");
 			if($row['page.id'] == $pageid) {
 				?>
 					<div class="ts-shop-page-item">
-						<div class="ts-shop-page-item-header">
+						<div class="ts-shop-page-item-header-focus">
 						<?php
 						if(strlen($row['page.image.header']) > 30) {
 							echo '<img src="'.$shop->cleanInput($row['page.image.header']).'" width="" height="" />';
@@ -74,10 +75,17 @@ include("../header.php");
 								<h1><?php echo $shop->cleanInput($row['page.title']);?></h1>
 							</div>
 							<div class="ts-shop-page-item-titles">
-								<!-- <span class="ts-shop-page-item-author"></span> -->
+								<?php 
+										
+									if($row['page.handle'] != '') {
+										echo '<span class="ts-shop-page-item-author">By '.$shop->cleanInput($row['page.handle']).'</span>';
+										} elseif($row['page.author'] != '') { 
+										echo '<span class="ts-shop-page-item-author">By '.$shop->cleanInput($row['page.author']).'</span>';
+									} else {}	
+								?>
 								<span class="ts-shop-page-item-date"><?php echo $shop->cleanInput($row['page.published']);?></span>
 							</div>
-							<div class="ts-shop-page-item-textbox"><?php echo $shop->cleanInput($row['page.long.text']);?></div>
+							<div class="ts-shop-page-item-textbox"><?php echo $shop->cleanPageOutput($row['page.long.text']);?></div>
 							</div>
 							<div class="ts-shop-page-item-main-footer">
 								<span class="ts-shop-page-item-tags"><?php echo $shop->cleanInput($row['page.tags']);?></span>
@@ -94,7 +102,7 @@ include("../header.php");
 				<div class="ts-shop-page-item-header">
 				<?php
 				if(strlen($row['page.image.header']) > 30) {
-					echo '<img src="' . $shop->cleanInput($row['page.image.header']) . '" width="" height="" />';
+					echo '<img src="'.$shop->cleanInput($row['page.image.header']).'" />';
 				}
 				?>
 				</div>
@@ -103,13 +111,20 @@ include("../header.php");
 					<h1><?php echo $shop->cleanInput($row['page.title']);?></h1>
 					</div>
 					<div class="ts-shop-page-item-titles">
-						<!-- <span class="ts-shop-page-item-author"></span> -->
+						<?php 
+								
+							if($row['page.handle'] != '') {
+								echo '<span class="ts-shop-page-item-author">By '.$shop->cleanInput($row['page.handle']).'</span>';
+								} elseif($row['page.author'] != '') { 
+								echo '<span class="ts-shop-page-item-author">By '.$shop->cleanInput($row['page.author']).'</span>';
+							} else {}	
+						?>
 						<span class="ts-shop-page-item-date"><?php echo $shop->cleanInput($row['page.published']);?></span>
 					</div>
 					<div class="ts-shop-page-item-textbox"><?php echo $shop->cleanInput($row['page.short.text']);?></div>
 					</div>
 					<div class="ts-shop-page-item-main-footer">
-						<span class="ts-shop-page-item-rm"><a href="page/<?php echo (int)$shop->cleanInput($row['page.id']);?>/<?php echo $shop->cleanInput($row['page.title']);?>/">read more &raquo;</a></span> 
+						<span class="ts-shop-page-item-rm"><a href="<?php echo (int)$shop->cleanInput($row['page.id']);?>/<?php echo $shop->seoUrl($shop->cleanInput($row['page.title']));?>/">read more &raquo;</a></span> 
 						<span class="ts-shop-page-item-tags"><?php echo $shop->cleanInput($row['page.tags']);?></span>
 					</div>
 				</div>	
